@@ -12,7 +12,6 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
   bool dismissed = true;
   final List<NexusNetworkLog> networkLogs = [];
   final Map<Dio, NexusInterceptor> _interceptors = {};
-
   @override
   void initState() {
     super.initState();
@@ -68,9 +67,7 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
 
     // Add new interceptors
     for (final dio in widget.dio) {
-      final interceptor = NexusInterceptor(
-        onNetworkActivity: _onNetworkActivity,
-      );
+      final interceptor = NexusInterceptor(onNetworkActivity: _onNetworkActivity);
       dio.interceptors.add(interceptor);
       _interceptors[dio] = interceptor;
     }
@@ -78,17 +75,24 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
 
   void _onNetworkActivity(NexusNetworkLog log) {
     if (!mounted) return;
-    
-    setState(() {
-      // Try to find an existing log with the same ID
-      final existingIndex = networkLogs.indexWhere((existingLog) => existingLog.id == log.id);
 
-      if (existingIndex != -1) {
+    setState(() {
+      // Try to find an existing log entry for this request
+      final index = networkLogs.indexWhere(
+        (existingLog) =>
+            existingLog.request.uri.toString() == log.request.uri.toString() &&
+            existingLog.request.method == log.request.method &&
+            existingLog.isLoading == true &&
+            log.isLoading == false,
+      );
+
+      if (index >= 0 && (log.response != null || log.error != null)) {
         // Update existing log
-        networkLogs[existingIndex] = log;
+        networkLogs[index] = log;
       } else {
         // Add new log
         networkLogs.add(log);
+
         // Limit the number of logs to avoid memory issues
         if (networkLogs.length > 100) networkLogs.removeAt(0);
       }

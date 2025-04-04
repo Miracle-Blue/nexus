@@ -67,30 +67,31 @@ class _NexusState extends NexusOverlayController {
                                 ],
                               ),
                               body: SafeArea(
-                                  child: switch (networkLogs.isEmpty) {
-                                true => const Center(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.cloud_off,
-                                          size: 48,
-                                          color: AppColors.grayRussian,
-                                        ),
-                                        Text(
-                                          'No logs here yet',
-                                          style: TextStyle(color: AppColors.grayRussian, fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
+                                child: switch (networkLogs.isEmpty) {
+                                  true => const Center(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.cloud_off,
+                                            size: 48,
+                                            color: AppColors.grayRussian,
+                                          ),
+                                          Text(
+                                            'No logs here yet',
+                                            style: TextStyle(color: AppColors.grayRussian, fontWeight: FontWeight.w600),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                false => ListView.builder(
-                                    itemCount: networkLogs.length,
-                                    itemBuilder: (context, index) => NexusLogButton(
-                                      log: networkLogs[networkLogs.length - 1 - index],
+                                  false => ListView.builder(
+                                      itemCount: networkLogs.length,
+                                      itemBuilder: (context, index) => NexusLogButton(
+                                        log: networkLogs[networkLogs.length - 1 - index],
+                                      ),
                                     ),
-                                  ),
-                              }),
+                                },
+                              ),
                             ),
                           ),
                         ],

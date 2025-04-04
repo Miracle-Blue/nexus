@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../common/extension/duration_extension.dart';
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/app_colors.dart';
+import '../screens/nexus_log_detail_screen.dart';
 
 class NexusLogButton extends StatelessWidget {
   const NexusLogButton({required this.log, super.key});
@@ -13,7 +14,16 @@ class NexusLogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoButton(
-        onPressed: log.isLoading ? null : () {},
+        // onPressed: log.isLoading
+        //     ? null
+        //     : () => NavigatorScope.change(
+        //           context,
+        //           (pages) => pages..add(CupertinoPage(child: NexusLogDetailScreen(log: log))),
+        //         ),
+        onPressed: () => Navigator.push(
+          context,
+          CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log)),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         child: Material(
           elevation: 3,
@@ -33,12 +43,12 @@ class NexusLogButton extends StatelessWidget {
                   children: [
                     /// Request Method (GET, POST, PUT, DELETE)
                     Container(
-                      width: 70,
-                      padding: const EdgeInsets.all(4),
+                      width: 60,
+                      padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(color: log.methodColor, borderRadius: BorderRadius.circular(6)),
                       child: Text(
                         log.request.method,
-                        style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w600, fontSize: 15),
+                        style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w500, fontSize: 13),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -96,21 +106,13 @@ class NexusLogButton extends StatelessWidget {
                     /// Request Time
                     Text(
                       DateFormat('HH:mm:ss:SSS').format(log.timestamp),
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.black,
-                      ),
+                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                     ),
 
                     /// Request Duration
                     Text(
                       log.duration.formatCompactDuration,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.black,
-                      ),
+                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                     ),
 
                     switch (log.isLoading) {
