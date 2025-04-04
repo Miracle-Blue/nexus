@@ -6,18 +6,18 @@ homepage: https://github.com/Miracle-Blue/nexus
 issue_tracker: https://github.com/Miracle-Blue/nexus/issues
 
 environment:
-  sdk: ^3.6.1
-  flutter: ">=1.17.0"
+  sdk: ^3.6.2
 
 dependencies:
   flutter:
     sdk: flutter
 
+  intl: any
   dio: any
+  uuid: any
+  equatable: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-
-flutter:
