@@ -37,7 +37,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _runDioRequests() async {
-    Map<String, dynamic> body = <String, dynamic>{"title": "foo", "body": "bar", "userId": "1"};
+    Map<String, dynamic> body = <String, dynamic>{
+      "title": "foo",
+      "body": "bar",
+      "userId": "1",
+      "isFlutterCool": true,
+      "socials": null,
+      "hobbies": ["Music", "Filmmaking"],
+      "score": 7.6,
+      "id": 24,
+      "name": "Manthan Khandale",
+      "isJson": true,
+    };
+
     _httpDio.get<void>("/redirect-to?url=https%3A%2F%2Fhttpbin.org");
     _httpDio.delete<void>("/status/500");
     _httpDio.delete<void>("/status/400");

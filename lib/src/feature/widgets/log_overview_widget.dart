@@ -18,7 +18,7 @@ class LogOverviewWidget extends StatelessWidget {
       ListRowItem(name: 'Status', value: log.response?.statusCode.toString() ?? 'null'),
       ListRowItem(name: 'Time', value: log.duration?.formatCompactDuration ?? 'null'),
       ListRowItem(name: 'Bytes Sent', value: Helpers.formatBytes(log.sendBytes)),
-      ListRowItem(name: 'Bytes Received', value: Helpers.formatBytes(log.receiveBytes)),
+      ListRowItem(name: 'Bytes Received', value: Helpers.formatBytes(log.receiveBytes), showDivider: false),
     ],
   );
 }

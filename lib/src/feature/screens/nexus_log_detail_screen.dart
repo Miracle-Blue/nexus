@@ -25,6 +25,7 @@ class _NexusLogDetailScreenState extends NexusLogDetailController {
         title: const Text('NEXUS - HTTP Request detail', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
         bottom: TabBar(
           controller: tabController,
+          labelColor: Colors.red,
           tabs: const [
             Tab(icon: Icon(Icons.info_outline)),
             Tab(icon: Icon(Icons.arrow_upward_rounded)),

@@ -4,11 +4,18 @@ import 'package:flutter/services.dart';
 import '../../common/utils/app_colors.dart';
 
 class ListRowItem extends StatelessWidget {
-  const ListRowItem({required this.name, required this.value, this.showCopyButton = false, super.key});
+  const ListRowItem({
+    required this.name,
+    required this.value,
+    this.showCopyButton = false,
+    this.showDivider = true,
+    super.key,
+  });
 
   final String name;
   final String? value;
   final bool showCopyButton;
+  final bool showDivider;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -21,13 +28,14 @@ class ListRowItem extends StatelessWidget {
           children: [
             Expanded(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SelectableText('$name:', style: const TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(width: 4),
                   Flexible(
                     child: SelectableText(
                       value ?? 'null',
-                      style: const TextStyle(fontSize: 13, color: AppColors.lavaStone),
+                      style: const TextStyle(fontSize: 12.5, color: AppColors.lavaStone),
                     ),
                   ),
                 ],
@@ -45,7 +53,7 @@ class ListRowItem extends StatelessWidget {
           ],
         ),
       ),
-      const Divider(height: 1),
+      if (showDivider) const Divider(height: 5),
     ],
   );
 }
