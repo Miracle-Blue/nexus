@@ -1,1 +1,1 @@
-export 'src/feature/screens/nexus_overlay.dart';
+export 'src/feature/widgets/nexus_overlay.dart';

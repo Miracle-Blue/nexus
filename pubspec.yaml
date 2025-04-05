@@ -6,7 +6,7 @@ homepage: https://github.com/Miracle-Blue/nexus
 issue_tracker: https://github.com/Miracle-Blue/nexus/issues
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.2
 
 dependencies:
   flutter:

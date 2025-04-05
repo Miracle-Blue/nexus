@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NexusToolsController extends AnimationController {
-  NexusToolsController({
-    required super.vsync,
-    Duration duration = const Duration(milliseconds: 250),
-    super.value,
-  }) : super(lowerBound: 0, upperBound: 1, duration: duration);
+  NexusToolsController({required super.vsync, Duration duration = const Duration(milliseconds: 250), super.value})
+    : super(lowerBound: 0, upperBound: 1, duration: duration);
 
   TickerFuture show() => forward();
 

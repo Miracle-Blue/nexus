@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 import '../models/nexus_network_log.dart';
 
 /// Custom Dio interceptor for Nexus
-class NexusInterceptor extends Interceptor {
+final class NexusInterceptor extends Interceptor {
   NexusInterceptor({required this.onNetworkActivity});
 
   final void Function(NexusNetworkLog log) onNetworkActivity;
@@ -21,12 +21,7 @@ class NexusInterceptor extends Interceptor {
     // Map the request hash to the log ID
     _requestIdMap[requestHashCode] = logId;
 
-    final log = NexusNetworkLog(
-      id: logId,
-      timestamp: DateTime.now(),
-      request: options,
-      isLoading: true,
-    );
+    final log = NexusNetworkLog(id: logId, timestamp: DateTime.now(), request: options, isLoading: true);
 
     onNetworkActivity(log);
     handler.next(options);
@@ -55,6 +50,7 @@ class NexusInterceptor extends Interceptor {
 
     onNetworkActivity(log);
     _requestIdMap.remove(requestHashCode);
+
     handler.next(response);
   }
 

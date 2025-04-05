@@ -11,6 +11,8 @@ final class NexusNetworkLog extends Equatable {
     required this.timestamp,
     required this.request,
     required this.isLoading,
+    this.sendBytes,
+    this.receiveBytes,
     this.response,
     this.error,
     this.duration,
@@ -23,6 +25,8 @@ final class NexusNetworkLog extends Equatable {
   final DioException? error;
   final Duration? duration;
   final bool isLoading;
+  final int? sendBytes;
+  final int? receiveBytes;
   final String id;
 
   Color get methodColor => request.method.methodColor;
@@ -34,22 +38,35 @@ final class NexusNetworkLog extends Equatable {
     Response<Object?>? response,
     DioException? error,
     Duration? duration,
+    int? sendBytes,
+    int? receiveBytes,
     bool? isLoading,
-  }) =>
-      NexusNetworkLog(
-        timestamp: timestamp ?? this.timestamp,
-        request: request ?? this.request,
-        response: response ?? this.response,
-        error: error ?? this.error,
-        duration: duration ?? this.duration,
-        isLoading: isLoading ?? this.isLoading,
-        id: id,
-      );
+  }) => NexusNetworkLog(
+    timestamp: timestamp ?? this.timestamp,
+    request: request ?? this.request,
+    response: response ?? this.response,
+    error: error ?? this.error,
+    duration: duration ?? this.duration,
+    isLoading: isLoading ?? this.isLoading,
+    sendBytes: sendBytes ?? this.sendBytes,
+    receiveBytes: receiveBytes ?? this.receiveBytes,
+    id: id,
+  );
 
   @override
-  List<Object?> get props => <Object?>[timestamp, request, response, error, duration, isLoading, id];
+  List<Object?> get props => <Object?>[
+    timestamp,
+    request,
+    response,
+    error,
+    duration,
+    isLoading,
+    id,
+    sendBytes,
+    receiveBytes,
+  ];
 
   @override
   String toString() =>
-      'NexusNetworkLog(timestamp: $timestamp, request: $request, response: $response, error: $error, duration: $duration, isLoading: $isLoading, id: $id)';
+      'NexusNetworkLog(timestamp: $timestamp, request: $request, response: $response, error: $error, duration: $duration, isLoading: $isLoading, id: $id, sendBytes: $sendBytes, receiveBytes: $receiveBytes)';
 }

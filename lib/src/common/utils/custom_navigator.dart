@@ -50,14 +50,13 @@ class _NavigatorScopeState extends State<NavigatorScope> {
 
   @override
   Widget build(BuildContext context) => _InheritedNavigatorScope(
-        state: this,
-        child: Navigator(
-          pages: _pages,
-          onDidRemovePage: (page) => WidgetsBinding.instance.addPostFrameCallback(
-            (d) => setState(() => _pages.remove(page)),
-          ),
-        ),
-      );
+    state: this,
+    child: Navigator(
+      pages: _pages,
+      onDidRemovePage:
+          (page) => WidgetsBinding.instance.addPostFrameCallback((d) => setState(() => _pages.remove(page))),
+    ),
+  );
 }
 
 /// Inherited widget for quick access in the element tree.
