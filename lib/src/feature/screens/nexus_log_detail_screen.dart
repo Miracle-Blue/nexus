@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../common/models/nexus_network_log.dart';
 import '../controllers/nexus_log_detail_controller.dart';
+import '../widgets/log_overview_widget.dart';
+import '../widgets/log_preview_widget.dart';
+import '../widgets/log_request_widget.dart';
+import '../widgets/log_response_widget.dart';
 
 class NexusLogDetailScreen extends StatefulWidget {
   const NexusLogDetailScreen({required this.log, super.key});
@@ -30,7 +34,12 @@ class _NexusLogDetailScreenState extends NexusLogDetailController {
     body: TabBarView(
       controller: tabController,
       physics: const NeverScrollableScrollPhysics(),
-      children: const [Text('Overview'), Text('Request'), Text('Response'), Text('Preview')],
+      children: [
+        LogOverviewWidget(log: widget.log),
+        LogRequestWidget(log: widget.log),
+        LogResponseWidget(log: widget.log),
+        LogPreviewWidget(log: widget.log),
+      ],
     ),
   );
 }

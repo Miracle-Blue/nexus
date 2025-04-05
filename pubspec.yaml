@@ -16,6 +16,7 @@ dependencies:
   dio: any
   uuid: any
   equatable: any
+  share_plus: any
 
 dev_dependencies:
   flutter_test:

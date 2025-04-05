@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../common/extension/duration_extension.dart';
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/app_colors.dart';
+import '../../common/utils/helpers.dart';
 import '../screens/nexus_log_detail_screen.dart';
 
 class NexusLogButton extends StatelessWidget {
@@ -112,7 +113,7 @@ class NexusLogButton extends StatelessWidget {
                 /// Request Size
                 if (!log.isLoading)
                   Text(
-                    '${log.sendBytes} / ${log.receiveBytes}',
+                    '${Helpers.formatBytes(log.sendBytes)} / ${Helpers.formatBytes(log.receiveBytes)}',
                     style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                   ),
 

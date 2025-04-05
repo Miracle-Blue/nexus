@@ -29,40 +29,20 @@ class _NexusLogsScreenState extends NexusLogsController {
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 8,
       actions: [
-        PopupMenuButton<OperationType>(
-          initialValue: null,
-          onSelected: onOperationTypeSelected,
-          color: AppColors.white,
-          itemBuilder:
-              (context) => <PopupMenuEntry<OperationType>>[
-                /// Sort popup menu item
-                const PopupMenuItem<OperationType>(
-                  value: OperationType.sort,
-                  child: Row(
-                    children: [
-                      Icon(Icons.sort_rounded, color: AppColors.lavaStone, size: 16),
-                      SizedBox(width: 4),
-                      Text(
-                        'Sort',
-                        style: TextStyle(color: AppColors.lavaStone, fontWeight: FontWeight.w600, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                const PopupMenuDivider(height: 0),
-
-                /// Delete popup menu item
-                const PopupMenuItem<OperationType>(
-                  value: OperationType.delete,
-                  child: Row(
-                    children: [
-                      Icon(Icons.delete_rounded, color: AppColors.red, size: 16),
-                      SizedBox(width: 4),
-                      Text('Delete', style: TextStyle(color: AppColors.red, fontWeight: FontWeight.w600, fontSize: 13)),
-                    ],
-                  ),
-                ),
-              ],
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.sort_rounded, color: Colors.white, size: 20),
+              tooltip: 'Sort',
+              onPressed: () => onOperationTypeSelected(OperationType.sort),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete_rounded, color: Colors.white, size: 20),
+              tooltip: 'Delete',
+              onPressed: () => onOperationTypeSelected(OperationType.delete),
+            ),
+          ],
         ),
       ],
     ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:uuid/uuid.dart';
 
@@ -46,6 +48,8 @@ final class NexusInterceptor extends Interceptor {
       request: response.requestOptions,
       response: response,
       duration: duration,
+      receiveBytes: utf8.encode(response.data.toString()).length,
+      sendBytes: utf8.encode(response.requestOptions.data.toString()).length,
     );
 
     onNetworkActivity(log);
@@ -73,6 +77,8 @@ final class NexusInterceptor extends Interceptor {
       error: err,
       duration: duration,
       isLoading: false,
+      receiveBytes: utf8.encode(err.response?.data.toString() ?? '').length,
+      sendBytes: utf8.encode(err.requestOptions.data.toString()).length,
     );
 
     onNetworkActivity(log);
