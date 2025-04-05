@@ -11,14 +11,14 @@ class LogOverviewWidget extends StatelessWidget {
   final NexusNetworkLog log;
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) => ListView(
     children: [
       ListRowItem(name: 'Method', value: log.request.method),
-      ListRowItem(name: 'URL', value: log.request.baseUrl),
+      ListRowItem(name: 'URL', value: log.request.baseUrl, showCopyButton: true),
       ListRowItem(name: 'Status', value: log.response?.statusCode.toString() ?? 'null'),
       ListRowItem(name: 'Time', value: log.duration?.formatCompactDuration ?? 'null'),
-      ListRowItem(name: 'Bytes sent', value: Helpers.formatBytes(log.sendBytes)),
-      ListRowItem(name: 'Bytes received', value: Helpers.formatBytes(log.receiveBytes)),
+      ListRowItem(name: 'Bytes Sent', value: Helpers.formatBytes(log.sendBytes)),
+      ListRowItem(name: 'Bytes Received', value: Helpers.formatBytes(log.receiveBytes)),
     ],
   );
 }

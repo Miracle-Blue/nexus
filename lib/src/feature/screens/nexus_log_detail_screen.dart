@@ -18,28 +18,31 @@ class NexusLogDetailScreen extends StatefulWidget {
 
 class _NexusLogDetailScreenState extends NexusLogDetailController {
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('NEXUS - HTTP Request detail', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-      bottom: TabBar(
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: () => FocusScope.of(context).unfocus(),
+    child: Scaffold(
+      appBar: AppBar(
+        title: const Text('NEXUS - HTTP Request detail', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+        bottom: TabBar(
+          controller: tabController,
+          tabs: const [
+            Tab(icon: Icon(Icons.info_outline)),
+            Tab(icon: Icon(Icons.arrow_upward_rounded)),
+            Tab(icon: Icon(Icons.arrow_downward_rounded)),
+            Tab(icon: Icon(Icons.preview_outlined)),
+          ],
+        ),
+      ),
+      body: TabBarView(
         controller: tabController,
-        tabs: const [
-          Tab(icon: Icon(Icons.info_outline)),
-          Tab(icon: Icon(Icons.arrow_upward_rounded)),
-          Tab(icon: Icon(Icons.arrow_downward_rounded)),
-          Tab(icon: Icon(Icons.preview_outlined)),
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          LogOverviewWidget(log: widget.log),
+          LogRequestWidget(log: widget.log),
+          LogResponseWidget(log: widget.log),
+          LogPreviewWidget(log: widget.log),
         ],
       ),
-    ),
-    body: TabBarView(
-      controller: tabController,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        LogOverviewWidget(log: widget.log),
-        LogRequestWidget(log: widget.log),
-        LogResponseWidget(log: widget.log),
-        LogPreviewWidget(log: widget.log),
-      ],
     ),
   );
 }
