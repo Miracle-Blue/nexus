@@ -37,77 +37,40 @@ class NexusLogButton extends StatelessWidget {
           border: Border.all(color: log.methodColor),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (log.request.baseUrl.isNotEmpty)
+              Row(
+                children: [
+                  /// For secure request
+                  if (log.request.baseUrl.contains('https')) ...[
+                    const Icon(Icons.lock_outline_rounded, size: 10, color: AppColors.red),
+                    const SizedBox(width: 4),
+                  ],
+
+                  /// Request Base URL
+                  Expanded(
+                    child: Text(
+                      log.request.baseUrl * 3,
+                      style: const TextStyle(color: AppColors.grayRussian, fontSize: 10, fontWeight: FontWeight.w600),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            const SizedBox(height: 4),
+
+            /// Request Path
             Row(
               children: [
-                /// Request Method (GET, POST, PUT, DELETE)
-                Container(
-                  width: 60,
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(color: log.methodColor, borderRadius: BorderRadius.circular(6)),
-                  child: Text(
-                    log.request.method,
-                    style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w500, fontSize: 13),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(width: 12),
-
-                /// Request URL
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (log.request.baseUrl.isNotEmpty)
-                        Row(
-                          children: [
-                            /// For secure request
-                            if (log.request.baseUrl.contains('https')) ...[
-                              const Icon(Icons.lock_outline_rounded, size: 10, color: AppColors.red),
-                              const SizedBox(width: 4),
-                            ],
-
-                            /// Request Base URL
-                            Expanded(
-                              child: Text(
-                                log.request.baseUrl * 3,
-                                style: const TextStyle(
-                                  color: AppColors.grayRussian,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      /// Request Path
-                      Text(
-                        log.request.path,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: AppColors.lavaStone, fontSize: 12, fontWeight: FontWeight.w600),
-                      ),
-                    ],
+                  child: Text(
+                    log.request.path,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: AppColors.lavaStone, fontSize: 12, fontWeight: FontWeight.w600),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                /// Request Time
-                Text(
-                  DateFormat('HH:mm:ss:SSS').format(log.timestamp),
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
-                ),
-
-                /// Request Duration
-                Text(
-                  log.duration.formatCompactDuration,
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                 ),
 
                 /// Request Size
@@ -116,6 +79,41 @@ class NexusLogButton extends StatelessWidget {
                     '${Helpers.formatBytes(log.sendBytes)} / ${Helpers.formatBytes(log.receiveBytes)}',
                     style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                   ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /// Request Method (GET, POST, PUT, DELETE)
+                Container(
+                  width: 60,
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(color: log.methodColor, borderRadius: BorderRadius.circular(6)),
+                  child: Text(
+                    log.request.method,
+                    style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w500, fontSize: 11),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                /// Request Time
+                Text(
+                  DateFormat('HH:mm:ss:SSS').format(log.timestamp),
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
+                ),
+                const CircleAvatar(
+                  radius: 10,
+                  backgroundColor: AppColors.white,
+                  child: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.black),
+                ),
+
+                /// Request Duration
+                Text(
+                  log.duration.formatCompactDuration,
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
+                ),
 
                 switch (log.isLoading) {
                   true => SizedBox(
