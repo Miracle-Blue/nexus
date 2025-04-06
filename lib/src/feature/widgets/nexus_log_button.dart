@@ -15,12 +15,6 @@ class NexusLogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoButton(
-    // onPressed: log.isLoading
-    //     ? null
-    //     : () => NavigatorScope.change(
-    //           context,
-    //           (pages) => pages..add(CupertinoPage(child: NexusLogDetailScreen(log: log))),
-    //         ),
     onPressed:
         () => Navigator.push(context, CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log))),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
