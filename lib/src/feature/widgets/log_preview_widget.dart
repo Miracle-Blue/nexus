@@ -44,7 +44,12 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
     scrollDirection: Axis.horizontal,
     child: SizedBox(
       width: MediaQuery.of(context).size.width * 2,
-      child: SingleChildScrollView(scrollDirection: Axis.vertical, child: Column(children: _buildResponsePreview())),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SafeArea(
+          child: Padding(padding: const EdgeInsets.only(top: 8), child: Column(children: _buildResponsePreview())),
+        ),
+      ),
     ),
   );
 

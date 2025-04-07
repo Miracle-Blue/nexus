@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../common/utils/app_colors.dart';
+import '../../common/utils/helpers.dart';
 
 class ListRowItem extends StatelessWidget {
   const ListRowItem({
@@ -65,13 +65,7 @@ class ListRowItem extends StatelessWidget {
             },
             if (showCopyButton)
               IconButton(
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: value ?? 'null'));
-
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
-                },
+                onPressed: () => Helpers.copyAndShowSnackBar(context, contentToCopy: value ?? 'null'),
                 icon: const Icon(Icons.copy, size: 18),
               ),
           ],
