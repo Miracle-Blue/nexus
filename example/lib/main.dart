@@ -8,8 +8,6 @@ final Dio _httpDio = Dio(BaseOptions(baseUrl: 'https://httpbin.org'));
 
 final Dio _jsonPlaceholderDio = Dio(BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
 
-final Dio _mbfDio = Dio(BaseOptions(baseUrl: 'http://mbf-sap-integration-service.knative-fn.u-code.io'));
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
         ),
         home: const MyHomePage(title: 'Flutter Demo Home Page'),
         builder: (context, child) => Nexus(
-          dio: [_httpDio, _jsonPlaceholderDio, _mbfDio],
+          dio: [_httpDio, _jsonPlaceholderDio],
           child: child ?? SizedBox.shrink(),
         ),
       );
@@ -66,14 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _jsonPlaceholderDio.get<void>("/test/test");
 
     _jsonPlaceholderDio.get<void>("/photos");
-    _mbfDio.post('/api/v1/refunds', data: {
-      "data": {
-        "subdivision_id": "1e088b56-7fed-487f-9d65-ca0a1c09ee47",
-        "status": ["partially_refound", "fully_refound"],
-        "limit": 20,
-        "offset": 0
-      }
-    });
+
     // _dio.get<void>("https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png");
     // _dio.get<void>(
     //     "https://images.unsplash.com/photo-1542736705-53f0131d1e98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
