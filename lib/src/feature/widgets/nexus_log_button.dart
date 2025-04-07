@@ -48,7 +48,7 @@ class NexusLogButton extends StatelessWidget {
                   /// Request Base URL
                   Expanded(
                     child: Text(
-                      log.request.baseUrl * 3,
+                      log.request.baseUrl,
                       style: const TextStyle(color: AppColors.grayRussian, fontSize: 10, fontWeight: FontWeight.w600),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
