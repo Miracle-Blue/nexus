@@ -66,6 +66,10 @@ class ListRowItem extends StatelessWidget {
             if (showCopyButton)
               IconButton(
                 onPressed: () => Helpers.copyAndShowSnackBar(context, contentToCopy: value ?? 'null'),
+                onLongPress: switch (isJson) {
+                  true => () => Helpers.copyAndShowSnackBar(context, contentToCopy: '```json\n$value\n```'),
+                  false => null,
+                },
                 icon: const Icon(Icons.copy, size: 18),
               ),
           ],

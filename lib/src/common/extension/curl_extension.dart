@@ -17,7 +17,7 @@ extension CurlExtension on RequestOptions {
     });
 
     // check have data
-    if (data == null) return curl.toString();
+    if (data == null) return '```shell\n$curl\n```';
 
     // FormData can't be JSON-serialized, so keep only their fields attributes
     if (data is FormData) {
@@ -26,7 +26,7 @@ extension CurlExtension on RequestOptions {
 
     curl.write(" \\\n\t  -d '${jsonEncode(data)}'");
 
-    return curl.toString();
+    return '```shell\n$curl\n```';
   }
 
   /// Convert to a single line curl command (for logging/copying)
