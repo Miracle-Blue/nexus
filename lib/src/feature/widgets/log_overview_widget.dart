@@ -15,6 +15,7 @@ class LogOverviewWidget extends StatelessWidget {
     children: [
       ListRowItem(name: 'Method', value: log.request.method),
       ListRowItem(name: 'URL', value: log.request.baseUrl, showCopyButton: true),
+      ListRowItem(name: 'Endpoint', value: log.request.path, showCopyButton: true),
       ListRowItem(name: 'Status', value: log.response?.statusCode.toString() ?? 'null'),
       ListRowItem(name: 'Time', value: log.duration?.formatCompactDuration ?? 'null'),
       ListRowItem(name: 'Bytes Sent', value: Helpers.formatBytes(log.sendBytes)),

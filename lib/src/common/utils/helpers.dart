@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 abstract class Helpers {
   const Helpers._();
 
@@ -15,4 +20,15 @@ abstract class Helpers {
   }
 
   static String _formatDouble(double value) => value.toStringAsFixed(2);
+
+  static void showSnackBar(BuildContext context, {String content = 'Copied to your clipboard!'}) =>
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(content)));
+
+  static Future<void> copyAndShowSnackBar(BuildContext context, {required String contentToCopy}) async {
+    await Clipboard.setData(ClipboardData(text: jsonEncode(contentToCopy)));
+
+    showSnackBar(context);
+  }
 }

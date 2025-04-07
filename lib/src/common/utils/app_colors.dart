@@ -8,6 +8,7 @@ sealed class AppColors {
   static const Color red = Colors.redAccent;
 
   static const Color lavaStone = Color(0xFF3b4151);
+  static const Color gunmetal = Color(0xFF2c303b);
   static const Color grayRussian = Color(0xFF909498);
   static const Color magicalMalachite = Color(0xFF2ccc84);
 }

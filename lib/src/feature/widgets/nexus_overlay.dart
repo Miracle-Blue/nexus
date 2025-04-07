@@ -115,7 +115,7 @@ class _NexusState extends NexusOverlayController {
           : LayoutBuilder(
             builder: (context, constraints) {
               final biggest = constraints.biggest;
-              final width = math.min<double>(370, biggest.width * 0.9);
+              final width = math.min<double>(400, biggest.width * 0.99);
 
               return GestureDetector(
                 onHorizontalDragUpdate: (details) => onHorizontalDragUpdate(details, width),

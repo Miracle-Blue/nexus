@@ -30,6 +30,7 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
           value: (widget.log.response?.data).prettyJson,
           showCopyButton: true,
           showDivider: false,
+          isJson: true,
         ),
     ];
   }
@@ -41,6 +42,8 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      ListView.builder(itemCount: _items.length, itemBuilder: (context, index) => _items[index]);
+  Widget build(BuildContext context) => Scrollbar(
+    controller: PrimaryScrollController.of(context),
+    child: ListView.builder(itemCount: _items.length, itemBuilder: (context, index) => _items[index]),
+  );
 }
