@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/utils/app_colors.dart';
+import '../controllers/nexus_logs_controller.dart';
 import '../controllers/nexus_overlay_controller.dart';
 import '../screens/nexus_logs_screen.dart';
 
@@ -55,27 +56,54 @@ class _NexusState extends NexusOverlayController {
       ),
 
       /// Handler
-      Align(
-        alignment: const Alignment(0, -0.4),
-        child: SizedBox(
-          width: handleWidth,
-          height: 64,
-          child: Material(
-            color: AppColors.magicalMalachite,
-            borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
-            elevation: 0,
-            child: InkWell(
-              onTap: () => controller.toggle(),
-              borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
-              child: Center(
-                child: RotationTransition(
-                  turns: controller.drive(Tween<double>(begin: 0, end: 0.5)),
-                  child: const Icon(Icons.chevron_right, color: Colors.white, size: 18),
+      Stack(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (!dismissed)
+            const Align(
+              alignment: Alignment(0, -0.8),
+              child: Padding(
+                padding: EdgeInsets.only(left: 4),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
+                      child: IconButton(onPressed: NexusLogsController.onSortLogsTap, icon: Icon(Icons.sort)),
+                    ),
+                    SizedBox(height: 4),
+                    DecoratedBox(
+                      decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
+                      child: IconButton(onPressed: NexusLogsController.onDeleteAllLogsTap, icon: Icon(Icons.delete)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+          Align(
+            alignment: const Alignment(0, -0.4),
+            child: SizedBox(
+              width: handleWidth,
+              height: 64,
+              child: Material(
+                color: AppColors.magicalMalachite,
+                borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
+                elevation: 0,
+                child: InkWell(
+                  onTap: () => controller.toggle(),
+                  borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
+                  child: Center(
+                    child: RotationTransition(
+                      turns: controller.drive(Tween<double>(begin: 0, end: 0.5)),
+                      child: const Icon(Icons.chevron_right, color: Colors.white, size: 18),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     ],
   );
@@ -87,7 +115,7 @@ class _NexusState extends NexusOverlayController {
           : LayoutBuilder(
             builder: (context, constraints) {
               final biggest = constraints.biggest;
-              final width = math.min<double>(320, biggest.width * 0.85);
+              final width = math.min<double>(370, biggest.width * 0.9);
 
               return GestureDetector(
                 onHorizontalDragUpdate: (details) => onHorizontalDragUpdate(details, width),

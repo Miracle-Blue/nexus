@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../common/models/nexus_network_log.dart';
+import '../../common/utils/app_colors.dart';
 import '../controllers/nexus_log_detail_controller.dart';
 import '../widgets/log_overview_widget.dart';
 import '../widgets/log_preview_widget.dart';
@@ -43,6 +44,11 @@ class _NexusLogDetailScreenState extends NexusLogDetailController {
           LogResponseWidget(log: widget.log),
           LogPreviewWidget(log: widget.log),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: onShareTap,
+        backgroundColor: AppColors.magicalMalachite,
+        child: const Icon(Icons.share, color: AppColors.white),
       ),
     ),
   );

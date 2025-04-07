@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +7,16 @@ import '../overlays/sort_by_alert_dialog.dart';
 import '../screens/nexus_logs_screen.dart';
 
 abstract class NexusLogsController extends State<NexusLogsScreen> {
-  SortType sortType = SortType.createTime;
-  final List<NexusNetworkLog> networkLogs = <NexusNetworkLog>[];
+  static NexusLogsController? _instance;
+  static final List<NexusNetworkLog> networkLogs = <NexusNetworkLog>[];
+
+  final appBarHeight = 100.0;
   final Map<Dio, NexusInterceptor> _interceptors = <Dio, NexusInterceptor>{};
 
   @override
   void initState() {
     super.initState();
+    _instance = this;
     _setupInterceptors();
   }
 
@@ -77,13 +78,26 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
     return true;
   }
 
-  void onOperationTypeSelected(OperationType operationType) => switch (operationType) {
-    OperationType.sort => () async {
+  static SortType sortType = SortType.createTime;
+  static bool _isDialogOpen = false;
+
+  static Future<void> onSortLogsTap() async {
+    final context = _instance?.context;
+    if (context == null) return;
+
+    // Check if dialog is already open, if so, return early
+    if (_isDialogOpen) {
+      return Navigator.of(context, rootNavigator: true).pop();
+    }
+
+    _isDialogOpen = true;
+
+    try {
       final result = await showSortByAlertDialog(context, sortType: sortType);
-      log('result: $result');
+
       if (result != null) sortType = result;
 
-      setState(() {
+      _instance?.setState(() {
         if (sortType.isCreateTime) {
           networkLogs.sort((a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0);
         } else if (sortType.isResponseTime) {
@@ -92,9 +106,10 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
           networkLogs.sort((a, b) => a.request.path.compareTo(b.request.path));
         }
       });
-    }(),
-    OperationType.delete => setState(networkLogs.clear),
-  };
-}
+    } finally {
+      _isDialogOpen = false;
+    }
+  }
 
-enum OperationType { sort, delete }
+  static void onDeleteAllLogsTap() => _instance?.setState(networkLogs.clear);
+}

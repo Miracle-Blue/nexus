@@ -17,11 +17,15 @@ class NexusLogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoButton(
-    onPressed:
-        () => Navigator.push(context, CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log))),
+    onPressed: () {
+      Navigator.push(context, CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log)));
+    },
     onLongPress: () {
       Clipboard.setData(ClipboardData(text: log.request.toCurlString()));
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Request copied to clipboard')));
+
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(const SnackBar(content: Text('Request copied to clipboard')));
     },
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
     child: Material(

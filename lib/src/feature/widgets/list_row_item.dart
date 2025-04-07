@@ -46,7 +46,9 @@ class ListRowItem extends StatelessWidget {
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: value ?? 'null'));
 
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
                 },
                 icon: const Icon(Icons.copy, size: 18),
               ),
