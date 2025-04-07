@@ -100,7 +100,7 @@ class NexusLogButton extends StatelessWidget {
 
                 /// Request Time
                 Text(
-                  DateFormat('HH:mm:ss:SSS').format(log.timestamp),
+                  DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now()),
                   style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                 ),
                 const CircleAvatar(

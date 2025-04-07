@@ -85,7 +85,7 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
       setState(() {
         if (sortType.isCreateTime) {
-          networkLogs.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+          networkLogs.sort((a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0);
         } else if (sortType.isResponseTime) {
           networkLogs.sort((a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0);
         } else if (sortType.isEndpoint) {

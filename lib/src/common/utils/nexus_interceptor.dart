@@ -23,7 +23,13 @@ final class NexusInterceptor extends Interceptor {
     // Map the request hash to the log ID
     _requestIdMap[requestHashCode] = logId;
 
-    final log = NexusNetworkLog(id: logId, timestamp: DateTime.now(), request: options, isLoading: true);
+    final log = NexusNetworkLog(
+      id: logId,
+      sendTime: DateTime.now(),
+      request: options,
+      isLoading: true,
+      receiveTime: null,
+    );
 
     onNetworkActivity(log);
     handler.next(options);
@@ -43,7 +49,8 @@ final class NexusInterceptor extends Interceptor {
 
     final log = NexusNetworkLog(
       id: logId ?? const Uuid().v4(),
-      timestamp: DateTime.now(),
+      sendTime: startTime,
+      receiveTime: DateTime.now(),
       isLoading: false,
       request: response.requestOptions,
       response: response,
@@ -72,8 +79,9 @@ final class NexusInterceptor extends Interceptor {
 
     final log = NexusNetworkLog(
       id: logId ?? const Uuid().v4(),
-      timestamp: DateTime.now(),
+      sendTime: startTime,
       request: err.requestOptions,
+      receiveTime: DateTime.now(),
       error: err,
       duration: duration,
       isLoading: false,

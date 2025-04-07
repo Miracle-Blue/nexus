@@ -1,38 +1,46 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
+import '../../common/extension/object_extension.dart';
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/helpers.dart';
 import 'list_row_item.dart';
 
-class LogResponseWidget extends StatelessWidget {
+class LogResponseWidget extends StatefulWidget {
   const LogResponseWidget({required this.log, super.key});
 
   final NexusNetworkLog log;
 
   @override
-  Widget build(BuildContext context) => ListView(
-    children: [
-      ListRowItem(name: 'Bytes received', value: Helpers.formatBytes(log.receiveBytes)),
-      if (log.response?.data != null)
-        ListRowItem(name: 'Body', value: jsonEncode(log.response?.data), showCopyButton: true, showDivider: false),
+  State<LogResponseWidget> createState() => _LogResponseWidgetState();
+}
 
-      // JsonView(json: log.response?.data ?? {}),
-      // JsonConfig(
-      //   /// your customize configuration
-      //   data: JsonConfigData(
+class _LogResponseWidgetState extends State<LogResponseWidget> {
+  late final List<Widget> _items;
 
-      //     animation: true,
-      //     animationDuration: const Duration(milliseconds: 300),
-      //     animationCurve: Curves.ease,
-      //     itemPadding: const EdgeInsets.only(left: 8),
-      //     color: const JsonColorScheme(stringColor: Colors.grey),
-      //     style: const JsonStyleScheme(arrow: Icon(Icons.arrow_right)),
-      //   ),
+  @override
+  void initState() {
+    super.initState();
+    _items = <Widget>[
+      ListRowItem(name: 'Received', value: Helpers.formatBytes(widget.log.receiveBytes)),
+      ListRowItem(name: 'Bytes received', value: Helpers.formatBytes(widget.log.receiveBytes)),
+      ListRowItem(name: 'Status', value: widget.log.response?.statusCode.toString()),
+      if (widget.log.response?.data != null)
+        ListRowItem(
+          name: 'Body',
+          value: (widget.log.response?.data).prettyJson,
+          showCopyButton: true,
+          showDivider: false,
+        ),
+    ];
+  }
 
-      //   /// any widget will contain jsonView
-      // ),
-    ],
-  );
+  @override
+  void dispose() {
+    _items.clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      ListView.builder(itemCount: _items.length, itemBuilder: (context, index) => _items[index]);
 }

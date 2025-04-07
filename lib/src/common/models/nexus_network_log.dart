@@ -8,9 +8,10 @@ import '../extension/string_extension.dart';
 /// Model class to store network request/response data
 final class NexusNetworkLog extends Equatable {
   NexusNetworkLog({
-    required this.timestamp,
     required this.request,
     required this.isLoading,
+    this.sendTime,
+    this.receiveTime,
     this.sendBytes,
     this.receiveBytes,
     this.response,
@@ -19,7 +20,8 @@ final class NexusNetworkLog extends Equatable {
     String? id,
   }) : id = id ?? const Uuid().v4();
 
-  final DateTime timestamp;
+  final DateTime? sendTime;
+  final DateTime? receiveTime;
   final RequestOptions request;
   final Response<Object?>? response;
   final DioException? error;
@@ -33,7 +35,8 @@ final class NexusNetworkLog extends Equatable {
   Color get methodBackgroundColor => request.method.methodBackgroundColor;
 
   NexusNetworkLog copyWith({
-    DateTime? timestamp,
+    DateTime? sendTime,
+    DateTime? receiveTime,
     RequestOptions? request,
     Response<Object?>? response,
     DioException? error,
@@ -42,7 +45,8 @@ final class NexusNetworkLog extends Equatable {
     int? receiveBytes,
     bool? isLoading,
   }) => NexusNetworkLog(
-    timestamp: timestamp ?? this.timestamp,
+    sendTime: sendTime ?? this.sendTime,
+    receiveTime: receiveTime ?? this.receiveTime,
     request: request ?? this.request,
     response: response ?? this.response,
     error: error ?? this.error,
@@ -55,7 +59,8 @@ final class NexusNetworkLog extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-    timestamp,
+    sendTime,
+    receiveTime,
     request,
     response,
     error,
@@ -68,5 +73,5 @@ final class NexusNetworkLog extends Equatable {
 
   @override
   String toString() =>
-      'NexusNetworkLog(timestamp: $timestamp, request: $request, response: $response, error: $error, duration: $duration, isLoading: $isLoading, id: $id, sendBytes: $sendBytes, receiveBytes: $receiveBytes)';
+      'NexusNetworkLog(timestamp: $sendTime, request: $request, response: $response, error: $error, duration: $duration, isLoading: $isLoading, id: $id, sendBytes: $sendBytes, receiveBytes: $receiveBytes)';
 }

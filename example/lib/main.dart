@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "hobbies": ["Music", "Filmmaking"],
       "score": 7.6,
       "id": 24,
-      "name": "Manthan Khandale",
+      "name": "John Doe",
       "isJson": true,
     };
 
