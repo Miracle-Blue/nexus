@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 abstract class Helpers {
@@ -21,14 +19,32 @@ abstract class Helpers {
 
   static String _formatDouble(double value) => value.toStringAsFixed(2);
 
-  static void showSnackBar(BuildContext context, {String content = 'Copied to your clipboard!'}) =>
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(content)));
+  static void showSnackBar(BuildContext context, {String content = 'Copied to your clipboard!'}) {
+    final overlayEntry = OverlayEntry(
+      builder:
+          (context) => Positioned(
+            bottom: 50,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.systemGrey.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(48),
+                ),
+                child: Text(content, style: const TextStyle(color: CupertinoColors.white)),
+              ),
+            ),
+          ),
+    );
+
+    Overlay.of(context).insert(overlayEntry);
+    Future<void>.delayed(const Duration(seconds: 3), overlayEntry.remove);
+  }
 
   static Future<void> copyAndShowSnackBar(BuildContext context, {required String contentToCopy}) async {
-    await Clipboard.setData(ClipboardData(text: jsonEncode(contentToCopy)));
-
+    await Clipboard.setData(ClipboardData(text: contentToCopy));
     showSnackBar(context);
   }
 }

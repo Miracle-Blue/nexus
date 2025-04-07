@@ -18,6 +18,7 @@ class NexusLogsScreen extends StatefulWidget {
 class _NexusLogsScreenState extends NexusLogsController {
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
+    backgroundColor: AppColors.white,
     navigationBar: CupertinoNavigationBar(
       backgroundColor: Colors.white.withValues(alpha: 0.1),
       leading: const Text(

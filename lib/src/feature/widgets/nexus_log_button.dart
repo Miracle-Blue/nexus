@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:intl/intl.dart';
 
 import '../../common/extension/curl_extension.dart';
@@ -20,13 +19,7 @@ class NexusLogButton extends StatelessWidget {
     onPressed: () {
       Navigator.push(context, CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log)));
     },
-    onLongPress: () {
-      Clipboard.setData(ClipboardData(text: log.request.toCurlString()));
-
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('Request copied to clipboard')));
-    },
+    onLongPress: () => Helpers.copyAndShowSnackBar(context, contentToCopy: log.request.toCurlString()),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
     child: Material(
       elevation: 3,
