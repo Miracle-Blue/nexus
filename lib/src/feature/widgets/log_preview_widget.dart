@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../common/models/nexus_network_log.dart';
+import '../../common/utils/app_colors.dart';
 import 'json_viewer.dart';
 import 'list_row_item.dart';
 import 'nexus_awaiting_response_widget.dart';
@@ -169,12 +170,12 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
                 value:
                     'Unsupported body. This widget can render image/text body. '
                     "Response has Content-Type: $contentType which can't be handled. "
-                    "If you're feeling lucky, try the button below to render body as text, but it may fail.",
+                    "If you're feeling lucky, try the button below to render body as text, but it may fail or could potentially crash the app.",
               ),
               ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll<Color>(Colors.red.shade300),
-                  foregroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
+                style: const ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll<Color>(AppColors.magicalMalachite),
+                  foregroundColor: WidgetStatePropertyAll<Color>(AppColors.white),
                 ),
                 onPressed: () => setState(() => _showUnsupportedBody = true),
                 child: const Text('Show unsupported body'),

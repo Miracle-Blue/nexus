@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../common/utils/copy_log_data.dart';
+import '../../common/utils/helpers.dart';
 import '../screens/nexus_log_detail_screen.dart';
 
 abstract class NexusLogDetailController extends State<NexusLogDetailScreen> with TickerProviderStateMixin {
@@ -19,5 +19,6 @@ abstract class NexusLogDetailController extends State<NexusLogDetailScreen> with
     super.dispose();
   }
 
-  void onCopyLogTap() => Clipboard.setData(ClipboardData(text: CopyLogData(log: widget.log).toCopyableLogData));
+  void onCopyLogTap() =>
+      Helpers.copyAndShowSnackBar(context, contentToCopy: CopyLogData(log: widget.log).toCopyableLogData);
 }

@@ -87,7 +87,7 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
     // Check if dialog is already open, if so, return early
     if (_isDialogOpen) {
-      return Navigator.of(context, rootNavigator: true).pop();
+      return Navigator.of(context, rootNavigator: true).pop<void>();
     }
 
     _isDialogOpen = true;

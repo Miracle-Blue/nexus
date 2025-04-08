@@ -100,10 +100,14 @@ class NexusLogButton extends StatelessWidget {
                   DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now()),
                   style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                 ),
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 10,
-                  backgroundColor: AppColors.white,
-                  child: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.black),
+                  backgroundColor: log.error == null ? AppColors.white : const Color(0xFFf93e3e),
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 12,
+                    color: log.error == null ? AppColors.black : AppColors.white,
+                  ),
                 ),
 
                 /// Request Duration
@@ -114,12 +118,12 @@ class NexusLogButton extends StatelessWidget {
 
                 switch (log.isLoading) {
                   true => SizedBox(
-                    height: 15,
-                    width: 15,
+                    height: 16,
+                    width: 16,
                     child: CircularProgressIndicator(
                       color: log.methodColor,
                       strokeCap: StrokeCap.round,
-                      strokeWidth: 2,
+                      strokeWidth: 3,
                     ),
                   ),
                   false => Text(

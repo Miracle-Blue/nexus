@@ -67,6 +67,13 @@ analyzer:
 
 linter:
   rules:
+    dangling_library_doc_comments: false
+    missing_code_block_language_in_doc_comment: false
+    package_api_docs: true
+    public_member_api_docs: true
+    comment_references: true
+    slash_for_doc_comments: true
+
     # Enabling rules
     prefer_relative_imports: true
     avoid_relative_lib_imports: true
@@ -186,7 +193,6 @@ linter:
     prefer_single_quotes: true
     prefer_spread_collections: true
     recursive_getters: true
-    slash_for_doc_comments: true
     type_init_formals: true
     unawaited_futures: true
     unnecessary_const: true

@@ -5,9 +5,7 @@ import 'package:nexus/nexus.dart';
 void main() => runApp(const MyApp());
 
 final Dio _httpDio = Dio(BaseOptions(baseUrl: 'https://httpbin.org'));
-
 final Dio _jsonPlaceholderDio = Dio(BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
-
 final Dio _mainDio = Dio();
 
 class MyApp extends StatelessWidget {

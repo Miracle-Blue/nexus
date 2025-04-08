@@ -20,8 +20,6 @@ class LogRequestWidget extends StatelessWidget {
       ),
       ListRowItem(name: 'Bytes sent', value: Helpers.formatBytes(log.sendBytes)),
       ListRowItem(name: 'Body', value: (log.request.data as Object?).prettyJson, showCopyButton: true, isJson: true),
-
-      // if (log.request.headers != null)
       ListRowItem(name: 'Headers', value: log.request.headers.prettyJson, showCopyButton: true, isJson: true),
       ListRowItem(
         name: 'Query Parameters',

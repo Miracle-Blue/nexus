@@ -1,9 +1,14 @@
-// ignore_for_file: prefer_single_quotes
-
 import 'dart:convert' show jsonEncode;
 
 import 'package:dio/dio.dart' show RequestOptions, FormData;
 
+/// Extension on [RequestOptions] to convert to a curl command string.
+///
+/// Example:
+/// ```shell
+/// curl -X 'GET' \
+/// 	 'https://jsonplaceholder.typicode.com/posts?test=1'
+// ```
 extension CurlExtension on RequestOptions {
   /// Convert the request options to a complete curl command string
   String toCurlString() {
