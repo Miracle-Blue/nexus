@@ -1,16 +1,3 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
 # Nexus
 
 A powerful Flutter debug overlay for monitoring network requests in real-time. Nexus provides a convenient slide-out panel that shows all network interactions from your Dio HTTP clients.
@@ -27,7 +14,7 @@ A powerful Flutter debug overlay for monitoring network requests in real-time. N
 ## Features
 
 - 📱 **Simple Integration** - Add a single widget to your app
-- 🔍 **Network Monitoring** - Track all requests and responses from Dio instances
+- 📈 **Network Monitoring** - Track all requests and responses from Dio instances
 - 🔎 **Search & Filter** - Easily find specific network calls
 - 🗑️ **Clear Logs** - One-tap to remove all logs
 - 👆 **Interactive UI** - Slide-out panel with intuitive controls
@@ -130,7 +117,7 @@ The overlay shows:
 
 ## Example Project
 
-For a complete working example, check the [example](https://github.com/username/nexus/tree/main/example) directory.
+For a complete working example, check the [example](https://github.com/Miracle-Blue/nexus/blob/dev/example/lib/main.dart) directory.
 
 ## Contributing
 
