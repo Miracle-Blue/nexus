@@ -16,9 +16,11 @@ class NexusLogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoButton(
-    onPressed: () {
-      Navigator.push(context, CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log)));
-    },
+    onPressed:
+        () => Navigator.push<void>(
+          context,
+          CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log)),
+        ),
     onLongPress: () => Helpers.copyAndShowSnackBar(context, contentToCopy: log.request.toCurlString()),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
     child: Material(
@@ -95,24 +97,9 @@ class NexusLogButton extends StatelessWidget {
                   ),
                 ),
 
-                /// Request Time
+                /// Request Time | Request duration
                 Text(
-                  DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now()),
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
-                ),
-                CircleAvatar(
-                  radius: 10,
-                  backgroundColor: log.error == null ? AppColors.white : const Color(0xFFf93e3e),
-                  child: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 12,
-                    color: log.error == null ? AppColors.black : AppColors.white,
-                  ),
-                ),
-
-                /// Request Duration
-                Text(
-                  log.duration.formatCompactDuration,
+                  "${DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now())}  │  ${log.duration.formatCompactDuration}",
                   style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                 ),
 
@@ -127,15 +114,15 @@ class NexusLogButton extends StatelessWidget {
                     ),
                   ),
                   false => Text(
-                    log.response?.statusCode.toString() ?? 'null',
+                    log.response?.statusCode.toString() ?? log.error?.response?.statusCode.toString() ?? 'null',
                     style: TextStyle(
                       color: switch (log.response?.statusCode) {
                         _ when 200 <= (log.response?.statusCode ?? 0) && (log.response?.statusCode ?? 0) < 300 =>
                           AppColors.magicalMalachite,
                         _ => AppColors.red,
                       },
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      // fontSize: 15,
                     ),
                   ),
                 },

@@ -6,12 +6,22 @@ import '../../common/utils/nexus_interceptor.dart';
 import '../overlays/sort_by_alert_dialog.dart';
 import '../screens/nexus_logs_screen.dart';
 
+/// Abstract class for the NexusLogsScreen controller that manages the network logs.
 abstract class NexusLogsController extends State<NexusLogsScreen> {
+  /// The singleton instance of the controller.
   static NexusLogsController? _instance;
-  static final List<NexusNetworkLog> networkLogs = <NexusNetworkLog>[];
 
+  /// The list of network logs.
+  static List<NexusNetworkLog> networkLogs = <NexusNetworkLog>[];
+
+  /// The height of the app bar.
   final appBarHeight = 100.0;
+
+  /// The map of interceptors for the Dio instances.
   final Map<Dio, NexusInterceptor> _interceptors = <Dio, NexusInterceptor>{};
+
+  /// Whether the search is enabled.
+  static bool searchEnabled = false;
 
   @override
   void initState() {
@@ -78,9 +88,34 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
     return true;
   }
 
+  // static final List<NexusNetworkLog> networkLogs = <NexusNetworkLog>[];
+  List<NexusNetworkLog>? _tempNetworkLogs;
+
+  /// Method to search logs by their endpoint or base url
+  void onSearchChanged(String query) => setState(() {
+    if (query.isEmpty) {
+      if (_tempNetworkLogs != null) {
+        networkLogs = List<NexusNetworkLog>.from(_tempNetworkLogs!);
+        _tempNetworkLogs = null;
+      }
+    } else {
+      _tempNetworkLogs ??= List<NexusNetworkLog>.from(networkLogs);
+
+      networkLogs =
+          _tempNetworkLogs
+              ?.where((log) => log.request.path.contains(query) || log.request.baseUrl.contains(query))
+              .toList() ??
+          [];
+    }
+  });
+
+  /// The current sort type for the network logs.
   static SortType sortType = SortType.createTime;
+
+  /// Whether the sort by alert dialog is currently open.
   static bool _isDialogOpen = false;
 
+  /// Show the sort by alert dialog and update the sort type.
   static Future<void> onSortLogsTap() async {
     final context = _instance?.context;
     if (context == null) return;
@@ -97,19 +132,27 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
       if (result != null) sortType = result;
 
-      _instance?.setState(() {
-        if (sortType.isCreateTime) {
-          networkLogs.sort((a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0);
-        } else if (sortType.isResponseTime) {
-          networkLogs.sort((a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0);
-        } else if (sortType.isEndpoint) {
-          networkLogs.sort((a, b) => a.request.path.compareTo(b.request.path));
-        }
-      });
+      _instance?.setState(
+        () => switch (result) {
+          SortType.createTime => networkLogs.sort((a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0),
+          SortType.responseTime => networkLogs.sort((a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0),
+          SortType.endpoint => networkLogs.sort((a, b) => a.request.path.compareTo(b.request.path)),
+          SortType.responseSize => networkLogs.sort((a, b) => a.receiveBytes?.compareTo(b.receiveBytes ?? 0) ?? 0),
+          _ => null,
+        },
+      );
     } finally {
       _isDialogOpen = false;
     }
   }
 
-  static void onDeleteAllLogsTap() => _instance?.setState(networkLogs.clear);
+  /// Method to delete all network logs.
+  static void onDeleteAllLogsTap() {
+    if (_isDialogOpen && _instance != null) Navigator.of(_instance!.context).pop<void>();
+
+    _instance?.setState(networkLogs.clear);
+  }
+
+  /// Static method to toggle the search.
+  static void toggleSearch() => _instance?.setState(() => searchEnabled = !searchEnabled);
 }

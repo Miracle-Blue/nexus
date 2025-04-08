@@ -69,7 +69,15 @@ class _NexusState extends NexusOverlayController {
                   children: [
                     DecoratedBox(
                       decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
-                      child: IconButton(onPressed: NexusLogsController.onSortLogsTap, icon: Icon(Icons.sort)),
+                      child: IconButton(onPressed: NexusLogsController.toggleSearch, icon: Icon(Icons.search_rounded)),
+                    ),
+                    SizedBox(height: 4),
+                    DecoratedBox(
+                      decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
+                      child: IconButton(
+                        onPressed: NexusLogsController.onSortLogsTap,
+                        icon: Icon(Icons.filter_list_rounded),
+                      ),
                     ),
                     SizedBox(height: 4),
                     DecoratedBox(

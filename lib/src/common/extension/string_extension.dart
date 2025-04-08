@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Extension on [String] to get the method color.
 extension StringX on String {
+  /// Get the method color.
   Color get methodColor => switch (toUpperCase()) {
     'GET' => const Color(0xFF61affe),
     'POST' => const Color(0xFF49cc90),
@@ -16,6 +18,7 @@ extension StringX on String {
     _ => const Color(0xFF61affe),
   };
 
+  /// Get the method background color.
   Color get methodBackgroundColor => switch (toUpperCase()) {
     'GET' => const Color(0xFFf0f7ff),
     'POST' => const Color(0xFFeefaf4),

@@ -45,6 +45,7 @@ abstract class Helpers {
 
   static Future<void> copyAndShowSnackBar(BuildContext context, {required String contentToCopy}) async {
     await Clipboard.setData(ClipboardData(text: contentToCopy));
+
     showSnackBar(context);
   }
 }

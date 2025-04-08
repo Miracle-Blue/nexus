@@ -111,7 +111,7 @@ class _NexusLogDetailScreenState extends NexusLogDetailController {
         children: [
           TabBarView(
             controller: tabController,
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             children: [
               LogOverviewWidget(log: widget.log),
               LogRequestWidget(log: widget.log),

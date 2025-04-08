@@ -17,36 +17,59 @@ class NexusLogsScreen extends StatefulWidget {
 
 class _NexusLogsScreenState extends NexusLogsController {
   @override
-  Widget build(BuildContext context) => CupertinoPageScaffold(
-    backgroundColor: AppColors.white,
-    navigationBar: CupertinoNavigationBar(
-      backgroundColor: Colors.white.withValues(alpha: 0.1),
-      leading: const Text(
-        'Nexus Network Monitor',
-        style: TextStyle(color: AppColors.lavaStone, fontWeight: FontWeight.w600, fontSize: 18),
-      ),
-    ),
-    child: Stack(
-      children: [
-        switch (NexusLogsController.networkLogs.isEmpty) {
-          true => const Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.cloud_off, size: 48, color: AppColors.grayRussian),
-                Text('No logs here yet', style: TextStyle(color: AppColors.grayRussian, fontWeight: FontWeight.w600)),
-              ],
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: () => FocusScope.of(context).unfocus(),
+    child: CupertinoPageScaffold(
+      backgroundColor: AppColors.white,
+      navigationBar: CupertinoNavigationBar(
+        backgroundColor: Colors.white.withValues(alpha: 0.1),
+        middle: switch (NexusLogsController.searchEnabled) {
+          true => TextField(
+            onChanged: onSearchChanged,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(bottom: 12, left: 12, top: 12),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(color: AppColors.lavaStone),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(color: AppColors.lavaStone),
+              ),
             ),
           ),
-          false => ListView.builder(
-            itemCount: NexusLogsController.networkLogs.length,
-            itemBuilder:
-                (context, index) => NexusLogButton(
-                  log: NexusLogsController.networkLogs[NexusLogsController.networkLogs.length - 1 - index],
-                ),
+          false => null,
+        },
+        leading: switch (NexusLogsController.searchEnabled) {
+          true => null,
+          false => const Text(
+            'Nexus Network Monitor',
+            style: TextStyle(color: AppColors.lavaStone, fontWeight: FontWeight.w600, fontSize: 18),
           ),
         },
-      ],
+      ),
+      child: Stack(
+        children: [
+          switch (NexusLogsController.networkLogs.isEmpty) {
+            true => const Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.cloud_off, size: 48, color: AppColors.grayRussian),
+                  Text('No logs here yet', style: TextStyle(color: AppColors.grayRussian, fontWeight: FontWeight.w600)),
+                ],
+              ),
+            ),
+            false => ListView.builder(
+              itemCount: NexusLogsController.networkLogs.length,
+              itemBuilder:
+                  (context, index) => NexusLogButton(
+                    log: NexusLogsController.networkLogs[NexusLogsController.networkLogs.length - 1 - index],
+                  ),
+            ),
+          },
+        ],
+      ),
     ),
   );
 }

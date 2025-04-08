@@ -21,7 +21,7 @@ class LogResponseWidget extends StatefulWidget {
 class _LogResponseWidgetState extends State<LogResponseWidget> {
   bool _showJsonResponse = true;
   late Future<String> _jsonResponse;
-  String get _contentType => widget.log.response?.headers['content-type']?.first ?? '';
+  String get _contentType => widget.log.response?.headers['content-type']?.first ?? 'content-type not found';
 
   @override
   void initState() {
@@ -58,8 +58,11 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
           ListRowItem(name: 'Status', value: widget.log.response?.statusCode.toString()),
           ListRowItem(name: 'Content-Type', value: _contentType),
 
-          /// Checking whether data is not null, not html and json response is enabled.
-          if (widget.log.response?.data != null && !_contentType.contains('html') && _showJsonResponse)
+          /// Checking whether data is not null, not html, json response is enabled, and error is null.
+          if (widget.log.response?.data != null &&
+              !_contentType.contains('html') &&
+              _showJsonResponse &&
+              widget.log.error == null)
             FutureBuilder<String>(
               future: _jsonResponse,
               builder:
@@ -110,6 +113,32 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
               padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
               child: HtmlRenderer(htmlContent: widget.log.response?.data.toString() ?? ''),
             ),
+          ],
+
+          if (widget.log.error != null) ...[
+            const Padding(
+              padding: EdgeInsets.all(6),
+              child: Text(
+                'ERROR details',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.red),
+              ),
+            ),
+
+            /// When error data is html, we need to show the error data as html.
+            if (widget.log.error?.response?.data.toString().contains('!DOCTYPE html') ?? false)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
+                child: HtmlRenderer(htmlContent: widget.log.error?.response?.data.toString() ?? ''),
+              )
+            else
+              ListRowItem(
+                name: 'Error data',
+                value: (widget.log.error?.response?.data as Object?).prettyJson,
+                isJson: true,
+              ),
+
+            ListRowItem(name: 'Error message', value: widget.log.error?.message.toString(), isJson: true),
+            ListRowItem(name: 'Error type', value: widget.log.error?.runtimeType.toString()),
           ],
         ],
       ),
