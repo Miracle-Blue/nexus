@@ -2,8 +2,8 @@ import '../extension/duration_extension.dart';
 import '../extension/object_extension.dart';
 import '../models/nexus_network_log.dart';
 
-class ShareLogData {
-  const ShareLogData({required this.log});
+class CopyLogData {
+  const CopyLogData({required this.log});
 
   final NexusNetworkLog log;
   static final _lines = '─' * 15;
@@ -28,7 +28,7 @@ class ShareLogData {
     false => '\r',
   };
 
-  String get toShareableLogData {
+  String get toCopyableLogData {
     final buffer =
         StringBuffer()
           ..writeln('Server: ${log.request.uri.host}')

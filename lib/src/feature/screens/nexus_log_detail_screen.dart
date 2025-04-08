@@ -124,9 +124,10 @@ class _NexusLogDetailScreenState extends NexusLogDetailController {
             child: Padding(
               padding: const EdgeInsets.only(right: 24, bottom: 32),
               child: FloatingActionButton(
-                onPressed: onShareTap,
+                onPressed: onCopyLogTap,
+                tooltip: 'Copy full log',
                 backgroundColor: AppColors.magicalMalachite,
-                child: const Icon(Icons.share, color: AppColors.white),
+                child: const Icon(Icons.copy_all_rounded, color: AppColors.white),
               ),
             ),
           ),

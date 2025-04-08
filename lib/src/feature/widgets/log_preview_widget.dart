@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../common/models/nexus_network_log.dart';
 import 'json_viewer.dart';
 import 'list_row_item.dart';
+import 'nexus_awaiting_response_widget.dart';
 
 class LogPreviewWidget extends StatefulWidget {
   const LogPreviewWidget({required this.log, super.key});
@@ -29,29 +30,27 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
 
   @override
   // Use a switch-like expression for clarity.
-  Widget build(BuildContext context) => widget.log.isLoading ? _buildLoadingView() : _buildResponseView(context);
+  Widget build(BuildContext context) => switch (widget.log.isLoading) {
+    /// Builds a view for awaiting response.
+    true => const NexusAwaitingResponseWidget(),
 
-  /// Builds a centered loading view.
-  Widget _buildLoadingView() => const Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [CircularProgressIndicator(), Text('Awaiting response...')],
-    ),
-  );
-
-  /// Builds the main response view including both horizontal and vertical scrolling.
-  Widget _buildResponseView(BuildContext context) => SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: SizedBox(
-      width: MediaQuery.of(context).size.width * 2,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: SafeArea(
-          child: Padding(padding: const EdgeInsets.only(top: 8), child: Column(children: _buildResponsePreview())),
+    /// Builds the main response view including both horizontal and vertical scrolling.
+    false => SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 2,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _buildResponsePreview()),
+            ),
+          ),
         ),
       ),
     ),
-  );
+  };
 
   /// Returns a list of widgets representing the preview content.
   List<Widget> _buildResponsePreview() {
@@ -64,7 +63,7 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
       rows.addAll([
         const Row(children: [Text('Error Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))]),
         const SizedBox(height: 8),
-        ListRowItem(name: 'Error:', value: widget.log.error?.toString() ?? 'Unknown error'),
+        ListRowItem(name: 'Error', value: widget.log.error?.toString() ?? 'Unknown error'),
       ]);
     }
 
@@ -114,7 +113,7 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
     if (_showLargeBody) return _buildTextBodyRows();
 
     return [
-      ListRowItem(name: 'Body:', value: 'Too large to show ($bodySize Bytes)'),
+      ListRowItem(name: 'Body', value: 'Too large to show ($bodySize Bytes)'),
       const SizedBox(height: 8),
       ElevatedButton(
         style: ButtonStyle(
@@ -158,23 +157,30 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
 
     if (_showUnsupportedBody) {
       final bodyContent = _formatBody(widget.log.response?.data);
-      rows.add(ListRowItem(name: 'Body:', value: bodyContent));
+      rows.add(ListRowItem(name: 'Body', value: bodyContent));
     } else {
       rows.addAll([
-        ListRowItem(
-          name: 'Body:',
-          value:
-              'Unsupported body. This widget can render image/text body. '
-              "Response has Content-Type: $contentType which can't be handled. "
-              "If you're feeling lucky, try the button below to render body as text, but it may fail.",
-        ),
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll<Color>(Colors.red.shade300),
-            foregroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Column(
+            children: [
+              ListRowItem(
+                name: 'Body',
+                value:
+                    'Unsupported body. This widget can render image/text body. '
+                    "Response has Content-Type: $contentType which can't be handled. "
+                    "If you're feeling lucky, try the button below to render body as text, but it may fail.",
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll<Color>(Colors.red.shade300),
+                  foregroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
+                ),
+                onPressed: () => setState(() => _showUnsupportedBody = true),
+                child: const Text('Show unsupported body'),
+              ),
+            ],
           ),
-          onPressed: () => setState(() => _showUnsupportedBody = true),
-          child: const Text('Show unsupported body'),
         ),
       ]);
     }
@@ -227,8 +233,9 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
       try {
         // Pretty-print JSON with indentation.
         const encoder = JsonEncoder.withIndent('  ');
+
         return encoder.convert(body);
-      } on Object {
+      } on Object catch (_) {
         return body.toString();
       }
     }

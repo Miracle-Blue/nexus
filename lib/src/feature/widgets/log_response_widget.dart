@@ -4,6 +4,7 @@ import '../../common/extension/object_extension.dart';
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/helpers.dart';
 import 'list_row_item.dart';
+import 'nexus_awaiting_response_widget.dart';
 
 class LogResponseWidget extends StatefulWidget {
   const LogResponseWidget({required this.log, super.key});
@@ -17,6 +18,8 @@ class LogResponseWidget extends StatefulWidget {
 class _LogResponseWidgetState extends State<LogResponseWidget> {
   late final List<Widget> _items;
 
+  String get _contentType => widget.log.response?.headers['content-type']?.first ?? '';
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +27,7 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
       ListRowItem(name: 'Received', value: Helpers.formatBytes(widget.log.receiveBytes)),
       ListRowItem(name: 'Bytes received', value: Helpers.formatBytes(widget.log.receiveBytes)),
       ListRowItem(name: 'Status', value: widget.log.response?.statusCode.toString()),
+      ListRowItem(name: 'Content-Type', value: _contentType),
       if (widget.log.response?.data != null)
         ListRowItem(
           name: 'Body',
@@ -44,6 +48,9 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
   @override
   Widget build(BuildContext context) => Scrollbar(
     controller: PrimaryScrollController.of(context),
-    child: ListView.builder(itemCount: _items.length, itemBuilder: (context, index) => _items[index]),
+    child: switch (widget.log.isLoading) {
+      true => const NexusAwaitingResponseWidget(),
+      false => ListView.builder(itemCount: _items.length, itemBuilder: (context, index) => _items[index]),
+    },
   );
 }

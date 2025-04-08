@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:flutter/services.dart';
 
-import '../../common/utils/share_log_data.dart';
+import '../../common/utils/copy_log_data.dart';
 import '../screens/nexus_log_detail_screen.dart';
 
 abstract class NexusLogDetailController extends State<NexusLogDetailScreen> with TickerProviderStateMixin {
@@ -19,7 +19,5 @@ abstract class NexusLogDetailController extends State<NexusLogDetailScreen> with
     super.dispose();
   }
 
-  void onShareTap() {
-    Share.share(ShareLogData(log: widget.log).toShareableLogData);
-  }
+  void onCopyLogTap() => Clipboard.setData(ClipboardData(text: CopyLogData(log: widget.log).toCopyableLogData));
 }
