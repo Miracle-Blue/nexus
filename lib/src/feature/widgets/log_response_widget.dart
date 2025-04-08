@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../common/extension/object_extension.dart';
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/helpers.dart';
+import 'html_renderer.dart';
 import 'list_row_item.dart';
 import 'nexus_awaiting_response_widget.dart';
 
@@ -28,7 +29,7 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
       ListRowItem(name: 'Bytes received', value: Helpers.formatBytes(widget.log.receiveBytes)),
       ListRowItem(name: 'Status', value: widget.log.response?.statusCode.toString()),
       ListRowItem(name: 'Content-Type', value: _contentType),
-      if (widget.log.response?.data != null)
+      if (widget.log.response?.data != null && !_contentType.contains('html'))
         ListRowItem(
           name: 'Body',
           value: (widget.log.response?.data).prettyJson,
@@ -36,6 +37,16 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
           showDivider: false,
           isJson: true,
         ),
+      if (_contentType.contains('html')) ...[
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Text('HTML Response', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
+          child: HtmlRenderer(htmlContent: widget.log.response?.data.toString() ?? ''),
+        ),
+      ],
     ];
   }
 

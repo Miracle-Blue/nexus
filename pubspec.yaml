@@ -16,7 +16,7 @@ dependencies:
   dio: any
   uuid: any
   equatable: any
-  flutter_html: any
+  html: any
 
 dev_dependencies:
   flutter_test:
