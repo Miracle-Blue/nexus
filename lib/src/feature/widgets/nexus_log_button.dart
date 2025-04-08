@@ -99,7 +99,7 @@ class NexusLogButton extends StatelessWidget {
 
                 /// Request Time | Request duration
                 Text(
-                  "${DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now())}  │  ${log.duration.formatCompactDuration}",
+                  "${DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now())}${log.isLoading ? '' : '  │  ${log.duration.formatCompactDuration}'}",
                   style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
                 ),
 
