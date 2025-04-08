@@ -18,7 +18,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
     builder: (_, child) => Nexus(dio: [_httpDio, _jsonPlaceholderDio, _mainDio], child: child ?? SizedBox.shrink()),
     home: MyHomePage(httpDio: _httpDio, jsonPlaceholderDio: _jsonPlaceholderDio, mainDio: _mainDio),
   );
@@ -28,8 +27,8 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.httpDio, required this.jsonPlaceholderDio, required this.mainDio});
 
   final Dio httpDio;
-  final Dio jsonPlaceholderDio;
   final Dio mainDio;
+  final Dio jsonPlaceholderDio;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
