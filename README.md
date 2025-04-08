@@ -58,19 +58,17 @@ class MyApp extends StatelessWidget {
   final Dio dio1;
   final Dio dio2;
 
-  const MyApp({Key? key, required this.dio1, required this.dio2}) : super(key: key);
+  const MyApp({required this.dio1, required this.dio2, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      home: const HomePage(),
-      builder: (context, child) => Nexus(
-        dio: [dio1, dio2],
-        child: child ?? const SizedBox.shrink(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'My App',
+    home: const HomePage(),
+    builder: (context, child) => Nexus(
+      dio: [dio1, dio2],
+      child: child ?? const SizedBox.shrink(),
+    ),
+  );
 }
 ```
 
@@ -108,12 +106,13 @@ Nexus(
 Nexus attaches to your Dio instances and intercepts all network requests and responses. The data is displayed in a user-friendly interface that can be accessed by tapping the handle on the side of your app.
 
 The overlay shows:
-- Request method (GET, POST, etc.)
+- Request method (GET, POST, PUT, DELETE, etc.)
 - URL
 - Status code
 - Response time
 - Request and response headers
 - Request and response bodies
+- HTML response body
 
 ## Example Project
 
