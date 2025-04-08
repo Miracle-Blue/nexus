@@ -10,7 +10,42 @@ import '../controllers/nexus_logs_controller.dart';
 import '../controllers/nexus_overlay_controller.dart';
 import '../screens/nexus_logs_screen.dart';
 
+/// A debug overlay widget that displays network logs and provides debugging tools.
+///
+/// The Nexus widget creates a slide-out panel that shows network requests and responses
+/// from provided Dio instances. This is particularly useful during development to monitor
+/// API interactions, debug network issues, and analyze app behavior.
+///
+/// Features:
+/// - Displays network requests and responses from Dio instances
+/// - Provides filtering and search capabilities for logs
+/// - Allows clearing of logs
+/// - Can be easily toggled with a handle on the side of the screen
+/// - Only active in debug mode by default
+/// ------------------------------------------------------------------------------------------------
+/// - [enable]: Whether to enable the overlay (defaults to kDebugMode)
+/// - [dio]: List of Dio instances to monitor for network activity
+/// - [duration]: Animation duration for showing/hiding the overlay
+/// - [child]: The main application widget that Nexus will wrap
+///
+/// Example:
+/// ```dart
+/// class MyApp extends StatelessWidget {
+///   const MyApp({super.key});
+///
+///   @override
+///   Widget build(BuildContext context) => MaterialApp(
+///     title: 'Flutter Demo',
+///     home: const MyHomePage(title: 'Flutter Demo Home Page'),
+///     builder:  (context, child) => Nexus(
+///       dio: [_httpDio, _mainDio],
+///       child: child ?? SizedBox.shrink(),
+///     ),
+///   );
+/// }
+/// ```
 class Nexus extends StatefulWidget {
+  /// Constructor for the [Nexus] class.
   const Nexus({
     required this.child,
     this.dio = const <Dio>[],
@@ -19,9 +54,26 @@ class Nexus extends StatefulWidget {
     super.key,
   });
 
+  /// Whether to enable the overlay.
+  ///
+  /// When false, the Nexus widget simply returns the child without any overlay functionality.
+  /// Defaults to [kDebugMode] which means it's only enabled in debug builds.
   final bool enable;
+
+  /// The list of [Dio] instances to monitor.
+  ///
+  /// These instances will have their network requests and responses logged
+  /// and displayed in the Nexus overlay panel.
   final List<Dio> dio;
+
+  /// The duration of the overlay animation.
+  ///
+  /// Controls how quickly the overlay slides in and out.
   final Duration duration;
+
+  /// The child widget (the main widget of the app).
+  ///
+  /// This is typically the root of your application that Nexus will wrap.
   final Widget child;
 
   @override
@@ -29,8 +81,15 @@ class Nexus extends StatefulWidget {
 }
 
 class _NexusState extends NexusOverlayController {
+  /// Builds the main content of the Nexus overlay panel.
+  ///
+  /// This includes:
+  /// - The logs screen navigation container
+  /// - Control buttons for searching, filtering, and clearing logs
+  /// - The handle for toggling the overlay
   Widget _materialContext() => Row(
     children: <Widget>[
+      // Main overlay content area
       Expanded(
         child: Visibility(
           visible: !dismissed,
@@ -55,10 +114,10 @@ class _NexusState extends NexusOverlayController {
         ),
       ),
 
-      /// Handler
+      /// Control panel and handle for toggling the overlay
       Stack(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Control buttons - only visible when overlay is shown
           if (!dismissed)
             const Align(
               alignment: Alignment(0, -0.8),
@@ -67,11 +126,13 @@ class _NexusState extends NexusOverlayController {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    // Search button - toggles search functionality in logs
                     DecoratedBox(
                       decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
                       child: IconButton(onPressed: NexusLogsController.toggleSearch, icon: Icon(Icons.search_rounded)),
                     ),
                     SizedBox(height: 4),
+                    // Filter button - changes sort order of logs
                     DecoratedBox(
                       decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
                       child: IconButton(
@@ -80,6 +141,7 @@ class _NexusState extends NexusOverlayController {
                       ),
                     ),
                     SizedBox(height: 4),
+                    // Delete button - clears all logs
                     DecoratedBox(
                       decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
                       child: IconButton(onPressed: NexusLogsController.onDeleteAllLogsTap, icon: Icon(Icons.delete)),
@@ -89,6 +151,7 @@ class _NexusState extends NexusOverlayController {
               ),
             ),
 
+          // Toggle handle - always visible on the side of the screen
           Align(
             alignment: const Alignment(0, -0.4),
             child: SizedBox(
@@ -102,6 +165,7 @@ class _NexusState extends NexusOverlayController {
                   onTap: () => controller.toggle(),
                   borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
                   child: Center(
+                    // Rotating chevron that indicates the current state (open/closed)
                     child: RotationTransition(
                       turns: controller.drive(Tween<double>(begin: 0, end: 0.5)),
                       child: const Icon(Icons.chevron_right, color: Colors.white, size: 18),
@@ -118,19 +182,24 @@ class _NexusState extends NexusOverlayController {
 
   @override
   Widget build(BuildContext context) =>
+      // If overlay is disabled, just return the child widget
       !widget.enable
           ? widget.child
           : LayoutBuilder(
             builder: (context, constraints) {
               final biggest = constraints.biggest;
+              // Calculate width of overlay panel, capped at 400 or 99% of screen width
               final width = math.min<double>(400, biggest.width * 0.99);
 
               return GestureDetector(
+                // Handle drag gestures to manually slide the overlay
                 onHorizontalDragUpdate: (details) => onHorizontalDragUpdate(details, width),
                 onHorizontalDragEnd: onHorizontalDragEnd,
                 child: Stack(
                   children: <Widget>[
+                    // The main app content
                     widget.child,
+                    // Semi-transparent barrier behind the overlay when open
                     if (!dismissed)
                       AnimatedModalBarrier(
                         color: controller.drive(
@@ -140,6 +209,7 @@ class _NexusState extends NexusOverlayController {
                         semanticsLabel: 'Dismiss',
                         onDismiss: () => controller.hide(),
                       ),
+                    // The sliding overlay panel
                     PositionedTransition(
                       rect: controller.drive(
                         RelativeRectTween(

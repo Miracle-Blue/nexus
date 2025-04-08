@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _runDioRequests() async {
-    Map<String, dynamic> body = <String, dynamic>{
+    Map<String, Object?> body = <String, Object?>{
       "title": "foo",
       "body": "bar",
       "userId": "1",
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _httpDio.delete<void>("/status/200");
     _httpDio.delete<void>("/status/100");
     _jsonPlaceholderDio.post<void>("/posts", data: body);
-    _jsonPlaceholderDio.get<void>("/posts", queryParameters: <String, dynamic>{"test": 1});
+    _jsonPlaceholderDio.get<void>("/posts", queryParameters: <String, Object?>{"test": 1});
     _jsonPlaceholderDio.put<void>("/posts/1", data: body);
     _jsonPlaceholderDio.put<void>("/posts/1", data: body);
     _jsonPlaceholderDio.delete<void>("/posts/1");
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // file.writeAsStringSync("123456789");
 
     // String fileName = file.path.split('/').last;
-    // FormData formData = FormData.fromMap(<String, dynamic>{
+    // FormData formData = FormData.fromMap(<String, Object?>{
     //   "file": await MultipartFile.fromFile(file.path, filename: fileName),
     // });
     // _dio.post<void>("/photos", data: formData);

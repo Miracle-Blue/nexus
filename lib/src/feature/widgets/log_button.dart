@@ -9,9 +9,12 @@ import '../../common/utils/app_colors.dart';
 import '../../common/utils/helpers.dart';
 import '../screens/nexus_log_detail_screen.dart';
 
-class NexusLogButton extends StatelessWidget {
-  const NexusLogButton({required this.log, super.key});
+/// A widget that displays a button for a network log.
+class LogButton extends StatelessWidget {
+  /// Constructor for the [LogButton] class.
+  const LogButton({required this.log, super.key});
 
+  /// The network log to display
   final NexusNetworkLog log;
 
   @override

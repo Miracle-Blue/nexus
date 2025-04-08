@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../nexus.dart';
 import '../../common/utils/nexus_animation_controller.dart';
 
+/// Abstract class that extends [State] and [SingleTickerProviderStateMixin] and helps to control the [Nexus]
 abstract class NexusOverlayController extends State<Nexus> with SingleTickerProviderStateMixin {
+  /// Animation controller for the [Nexus]
   late final NexusToolsController controller;
+
+  /// The width of the handle
   double handleWidth = 16;
+
+  /// Whether the overlay is dismissed
   bool dismissed = true;
 
   @override
@@ -51,6 +57,7 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
     }
   }
 
+  /// Method that handles the horizontal drag update
   void onHorizontalDragUpdate(DragUpdateDetails details, double width) {
     if (dismissed) return;
 
@@ -69,6 +76,7 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
     }
   }
 
+  /// Method that handles the horizontal drag end
   void onHorizontalDragEnd(DragEndDetails details) {
     if (dismissed) return;
 

@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 
 import '../../common/utils/app_colors.dart';
 import '../controllers/nexus_logs_controller.dart';
-import '../widgets/nexus_log_button.dart';
+import '../widgets/log_button.dart';
 
+/// Screen that shows the logs of the network requests
 class NexusLogsScreen extends StatefulWidget {
+  /// Constructor for the [NexusLogsScreen] class.
   const NexusLogsScreen({required this.dios, super.key});
 
+  /// The list of [Dio] instances
   final List<Dio> dios;
 
   @override
@@ -63,7 +66,7 @@ class _NexusLogsScreenState extends NexusLogsController {
             false => ListView.builder(
               itemCount: NexusLogsController.networkLogs.length,
               itemBuilder:
-                  (context, index) => NexusLogButton(
+                  (context, index) => LogButton(
                     log: NexusLogsController.networkLogs[NexusLogsController.networkLogs.length - 1 - index],
                   ),
             ),

@@ -7,6 +7,7 @@ import '../extension/string_extension.dart';
 
 /// Model class to store network request/response data
 final class NexusNetworkLog extends Equatable {
+  /// Constructor for the [NexusNetworkLog] class.
   NexusNetworkLog({
     required this.request,
     required this.isLoading,
@@ -20,20 +21,42 @@ final class NexusNetworkLog extends Equatable {
     String? id,
   }) : id = id ?? const Uuid().v4();
 
+  /// The time when the request was sent
   final DateTime? sendTime;
+
+  /// The time when the request was received
   final DateTime? receiveTime;
+
+  /// The request options
   final RequestOptions request;
+
+  /// The response
   final Response<Object?>? response;
+
+  /// The error
   final DioException? error;
+
+  /// The duration of the request
   final Duration? duration;
+
+  /// Whether the request is loading
   final bool isLoading;
+
+  /// The number of bytes sent
   final int? sendBytes;
+
+  /// The number of bytes received
   final int? receiveBytes;
+  /// UUID of the log
   final String id;
 
+  /// Method to get the color of the method
   Color get methodColor => request.method.methodColor;
+
+  /// Method to get the background color of the method
   Color get methodBackgroundColor => request.method.methodBackgroundColor;
 
+  /// [copyWith] helper method to updated the log with new values
   NexusNetworkLog copyWith({
     DateTime? sendTime,
     DateTime? receiveTime,

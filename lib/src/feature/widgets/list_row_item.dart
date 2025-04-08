@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../common/utils/app_colors.dart';
 import '../../common/utils/helpers.dart';
 
+/// A widget that displays a row of text with an optional copy button.
 class ListRowItem extends StatelessWidget {
+  /// Constructor for the [ListRowItem] class.
   const ListRowItem({
     required this.value,
     this.name,
@@ -13,10 +15,19 @@ class ListRowItem extends StatelessWidget {
     super.key,
   });
 
+  /// The name of the item
   final String? name;
+
+  /// The value of the item
   final String? value;
+
+  /// Whether to show the copy button
   final bool showCopyButton;
+
+  /// Whether to show the divider
   final bool showDivider;
+
+  /// Whether the value is JSON
   final bool isJson;
 
   @override

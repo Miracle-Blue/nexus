@@ -8,8 +8,10 @@ import '../../common/utils/helpers.dart';
 
 /// A widget that parses HTML content and renders it as Flutter widgets.
 class HtmlRenderer extends StatefulWidget {
+  /// Constructor for the [HtmlRenderer] class.
   const HtmlRenderer({required this.htmlContent, super.key});
 
+  /// The HTML content to render
   final String htmlContent;
 
   @override

@@ -6,9 +6,12 @@ import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/helpers.dart';
 import 'list_row_item.dart';
 
+/// A widget that displays the request of a network log.
 class LogRequestWidget extends StatelessWidget {
+  /// Constructor for the [LogRequestWidget] class.
   const LogRequestWidget({required this.log, super.key});
 
+  /// The network log to display
   final NexusNetworkLog log;
 
   @override

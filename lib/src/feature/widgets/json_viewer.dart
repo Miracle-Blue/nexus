@@ -30,8 +30,10 @@ class JsonViewerUtils {
 
 /// Main widget that displays a JSON structure in a hierarchical and interactive way.
 class JsonViewer extends StatelessWidget {
+  /// Constructor for the [JsonViewer] class.
   const JsonViewer(this.jsonObj, {super.key});
 
+  /// The JSON object to display
   final Object? jsonObj;
 
   @override
@@ -43,7 +45,7 @@ class JsonViewer extends StatelessWidget {
 
     if (content is List) {
       return JsonArrayViewer(jsonArray: content, notRoot: false);
-    } else if (content is Map<String, dynamic>) {
+    } else if (content is Map<String, Object?>) {
       return JsonObjectViewer(jsonObj: content, notRoot: false);
     }
     return SelectableText(content.toString());
@@ -52,15 +54,20 @@ class JsonViewer extends StatelessWidget {
 
 /// Widget for viewing JSON objects (Maps).
 class JsonObjectViewer extends StatefulWidget {
+  /// Constructor for the [JsonObjectViewer] class.
   const JsonObjectViewer({required this.jsonObj, super.key, this.notRoot = false});
 
-  final Map<String, dynamic> jsonObj;
+  /// The JSON object to display
+  final Map<String, Object?> jsonObj;
+
+  /// Whether the JSON object is not the root object
   final bool notRoot;
 
   @override
   JsonObjectViewerState createState() => JsonObjectViewerState();
 }
 
+/// State for the [JsonObjectViewer] widget.
 class JsonObjectViewerState extends State<JsonObjectViewer> {
   /// Stores open/closed state for each JSON key.
   final Map<String, bool> _openFlags = {};
@@ -166,7 +173,7 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
   Widget _buildContentWidget(Object? content) {
     if (content is List) {
       return JsonArrayViewer(jsonArray: content, notRoot: true);
-    } else if (content is Map<String, dynamic>) {
+    } else if (content is Map<String, Object?>) {
       return JsonObjectViewer(jsonObj: content, notRoot: true);
     }
     return SelectableText(content.toString());
@@ -175,9 +182,13 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
 
 /// Widget for viewing JSON arrays (Lists).
 class JsonArrayViewer extends StatefulWidget {
+  /// Constructor for the [JsonArrayViewer] class.
   const JsonArrayViewer({required this.jsonArray, super.key, this.notRoot = false});
 
-  final List<dynamic> jsonArray;
+  /// The JSON array to display
+  final List<Object?> jsonArray;
+
+  /// Whether the JSON array is not the root array
   final bool notRoot;
 
   @override
@@ -284,7 +295,7 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
   Widget _buildContentWidget(Object? content) {
     if (content is List) {
       return JsonArrayViewer(jsonArray: content, notRoot: true);
-    } else if (content is Map<String, dynamic>) {
+    } else if (content is Map<String, Object?>) {
       return JsonObjectViewer(jsonObj: content, notRoot: true);
     }
     return SelectableText(content.toString());

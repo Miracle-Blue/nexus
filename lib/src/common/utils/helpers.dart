@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
+/// Class that helps with various helper methods
 abstract class Helpers {
   const Helpers._();
 
   static const int _kilobyteAsByte = 1000;
   static const int _megabyteAsByte = 1000000;
 
+  /// Method that formats the bytes to a human readable format
   static String formatBytes(int? bytes) {
     if (bytes == null || bytes < 0) return '0B';
 
@@ -19,6 +21,7 @@ abstract class Helpers {
 
   static String _formatDouble(double value) => value.toStringAsFixed(2);
 
+  /// Method that shows a snack bar in iOS style
   static void showSnackBar(BuildContext context, {String content = 'Copied to your clipboard!'}) {
     final overlayEntry = OverlayEntry(
       builder:
@@ -43,6 +46,7 @@ abstract class Helpers {
     Future<void>.delayed(const Duration(seconds: 3), overlayEntry.remove);
   }
 
+  /// Method that copies the content to the clipboard and shows a snack bar
   static Future<void> copyAndShowSnackBar(BuildContext context, {required String contentToCopy}) async {
     await Clipboard.setData(ClipboardData(text: contentToCopy));
 

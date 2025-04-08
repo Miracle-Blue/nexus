@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../common/utils/app_colors.dart';
 
-class NexusAwaitingResponseWidget extends StatelessWidget {
-  const NexusAwaitingResponseWidget({super.key, this.message = 'Awaiting response...'});
+/// A widget that displays a circular progress indicator and a message.
+class AwaitingResponseWidget extends StatelessWidget {
+  /// Constructor for the [AwaitingResponseWidget] class.
+  const AwaitingResponseWidget({super.key, this.message = 'Awaiting response...'});
 
+  /// The message to display
   final String message;
 
   @override

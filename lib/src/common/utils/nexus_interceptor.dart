@@ -7,10 +7,16 @@ import '../models/nexus_network_log.dart';
 
 /// Custom Dio interceptor for Nexus
 final class NexusInterceptor extends Interceptor {
+  /// Constructor for the [NexusInterceptor] class.
   NexusInterceptor({required this.onNetworkActivity});
 
+  /// The callback to call when a network activity is detected
   final void Function(NexusNetworkLog log) onNetworkActivity;
+
+  /// The map of request hash codes to their start times
   final Map<String, DateTime> _requestStartTimes = <String, DateTime>{};
+
+  /// The map of request hash codes to their log IDs
   final Map<String, String> _requestIdMap = <String, String>{};
 
   @override

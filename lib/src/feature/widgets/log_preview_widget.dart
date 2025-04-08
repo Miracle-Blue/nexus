@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/app_colors.dart';
+import 'awaiting_response_widget.dart';
 import 'json_viewer.dart';
 import 'list_row_item.dart';
-import 'nexus_awaiting_response_widget.dart';
 
+/// A widget that displays a preview of a network log.
 class LogPreviewWidget extends StatefulWidget {
+  /// Constructor for the [LogPreviewWidget] class.
   const LogPreviewWidget({required this.log, super.key});
 
+  /// The network log to display
   final NexusNetworkLog log;
 
   @override
@@ -33,7 +36,7 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
   // Use a switch-like expression for clarity.
   Widget build(BuildContext context) => switch (widget.log.isLoading) {
     /// Builds a view for awaiting response.
-    true => const NexusAwaitingResponseWidget(),
+    true => const AwaitingResponseWidget(),
 
     /// Builds the main response view including both horizontal and vertical scrolling.
     false => SingleChildScrollView(
@@ -213,7 +216,7 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
   }
 
   /// Retrieves the content type header from a headers map.
-  String? _getContentType(Map<String, dynamic> headers) {
+  String? _getContentType(Map<String, Object?> headers) {
     final contentTypeHeader = headers['content-type'] ?? headers['Content-Type'];
     if (contentTypeHeader is List) {
       return contentTypeHeader.isNotEmpty ? contentTypeHeader.first.toString() : null;
