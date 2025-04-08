@@ -15,7 +15,7 @@ and the Flutter guide for
 
 A powerful Flutter debug overlay for monitoring network requests in real-time. Nexus provides a convenient slide-out panel that shows all network interactions from your Dio HTTP clients.
 
-![Nexus Example](https://via.placeholder.com/600x300?text=Nexus+Screenshot) <!-- Replace with actual screenshot -->
+![Nexus Example](https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_1.png) <!-- Replace with actual screenshot -->
 
 ## Features
 
