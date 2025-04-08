@@ -11,6 +11,7 @@ A powerful Flutter debug overlay for monitoring network requests in real-time. N
   <img src="https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_6.png" alt="Nexus Search Feature" width="16%" />
 </div>
 
+
 ## Features
 
 - 📱 **Simple Integration** - Add a single widget to your app
@@ -20,6 +21,12 @@ A powerful Flutter debug overlay for monitoring network requests in real-time. N
 - 👆 **Interactive UI** - Slide-out panel with intuitive controls
 - 🛠️ **Debug Mode Only** - Automatically disabled in release builds
 - 📊 **Request Details** - View headers, payloads, and responses
+
+## Platform Support
+
+| Android |  iOS  | MacOS |  Web  | Linux | Windows |
+| :-----: | :---: | :---: | :---: | :---: | :-----: |
+|✅|✅|✅|✅|✅|✅|
 
 ## Installation
 
