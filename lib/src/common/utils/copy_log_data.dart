@@ -130,7 +130,7 @@ class CopyLogData {
       buffer.write('\n$responseBody');
     } else {
       if (log.error != null) {
-        buffer.write((log.error?.response?.data as Object?).prettyJson);
+        buffer.write('```json\n${(log.error?.response?.data as Object?).prettyJson}```');
       } else {
         buffer.write('Response body is empty');
       }
