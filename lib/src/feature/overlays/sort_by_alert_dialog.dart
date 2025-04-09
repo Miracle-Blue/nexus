@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../common/utils/app_colors.dart';
 
 /// Enum representing different sorting options for network logs.
 enum SortType {
@@ -38,6 +35,10 @@ enum SortType {
 /// ------------------------------------------------------------------------------------------------
 /// --------------- Sort by alert dialog ---------------
 /// ------------------------------------------------------------------------------------------------
+
+/// ------------------------------------------------------------------------------------------------
+/// --- Sort by alert dialog ---
+/// ------------------------------------------------------------------------------------------------
 Future<SortType?> showSortByAlertDialog(BuildContext context, {SortType? sortType}) async =>
     showDialog<SortType?>(context: context, builder: (context) => _SortByAlertDialog(sortType: sortType));
 
@@ -61,10 +62,7 @@ class _SortByAlertDialogState extends State<_SortByAlertDialog> {
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-    title: const Text(
-      'Sort by',
-      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.gunmetal),
-    ),
+    title: const Text('Sort by', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +80,6 @@ class _SortByAlertDialogState extends State<_SortByAlertDialog> {
                 Radio<SortType>(
                   value: SortType.values[index],
                   groupValue: _sortType,
-                  activeColor: AppColors.magicalMalachite,
                   onChanged: (value) => setState(() => _sortType = value),
                 ),
               ],
@@ -92,17 +89,8 @@ class _SortByAlertDialogState extends State<_SortByAlertDialog> {
       ),
     ),
     actions: [
-      CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: () => Navigator.pop<void>(context),
-        child: const Text('Cancel', style: TextStyle(color: AppColors.redDark, fontWeight: FontWeight.w600)),
-      ),
-      const SizedBox(width: 4),
-      CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: () => Navigator.pop<SortType>(context, _sortType),
-        child: const Text('Apply', style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.greenDark)),
-      ),
+      TextButton(onPressed: () => Navigator.pop<void>(context), child: const Text('Cancel')),
+      TextButton(onPressed: () => Navigator.pop<SortType>(context, _sortType), child: const Text('Apply')),
     ],
   );
 }

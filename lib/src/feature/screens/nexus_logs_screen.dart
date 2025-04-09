@@ -27,18 +27,12 @@ class _NexusLogsScreenState extends NexusLogsController {
       navigationBar: CupertinoNavigationBar(
         backgroundColor: Colors.white.withValues(alpha: 0.1),
         middle: switch (NexusLogsController.searchEnabled) {
-          true => TextField(
-            onChanged: onSearchChanged,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.only(bottom: 12, left: 12, top: 12),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: AppColors.lavaStone),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: AppColors.lavaStone),
-              ),
+          true => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: TextField(
+              onChanged: onSearchChanged,
+              // decoration: const InputDecoration(hintText: 'Type here...'),
+              decoration: const InputDecoration(hintText: 'Type here...', border: InputBorder.none),
             ),
           ),
           false => null,

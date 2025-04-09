@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../nexus.dart';
 import '../../common/utils/nexus_animation_controller.dart';
+import 'nexus_logs_controller.dart';
 
 /// Abstract class that extends [State] and [SingleTickerProviderStateMixin] and helps to control the [Nexus]
 abstract class NexusOverlayController extends State<Nexus> with SingleTickerProviderStateMixin {
@@ -24,7 +25,7 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
 
   @override
   void didUpdateWidget(covariant Nexus oldWidget) {
-    if (widget.enable) {
+    if (widget.enabled) {
       dismissed = controller.status == AnimationStatus.dismissed;
     } else {
       dismissed = true;
@@ -45,17 +46,22 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
     super.dispose();
   }
 
-  void _onStatusChanged(AnimationStatus status) {
-    if (!mounted) return;
-    switch (status) {
-      case AnimationStatus.dismissed:
-        if (dismissed) return;
-        setState(() => dismissed = true);
-      default:
-        if (!dismissed) return;
-        setState(() => dismissed = false);
-    }
-  }
+  void _onStatusChanged(AnimationStatus status) => switch (status) {
+    _ when !mounted => null,
+    AnimationStatus.dismissed => () {
+      if (dismissed) return;
+      setState(() => dismissed = true);
+
+      if (NexusLogsController.searchEnabled) NexusLogsController.toggleSearch();
+
+      // Unfocus keyboard when the overlay is dismissed
+      FocusManager.instance.primaryFocus?.unfocus();
+    }(),
+    _ => () {
+      if (!dismissed) return;
+      setState(() => dismissed = false);
+    }(),
+  };
 
   /// Method that handles the horizontal drag update
   void onHorizontalDragUpdate(DragUpdateDetails details, double width) {

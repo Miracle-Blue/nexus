@@ -72,7 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
     widget.mainDio.get<void>("https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg");
     widget.mainDio.get<void>("http://techslides.com/demos/sample-videos/small.mp4");
     widget.mainDio.get<void>("https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf");
-    widget.mainDio.get<void>("http://dummy.restapiexample.com/api/v1/employees");
+    widget.mainDio.get<void>(
+      "http://dummy.restapiexample.com/api/v1/employees",
+      queryParameters: <String, Object?>{"test": 1},
+    );
   }
 
   @override

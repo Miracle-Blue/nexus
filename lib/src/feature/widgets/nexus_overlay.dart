@@ -49,7 +49,7 @@ class Nexus extends StatefulWidget {
   const Nexus({
     required this.child,
     this.dio = const <Dio>[],
-    this.enable = kDebugMode,
+    this.enabled = kDebugMode,
     this.duration = const Duration(milliseconds: 250),
     super.key,
   });
@@ -58,7 +58,7 @@ class Nexus extends StatefulWidget {
   ///
   /// When false, the Nexus widget simply returns the child without any overlay functionality.
   /// Defaults to [kDebugMode] which means it's only enabled in debug builds.
-  final bool enable;
+  final bool enabled;
 
   /// The list of [Dio] instances to monitor.
   ///
@@ -183,7 +183,7 @@ class _NexusState extends NexusOverlayController {
   @override
   Widget build(BuildContext context) =>
       // If overlay is disabled, just return the child widget
-      !widget.enable
+      !widget.enabled
           ? widget.child
           : LayoutBuilder(
             builder: (context, constraints) {
