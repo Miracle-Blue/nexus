@@ -94,7 +94,8 @@ class CopyLogData {
         StringBuffer()
           ..writeln('Server: ${log.request.uri.host}')
           ..writeln('Method: ${log.request.method}')
-          ..writeln('Endpoint: ${log.request.uri.path}');
+          ..writeln('Endpoint: ${log.request.uri.path}')
+          ..writeln('Status: ${log.response?.statusCode ?? log.error?.response?.statusCode}');
 
     if (log.response?.statusCode != null) {
       buffer.writeln('Status: ${log.response?.statusCode}');
