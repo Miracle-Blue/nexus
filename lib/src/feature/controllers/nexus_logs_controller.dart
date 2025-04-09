@@ -103,7 +103,11 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
       networkLogs =
           _tempNetworkLogs
-              ?.where((log) => log.request.path.contains(query) || log.request.baseUrl.contains(query))
+              ?.where(
+                (log) =>
+                    log.request.path.toLowerCase().contains(query.toLowerCase()) ||
+                    log.request.baseUrl.toLowerCase().contains(query.toLowerCase()),
+              )
               .toList() ??
           [];
     }
