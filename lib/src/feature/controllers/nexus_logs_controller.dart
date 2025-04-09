@@ -154,5 +154,9 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
   }
 
   /// Static method to toggle the search.
-  static void toggleSearch() => _instance?.setState(() => searchEnabled = !searchEnabled);
+  static void toggleSearch() {
+    if (_isDialogOpen && _instance != null) Navigator.of(_instance!.context).pop<void>();
+
+    _instance?.setState(() => searchEnabled = !searchEnabled);
+  }
 }
