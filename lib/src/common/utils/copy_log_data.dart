@@ -125,10 +125,14 @@ class CopyLogData {
       ..write('$_lines\n');
 
     final responseBody = _responseBody;
-    if (responseBody.isNotEmpty) {
+    if (responseBody.trim().isNotEmpty) {
       buffer.write('\n$responseBody');
     } else {
-      buffer.write('Response body is empty');
+      if (log.error != null) {
+        buffer.write((log.error?.response?.data as Object?).prettyJson);
+      } else {
+        buffer.write('Response body is empty');
+      }
     }
 
     return buffer.toString();
