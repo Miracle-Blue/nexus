@@ -98,9 +98,9 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
                     style: TextStyle(fontSize: 13, color: AppColors.gunmetal, fontWeight: FontWeight.w500),
                   ),
                   ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll<Color>(AppColors.magicalMalachite),
-                      foregroundColor: WidgetStatePropertyAll<Color>(AppColors.white),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll<Color>(AppColors.mainColor),
+                      foregroundColor: const WidgetStatePropertyAll<Color>(AppColors.white),
                     ),
                     onPressed: () => setState(() => _showJsonResponse = true),
                     child: const Text('Show large body'),

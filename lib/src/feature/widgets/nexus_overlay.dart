@@ -23,7 +23,7 @@ import '../screens/nexus_logs_screen.dart';
 /// - Can be easily toggled with a handle on the side of the screen
 /// - Only active in debug mode by default
 /// ------------------------------------------------------------------------------------------------
-/// - [enable]: Whether to enable the overlay (defaults to kDebugMode)
+/// - [enabled]: Whether to enable the overlay (defaults to kDebugMode)
 /// - [dio]: List of Dio instances to monitor for network activity
 /// - [duration]: Animation duration for showing/hiding the overlay
 /// - [child]: The main application widget that Nexus will wrap
@@ -51,6 +51,7 @@ class Nexus extends StatefulWidget {
     this.dio = const <Dio>[],
     this.enabled = kDebugMode,
     this.duration = const Duration(milliseconds: 250),
+    this.color,
     super.key,
   });
 
@@ -70,6 +71,11 @@ class Nexus extends StatefulWidget {
   ///
   /// Controls how quickly the overlay slides in and out.
   final Duration duration;
+
+  /// The color of the [Nexus].
+  ///
+  /// Defaults to green.
+  final Color? color;
 
   /// The child widget (the main widget of the app).
   ///
@@ -158,7 +164,7 @@ class _NexusState extends NexusOverlayController {
               width: handleWidth,
               height: 64,
               child: Material(
-                color: AppColors.magicalMalachite,
+                color: AppColors.mainColor,
                 borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
                 elevation: 0,
                 child: InkWell(

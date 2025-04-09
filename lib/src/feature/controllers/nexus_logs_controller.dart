@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/nexus_interceptor.dart';
 import '../overlays/sort_by_alert_dialog.dart';
+import '../screens/nexus_log_detail_screen.dart';
 import '../screens/nexus_logs_screen.dart';
 
 /// Abstract class for the NexusLogsScreen controller that manages the network logs.
@@ -22,6 +23,9 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
   /// Whether the search is enabled.
   static bool searchEnabled = false;
+
+  /// Whether the log detail screen is currently open.
+  static bool inLogDetailScreen = false;
 
   @override
   void initState() {
@@ -121,6 +125,8 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
   /// Show the sort by alert dialog and update the sort type.
   static Future<void> onSortLogsTap() async {
+    if (NexusLogsController.inLogDetailScreen) return;
+
     final context = _instance?.context;
     if (context == null) return;
 
@@ -152,6 +158,8 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
   /// Method to delete all network logs.
   static void onDeleteAllLogsTap() {
+    if (NexusLogsController.inLogDetailScreen) return;
+
     if (_isDialogOpen && _instance != null) Navigator.of(_instance!.context).pop<void>();
 
     _instance?.setState(networkLogs.clear);
@@ -159,8 +167,19 @@ abstract class NexusLogsController extends State<NexusLogsScreen> {
 
   /// Static method to toggle the search.
   static void toggleSearch() {
+    if (NexusLogsController.inLogDetailScreen) return;
+
     if (_isDialogOpen && _instance != null) Navigator.of(_instance!.context).pop<void>();
 
     _instance?.setState(() => searchEnabled = !searchEnabled);
+  }
+
+  /// Method to navigate to the log detail screen.
+  Future<void> onLogTap(NexusNetworkLog log) async {
+    NexusLogsController.inLogDetailScreen = true;
+
+    await Navigator.push<void>(context, CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log)));
+
+    NexusLogsController.inLogDetailScreen = false;
   }
 }

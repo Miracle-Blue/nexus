@@ -37,9 +37,10 @@ class _NexusLogDetailScreenState extends NexusLogDetailController {
         middle: const Text('NEXUS - HTTP Request detail', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
         bottom: TabBar(
           controller: tabController,
-          labelColor: AppColors.magicalMalachite,
+          labelColor: AppColors.mainColor,
           dividerHeight: 0.8,
-          indicatorColor: AppColors.magicalMalachite,
+          dividerColor: Colors.transparent,
+          indicatorColor: AppColors.mainColor,
           indicatorSize: TabBarIndicatorSize.tab,
           tabs: const [
             Tab(icon: Icon(Icons.info_outline)),
@@ -68,7 +69,7 @@ class _NexusLogDetailScreenState extends NexusLogDetailController {
               child: FloatingActionButton(
                 onPressed: onCopyLogTap,
                 tooltip: 'Copy full log',
-                backgroundColor: AppColors.magicalMalachite,
+                backgroundColor: AppColors.mainColor,
                 child: const Icon(Icons.copy_all_rounded, color: AppColors.white),
               ),
             ),

@@ -18,7 +18,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    builder: (_, child) => Nexus(dio: [_httpDio, _jsonPlaceholderDio, _mainDio], child: child ?? SizedBox.shrink()),
+    builder:
+        (_, child) =>
+            Nexus(dio: [_httpDio, _jsonPlaceholderDio, _mainDio], color: Colors.red, child: child ?? SizedBox.shrink()),
     home: MyHomePage(httpDio: _httpDio, jsonPlaceholderDio: _jsonPlaceholderDio, mainDio: _mainDio),
   );
 }

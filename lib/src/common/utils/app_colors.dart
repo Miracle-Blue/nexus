@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 /// Constant class for colors of the package
 sealed class AppColors {
   const AppColors._();
@@ -24,7 +23,7 @@ sealed class AppColors {
   static const Color grayRussian = Color(0xFF909498);
 
   /// The magical malachite color
-  static const Color magicalMalachite = Color(0xFF2ccc84);
+  static Color mainColor = const Color(0xFF2ccc84);
 
   /// The red light color
   static const Color redLight = Color(0xFFffecec);

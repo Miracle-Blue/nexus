@@ -129,11 +129,7 @@ class _HtmlRendererState extends State<HtmlRenderer> {
           onTap: () => Helpers.copyAndShowSnackBar(context, contentToCopy: href),
           child: Text(
             element.text,
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.magicalMalachite,
-              decoration: TextDecoration.underline,
-            ),
+            style:  TextStyle(fontSize: 16, color: AppColors.mainColor, decoration: TextDecoration.underline),
           ),
         );
 
@@ -311,7 +307,7 @@ class _HtmlRendererState extends State<HtmlRenderer> {
             spans.add(
               TextSpan(
                 text: node.text,
-                style: const TextStyle(color: AppColors.magicalMalachite, decoration: TextDecoration.underline),
+                style:  TextStyle(color: AppColors.mainColor, decoration: TextDecoration.underline),
                 recognizer:
                     TapGestureRecognizer()..onTap = () => Helpers.copyAndShowSnackBar(context, contentToCopy: href),
               ),

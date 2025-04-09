@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../nexus.dart';
+import '../../common/utils/app_colors.dart';
 import '../../common/utils/nexus_animation_controller.dart';
 import 'nexus_logs_controller.dart';
 
@@ -18,6 +19,9 @@ abstract class NexusOverlayController extends State<Nexus> with SingleTickerProv
   @override
   void initState() {
     super.initState();
+
+    AppColors.mainColor = widget.color ?? AppColors.mainColor;
+
     controller = NexusToolsController(value: 0, duration: widget.duration, vsync: this);
     controller.addStatusListener(_onStatusChanged);
     _onStatusChanged(controller.status);

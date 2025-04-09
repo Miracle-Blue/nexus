@@ -7,23 +7,21 @@ import '../../common/extension/duration_extension.dart';
 import '../../common/models/nexus_network_log.dart';
 import '../../common/utils/app_colors.dart';
 import '../../common/utils/helpers.dart';
-import '../screens/nexus_log_detail_screen.dart';
 
 /// A widget that displays a button for a network log.
 class LogButton extends StatelessWidget {
   /// Constructor for the [LogButton] class.
-  const LogButton({required this.log, super.key});
+  const LogButton({required this.log, required this.onLogTap, super.key});
 
   /// The network log to display
   final NexusNetworkLog log;
 
+  /// The function to call when the log button is pressed.
+  final void Function(NexusNetworkLog log) onLogTap;
+
   @override
   Widget build(BuildContext context) => CupertinoButton(
-    onPressed:
-        () => Navigator.push<void>(
-          context,
-          CupertinoPageRoute<void>(builder: (context) => NexusLogDetailScreen(log: log)),
-        ),
+    onPressed: () => onLogTap(log),
     onLongPress: () => Helpers.copyAndShowSnackBar(context, contentToCopy: log.request.toCurlString()),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
     child: Material(
@@ -121,7 +119,7 @@ class LogButton extends StatelessWidget {
                     style: TextStyle(
                       color: switch (log.response?.statusCode) {
                         _ when 200 <= (log.response?.statusCode ?? 0) && (log.response?.statusCode ?? 0) < 300 =>
-                          AppColors.magicalMalachite,
+                          const Color(0xFF2ccc84),
                         _ => AppColors.red,
                       },
                       fontWeight: FontWeight.w700,

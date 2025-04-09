@@ -176,9 +176,9 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
                     "If you're feeling lucky, try the button below to render body as text, but it may fail or could potentially crash the app.",
               ),
               ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll<Color>(AppColors.magicalMalachite),
-                  foregroundColor: WidgetStatePropertyAll<Color>(AppColors.white),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll<Color>(AppColors.mainColor),
+                  foregroundColor: const WidgetStatePropertyAll<Color>(AppColors.white),
                 ),
                 onPressed: () => setState(() => _showUnsupportedBody = true),
                 child: const Text('Show unsupported body'),

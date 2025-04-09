@@ -62,6 +62,7 @@ class _NexusLogsScreenState extends NexusLogsController {
               itemBuilder:
                   (context, index) => LogButton(
                     log: NexusLogsController.networkLogs[NexusLogsController.networkLogs.length - 1 - index],
+                    onLogTap: onLogTap,
                   ),
             ),
           },

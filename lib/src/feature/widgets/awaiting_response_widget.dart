@@ -16,9 +16,9 @@ class AwaitingResponseWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircularProgressIndicator(
+          CircularProgressIndicator(
             backgroundColor: AppColors.white,
-            color: AppColors.magicalMalachite,
+            color: AppColors.mainColor,
             strokeCap: StrokeCap.round,
           ),
           const SizedBox(height: 8),
