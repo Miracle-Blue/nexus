@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../common/extension/object_extension.dart';
 import '../../common/models/nexus_network_log.dart';
@@ -55,7 +56,10 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
       controller: PrimaryScrollController.of(context),
       child: ListView(
         children: [
-          ListRowItem(name: 'Received', value: Helpers.formatBytes(widget.log.receiveBytes)),
+          ListRowItem(
+            name: 'Received',
+            value: DateFormat('dd-MM-yyyy │ HH:mm:ss:SSS').format(widget.log.receiveTime ?? DateTime.now()),
+          ),
           ListRowItem(name: 'Bytes received', value: Helpers.formatBytes(widget.log.receiveBytes)),
           ListRowItem(name: 'Status', value: widget.log.response?.statusCode.toString()),
           ListRowItem(name: 'Content-Type', value: _contentType),
