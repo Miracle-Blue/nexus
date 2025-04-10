@@ -195,7 +195,7 @@ class _NexusState extends NexusOverlayController {
             builder: (context, constraints) {
               final biggest = constraints.biggest;
               // Calculate width of overlay panel, capped at 400 or 99% of screen width
-              final width = math.min<double>(400, biggest.width * 0.99);
+              final width = math.min<double>(500, biggest.width * 0.99);
 
               return GestureDetector(
                 // Handle drag gestures to manually slide the overlay
