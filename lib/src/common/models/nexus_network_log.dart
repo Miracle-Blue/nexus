@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../extension/string_extension.dart';
 
 /// Model class to store network request/response data
-final class NexusNetworkLog extends Equatable {
+@immutable
+final class NexusNetworkLog {
   /// Constructor for the [NexusNetworkLog] class.
   NexusNetworkLog({
     required this.request,
@@ -47,6 +47,7 @@ final class NexusNetworkLog extends Equatable {
 
   /// The number of bytes received
   final int? receiveBytes;
+
   /// UUID of the log
   final String id;
 
@@ -81,18 +82,34 @@ final class NexusNetworkLog extends Equatable {
   );
 
   @override
-  List<Object?> get props => <Object?>[
-    sendTime,
-    receiveTime,
-    request,
-    response,
-    error,
-    duration,
-    isLoading,
-    id,
-    sendBytes,
-    receiveBytes,
-  ];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is NexusNetworkLog &&
+        other.id == id &&
+        other.sendTime == sendTime &&
+        other.receiveTime == receiveTime &&
+        other.request == request &&
+        other.response == response &&
+        other.error == error &&
+        other.duration == duration &&
+        other.isLoading == isLoading &&
+        other.sendBytes == sendBytes &&
+        other.receiveBytes == receiveBytes;
+  }
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      sendTime.hashCode ^
+      receiveTime.hashCode ^
+      request.hashCode ^
+      response.hashCode ^
+      error.hashCode ^
+      duration.hashCode ^
+      isLoading.hashCode ^
+      sendBytes.hashCode ^
+      receiveBytes.hashCode;
 
   @override
   String toString() =>

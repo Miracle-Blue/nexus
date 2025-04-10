@@ -12,13 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  intl: any
-  dio: any
-  uuid: any
-  equatable: any
-  html: any
+  intl: ^0.20.2
+  dio: ^5.8.0+1
+  uuid: ^4.5.1
+  html: ^0.15.5+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: any
+  flutter_lints: ^5.0.0
