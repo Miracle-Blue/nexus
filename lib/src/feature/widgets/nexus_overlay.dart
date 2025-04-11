@@ -199,8 +199,8 @@ class _NexusState extends NexusOverlayController {
 
               return GestureDetector(
                 // Handle drag gestures to manually slide the overlay
-                onHorizontalDragUpdate: (details) => onHorizontalDragUpdate(details, width),
-                onHorizontalDragEnd: onHorizontalDragEnd,
+                onHorizontalDragUpdate: dismissed ? null : (details) => onHorizontalDragUpdate(details, width),
+                onHorizontalDragEnd: dismissed ? null : onHorizontalDragEnd,
                 child: Stack(
                   children: <Widget>[
                     // The main app content
