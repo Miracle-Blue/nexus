@@ -2,14 +2,12 @@
 
 A powerful Flutter debug overlay for monitoring network requests in real-time. Thunder provides a convenient slide-out panel that shows all network interactions from your Dio HTTP clients.
 
-<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;">
-  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_1.png" alt="Thunder Overview" width="16%" />
-  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_2.png" alt="Thunder Request Details" width="16%" />
-  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_3.png" alt="Thunder Response View" width="16%" />
-  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_4.png" alt="Thunder Search Feature" width="16%" />
-  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_5.png" alt="Thunder Search Feature" width="16%" />
-  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_6.png" alt="Thunder Search Feature" width="16%" />
-</div>
+![Thunder Overview](https://raw.githubusercontent.com/Miracle-Blue/thunder/dev/screenshots/screenshot_1.png)
+![Thunder Request Details](https://raw.githubusercontent.com/Miracle-Blue/thunder/dev/screenshots/screenshot_2.png)
+![Thunder Response View](https://raw.githubusercontent.com/Miracle-Blue/thunder/dev/screenshots/screenshot_3.png)
+![Thunder Search Feature](https://raw.githubusercontent.com/Miracle-Blue/thunder/dev/screenshots/screenshot_4.png)
+![Thunder Search Feature](https://raw.githubusercontent.com/Miracle-Blue/thunder/dev/screenshots/screenshot_5.png)
+![Thunder Search Feature](https://raw.githubusercontent.com/Miracle-Blue/thunder/dev/screenshots/screenshot_6.png)
 
 
 ## Features
