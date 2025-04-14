@@ -9,7 +9,8 @@ class JsonViewerUtils {
   const JsonViewerUtils._();
 
   /// Returns true if [content] is expandable (i.e. a Map or List).
-  static bool isExpandable(Object? content) => content is Map || content is List;
+  static bool isExpandable(Object? content) =>
+      content is Map || content is List;
 
   /// Returns true if the widget should have InkWell (interactive) behavior.
   // For primitives (int, String, bool, double), we don't need InkWell.
@@ -55,7 +56,11 @@ class JsonViewer extends StatelessWidget {
 /// Widget for viewing JSON objects (Maps).
 class JsonObjectViewer extends StatefulWidget {
   /// Constructor for the [JsonObjectViewer] class.
-  const JsonObjectViewer({required this.jsonObj, super.key, this.notRoot = false});
+  const JsonObjectViewer({
+    required this.jsonObj,
+    super.key,
+    this.notRoot = false,
+  });
 
   /// The JSON object to display
   final Map<String, Object?> jsonObj;
@@ -73,8 +78,10 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
   final Map<String, bool> _openFlags = {};
 
   @override
-  Widget build(BuildContext context) =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: _buildContentList());
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: _buildContentList(),
+  );
 
   /// Builds a list of rows representing each key-value pair.
   List<Widget> _buildContentList() =>
@@ -93,11 +100,16 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
                 // If expandable, show a toggle icon.
                 if (expandable)
                   InkWell(
-                    onTap: () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
+                    onTap:
+                        () => setState(
+                          () => _openFlags[key] = !(_openFlags[key] ?? false),
+                        ),
                     borderRadius: BorderRadius.circular(16),
 
                     child: Icon(
-                      _openFlags[key] ?? false ? Icons.arrow_drop_down : Icons.arrow_right,
+                      _openFlags[key] ?? false
+                          ? Icons.arrow_drop_down
+                          : Icons.arrow_right,
                       color: Colors.grey[700],
                     ),
                   )
@@ -123,7 +135,10 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
 
             // If expanded, render nested content.
             if (expandable && (_openFlags[key] ?? false))
-              Padding(padding: const EdgeInsets.only(left: 14), child: _buildContentWidget(value)),
+              Padding(
+                padding: const EdgeInsets.only(left: 14),
+                child: _buildContentWidget(value),
+              ),
           ],
         );
       }).toList();
@@ -131,25 +146,41 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
   /// Returns a widget showing a preview for the given [value].
   Widget _buildValuePreview(String key, Object? value) {
     if (value == null) {
-      return const SelectableText('undefined', style: TextStyle(color: Colors.grey, fontSize: 12));
+      return const SelectableText(
+        'undefined',
+        style: TextStyle(color: Colors.grey, fontSize: 12),
+      );
     } else if (value is int || value is double) {
-      return SelectableText(value.toString(), style: const TextStyle(color: Color(0xff6491b3), fontSize: 12));
+      return SelectableText(
+        value.toString(),
+        style: const TextStyle(color: Color(0xff6491b3), fontSize: 12),
+      );
     } else if (value is String) {
-      return SelectableText('"$value"', style: const TextStyle(color: Color(0xff6a8759), fontSize: 12));
+      return SelectableText(
+        '"$value"',
+        style: const TextStyle(color: Color(0xff6a8759), fontSize: 12),
+      );
     } else if (value is bool) {
-      return SelectableText(value.toString(), style: const TextStyle(color: Color(0xffca7832), fontSize: 12));
+      return SelectableText(
+        value.toString(),
+        style: const TextStyle(color: Color(0xffca7832), fontSize: 12),
+      );
     } else if (value is List) {
       if (value.isEmpty) {
         return _buildCopyableText(
           context: context,
           text: 'Array[0]',
-          onTap: () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
+          onTap:
+              () =>
+                  setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
         );
       }
       return _buildCopyableText(
         context: context,
-        text: 'Array<${JsonViewerUtils.getTypeName(value.first)}>[${value.length}]',
-        onTap: () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
+        text:
+            'Array<${JsonViewerUtils.getTypeName(value.first)}>[${value.length}]',
+        onTap:
+            () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
       );
     }
 
@@ -157,17 +188,22 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
     return _buildCopyableText(
       context: context,
       text: 'Object',
-      onTap: () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
+      onTap:
+          () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
     );
   }
 
   /// Wraps text in an InkWell to allow tap and double-tap (copy) functionality.
-  Widget _buildCopyableText({required BuildContext context, required String text, required VoidCallback onTap}) =>
-      GestureDetector(
-        onTap: onTap,
-        onDoubleTap: () => Helpers.copyAndShowSnackBar(context, contentToCopy: text),
-        child: Text(text, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-      );
+  Widget _buildCopyableText({
+    required BuildContext context,
+    required String text,
+    required VoidCallback onTap,
+  }) => GestureDetector(
+    onTap: onTap,
+    onDoubleTap:
+        () => Helpers.copyAndShowSnackBar(context, contentToCopy: text),
+    child: Text(text, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+  );
 
   /// Returns a widget for nested JSON content.
   Widget _buildContentWidget(Object? content) {
@@ -183,7 +219,11 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
 /// Widget for viewing JSON arrays (Lists).
 class JsonArrayViewer extends StatefulWidget {
   /// Constructor for the [JsonArrayViewer] class.
-  const JsonArrayViewer({required this.jsonArray, super.key, this.notRoot = false});
+  const JsonArrayViewer({
+    required this.jsonArray,
+    super.key,
+    this.notRoot = false,
+  });
 
   /// The JSON array to display
   final List<Object?> jsonArray;
@@ -208,59 +248,83 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
   @override
   Widget build(BuildContext context) {
     final contentWidgets = _buildContentList();
-    final child = Column(crossAxisAlignment: CrossAxisAlignment.start, children: contentWidgets);
+    final child = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: contentWidgets,
+    );
 
-    return widget.notRoot ? Padding(padding: const EdgeInsets.only(left: 14), child: child) : child;
+    return widget.notRoot
+        ? Padding(padding: const EdgeInsets.only(left: 14), child: child)
+        : child;
   }
 
   /// Builds a list of rows for each array element.
-  List<Widget> _buildContentList() => List<Widget>.generate(widget.jsonArray.length, (i) {
-    final value = widget.jsonArray[i];
-    final expandable = JsonViewerUtils.isExpandable(value);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Row for index and value preview.
-        Row(
+  List<Widget> _buildContentList() =>
+      List<Widget>.generate(widget.jsonArray.length, (i) {
+        final value = widget.jsonArray[i];
+        final expandable = JsonViewerUtils.isExpandable(value);
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (expandable)
-              InkWell(
-                onTap: () => setState(() => _openFlags[i] = !_openFlags[i]),
-                borderRadius: BorderRadius.circular(16),
-                child: Icon(_openFlags[i] ? Icons.arrow_drop_down : Icons.arrow_right, color: Colors.grey[700]),
-              )
-            else
-              const SizedBox(width: 24),
-            SelectableText(
-              '[$i]',
-              style: TextStyle(
-                color: value == null ? Colors.grey : Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
+            // Row for index and value preview.
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (expandable)
+                  InkWell(
+                    onTap: () => setState(() => _openFlags[i] = !_openFlags[i]),
+                    borderRadius: BorderRadius.circular(16),
+                    child: Icon(
+                      _openFlags[i] ? Icons.arrow_drop_down : Icons.arrow_right,
+                      color: Colors.grey[700],
+                    ),
+                  )
+                else
+                  const SizedBox(width: 24),
+                SelectableText(
+                  '[$i]',
+                  style: TextStyle(
+                    color: value == null ? Colors.grey : Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+                const Text(': ', style: TextStyle(color: Colors.grey)),
+                Expanded(child: _buildValuePreview(i, value)),
+              ],
             ),
-            const Text(': ', style: TextStyle(color: Colors.grey)),
-            Expanded(child: _buildValuePreview(i, value)),
+            // Render nested content if expanded.
+            if (expandable && _openFlags[i])
+              Padding(
+                padding: const EdgeInsets.only(left: 14),
+                child: _buildContentWidget(value),
+              ),
           ],
-        ),
-        // Render nested content if expanded.
-        if (expandable && _openFlags[i])
-          Padding(padding: const EdgeInsets.only(left: 14), child: _buildContentWidget(value)),
-      ],
-    );
-  });
+        );
+      });
 
   /// Returns a preview widget for the array element at [index].
   Widget _buildValuePreview(int index, Object? value) {
     if (value == null) {
-      return const SelectableText('undefined', style: TextStyle(color: Colors.grey));
+      return const SelectableText(
+        'undefined',
+        style: TextStyle(color: Colors.grey),
+      );
     } else if (value is int || value is double) {
-      return SelectableText(value.toString(), style: const TextStyle(color: Color(0xff6491b3)));
+      return SelectableText(
+        value.toString(),
+        style: const TextStyle(color: Color(0xff6491b3)),
+      );
     } else if (value is String) {
-      return SelectableText('"$value"', style: const TextStyle(color: Color(0xff6a8759)));
+      return SelectableText(
+        '"$value"',
+        style: const TextStyle(color: Color(0xff6a8759)),
+      );
     } else if (value is bool) {
-      return SelectableText(value.toString(), style: const TextStyle(color: Color(0xffca7832)));
+      return SelectableText(
+        value.toString(),
+        style: const TextStyle(color: Color(0xffca7832)),
+      );
     } else if (value is List) {
       if (value.isEmpty) {
         return _buildCopyableText(
@@ -271,7 +335,8 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
       }
       return _buildCopyableText(
         context: context,
-        text: 'Array<${JsonViewerUtils.getTypeName(value.first)}>[${value.length}]',
+        text:
+            'Array<${JsonViewerUtils.getTypeName(value.first)}>[${value.length}]',
         onTap: () => setState(() => _openFlags[index] = !_openFlags[index]),
       );
     }
@@ -284,12 +349,16 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
   }
 
   /// Wraps [text] in an InkWell for tap and double-tap (copy) behavior.
-  Widget _buildCopyableText({required BuildContext context, required String text, required VoidCallback onTap}) =>
-      InkWell(
-        onTap: onTap,
-        onDoubleTap: () => Helpers.copyAndShowSnackBar(context, contentToCopy: text),
-        child: Text(text, style: const TextStyle(color: Colors.grey)),
-      );
+  Widget _buildCopyableText({
+    required BuildContext context,
+    required String text,
+    required VoidCallback onTap,
+  }) => InkWell(
+    onTap: onTap,
+    onDoubleTap:
+        () => Helpers.copyAndShowSnackBar(context, contentToCopy: text),
+    child: Text(text, style: const TextStyle(color: Colors.grey)),
+  );
 
   /// Returns a widget for nested JSON content.
   Widget _buildContentWidget(Object? content) {

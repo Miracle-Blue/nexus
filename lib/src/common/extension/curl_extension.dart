@@ -12,7 +12,8 @@ import 'package:dio/dio.dart' show RequestOptions, FormData;
 extension CurlExtension on RequestOptions {
   /// Convert the request options to a complete curl command string
   String toCurlString() {
-    final curl = StringBuffer("curl -X '$method'")..write(" \\\n\t '${uri.toString()}'");
+    final curl = StringBuffer("curl -X '$method'")
+      ..write(" \\\n\t '${uri.toString()}'");
 
     // Add all headers
     headers.forEach((k, v) {

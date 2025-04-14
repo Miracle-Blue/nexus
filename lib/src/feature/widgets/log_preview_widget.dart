@@ -48,7 +48,10 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _buildResponsePreview()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _buildResponsePreview(),
+              ),
             ),
           ),
         ),
@@ -65,9 +68,19 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
       rows.addAll(_buildBodyRows());
     } else if (widget.log.error != null) {
       rows.addAll([
-        const Row(children: [Text('Error Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))]),
+        const Row(
+          children: [
+            Text(
+              'Error Details',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ],
+        ),
         const SizedBox(height: 8),
-        ListRowItem(name: 'Error', value: widget.log.error?.toString() ?? 'Unknown error'),
+        ListRowItem(
+          name: 'Error',
+          value: widget.log.error?.toString() ?? 'Unknown error',
+        ),
       ]);
     }
 
@@ -82,7 +95,9 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
     if (_isImageResponse()) {
       return _buildImageBodyRows();
     } else if (_isTextResponse()) {
-      return _isLargeResponseBody() ? _buildLargeBodyTextRows() : _buildTextBodyRows();
+      return _isLargeResponseBody()
+          ? _buildLargeBodyTextRows()
+          : _buildTextBodyRows();
     } else {
       return _buildUnknownBodyRows();
     }
@@ -92,7 +107,11 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
   List<Widget> _buildImageBodyRows() => [
     Column(
       children: [
-        const Row(children: [Text('Body: Image', style: TextStyle(fontWeight: FontWeight.bold))]),
+        const Row(
+          children: [
+            Text('Body: Image', style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
         const SizedBox(height: 8),
         Image.network(
           widget.log.request.uri.toString(),
@@ -102,7 +121,10 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
             // Show a progress indicator until image is loaded.
             if (loadingProgress == null) return child;
             final expected = loadingProgress.expectedTotalBytes ?? 0;
-            final progress = expected > 0 ? loadingProgress.cumulativeBytesLoaded / expected : null;
+            final progress =
+                expected > 0
+                    ? loadingProgress.cumulativeBytesLoaded / expected
+                    : null;
             return Center(child: CircularProgressIndicator(value: progress));
           },
         ),
@@ -177,8 +199,12 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll<Color>(AppColors.mainColor),
-                  foregroundColor: const WidgetStatePropertyAll<Color>(AppColors.white),
+                  backgroundColor: WidgetStatePropertyAll<Color>(
+                    AppColors.mainColor,
+                  ),
+                  foregroundColor: const WidgetStatePropertyAll<Color>(
+                    AppColors.white,
+                  ),
                 ),
                 onPressed: () => setState(() => _showUnsupportedBody = true),
                 child: const Text('Show unsupported body'),
@@ -192,13 +218,15 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
   }
 
   /// Extracts request headers from the log as a simple Map.
-  Map<String, String> _buildRequestHeaders() =>
-      widget.log.request.headers.map((key, value) => MapEntry(key, value.toString()));
+  Map<String, String> _buildRequestHeaders() => widget.log.request.headers.map(
+    (key, value) => MapEntry(key, value.toString()),
+  );
 
   /// Checks if the response content type is an image.
   bool _isImageResponse() {
     final contentType = _getContentTypeOfResponse();
-    return contentType != null && contentType.toLowerCase().contains(_imageContentType);
+    return contentType != null &&
+        contentType.toLowerCase().contains(_imageContentType);
   }
 
   /// Checks if the response content type is a text-based type.
@@ -206,7 +234,9 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
     final contentType = _getContentTypeOfResponse();
     if (contentType == null) return true;
     final lower = contentType.toLowerCase();
-    return lower.contains(_jsonContentType) || lower.contains(_xmlContentType) || lower.contains(_textContentType);
+    return lower.contains(_jsonContentType) ||
+        lower.contains(_xmlContentType) ||
+        lower.contains(_textContentType);
   }
 
   /// Returns the content type from the response headers.
@@ -217,9 +247,12 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
 
   /// Retrieves the content type header from a headers map.
   String? _getContentType(Map<String, Object?> headers) {
-    final contentTypeHeader = headers['content-type'] ?? headers['Content-Type'];
+    final contentTypeHeader =
+        headers['content-type'] ?? headers['Content-Type'];
     if (contentTypeHeader is List) {
-      return contentTypeHeader.isNotEmpty ? contentTypeHeader.first.toString() : null;
+      return contentTypeHeader.isNotEmpty
+          ? contentTypeHeader.first.toString()
+          : null;
     }
     return contentTypeHeader?.toString();
   }

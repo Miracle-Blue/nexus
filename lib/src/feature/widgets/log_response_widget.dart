@@ -24,7 +24,9 @@ class LogResponseWidget extends StatefulWidget {
 class _LogResponseWidgetState extends State<LogResponseWidget> {
   bool _showJsonResponse = true;
   late Future<String> _jsonResponse;
-  String get _contentType => widget.log.response?.headers['content-type']?.first ?? 'content-type not found';
+  String get _contentType =>
+      widget.log.response?.headers['content-type']?.first ??
+      'content-type not found';
 
   @override
   void initState() {
@@ -58,10 +60,18 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
         children: [
           ListRowItem(
             name: 'Received',
-            value: DateFormat('dd-MM-yyyy │ HH:mm:ss:SSS').format(widget.log.receiveTime ?? DateTime.now()),
+            value: DateFormat(
+              'dd-MM-yyyy │ HH:mm:ss:SSS',
+            ).format(widget.log.receiveTime ?? DateTime.now()),
           ),
-          ListRowItem(name: 'Bytes received', value: Helpers.formatBytes(widget.log.receiveBytes)),
-          ListRowItem(name: 'Status', value: widget.log.response?.statusCode.toString()),
+          ListRowItem(
+            name: 'Bytes received',
+            value: Helpers.formatBytes(widget.log.receiveBytes),
+          ),
+          ListRowItem(
+            name: 'Status',
+            value: widget.log.response?.statusCode.toString(),
+          ),
           ListRowItem(name: 'Content-Type', value: _contentType),
 
           /// Checking whether data is not null, not html, json response is enabled, and error is null.
@@ -82,7 +92,9 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
                     ),
                     _ => SizedBox(
                       height: MediaQuery.of(context).size.height * 0.5,
-                      child: const AwaitingResponseWidget(message: 'Rendering JSON...'),
+                      child: const AwaitingResponseWidget(
+                        message: 'Rendering JSON...',
+                      ),
                     ),
                   },
             ),
@@ -95,12 +107,20 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
                 children: [
                   const Text(
                     'The response body is too large to display automatically. Showing it may take a long time or could potentially crash the app.',
-                    style: TextStyle(fontSize: 13, color: AppColors.gunmetal, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.gunmetal,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll<Color>(AppColors.mainColor),
-                      foregroundColor: const WidgetStatePropertyAll<Color>(AppColors.white),
+                      backgroundColor: WidgetStatePropertyAll<Color>(
+                        AppColors.mainColor,
+                      ),
+                      foregroundColor: const WidgetStatePropertyAll<Color>(
+                        AppColors.white,
+                      ),
                     ),
                     onPressed: () => setState(() => _showJsonResponse = true),
                     child: const Text('Show large body'),
@@ -113,11 +133,16 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
           if (_contentType.contains('html')) ...[
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text('HTML Response', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              child: Text(
+                'HTML Response',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
-              child: HtmlRenderer(htmlContent: widget.log.response?.data.toString() ?? ''),
+              child: HtmlRenderer(
+                htmlContent: widget.log.response?.data.toString() ?? '',
+              ),
             ),
           ],
 
@@ -126,15 +151,25 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
               padding: EdgeInsets.all(6),
               child: Text(
                 'ERROR details',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.red),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.red,
+                ),
               ),
             ),
 
             /// When error data is html, we need to show the error data as html.
-            if (widget.log.error?.response?.data.toString().contains('!DOCTYPE html') ?? false)
+            if (widget.log.error?.response?.data.toString().contains(
+                  '!DOCTYPE html',
+                ) ??
+                false)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
-                child: HtmlRenderer(htmlContent: widget.log.error?.response?.data.toString() ?? ''),
+                child: HtmlRenderer(
+                  htmlContent:
+                      widget.log.error?.response?.data.toString() ?? '',
+                ),
               )
             else
               ListRowItem(
@@ -143,8 +178,15 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
                 isJson: true,
               ),
 
-            ListRowItem(name: 'Error message', value: widget.log.error?.message.toString(), isJson: true),
-            ListRowItem(name: 'Error type', value: widget.log.error?.runtimeType.toString()),
+            ListRowItem(
+              name: 'Error message',
+              value: widget.log.error?.message.toString(),
+              isJson: true,
+            ),
+            ListRowItem(
+              name: 'Error type',
+              value: widget.log.error?.runtimeType.toString(),
+            ),
           ],
         ],
       ),

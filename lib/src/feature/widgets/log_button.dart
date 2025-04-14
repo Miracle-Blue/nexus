@@ -22,7 +22,11 @@ class LogButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CupertinoButton(
     onPressed: () => onLogTap(log),
-    onLongPress: () => Helpers.copyAndShowSnackBar(context, contentToCopy: log.request.toCurlString()),
+    onLongPress:
+        () => Helpers.copyAndShowSnackBar(
+          context,
+          contentToCopy: log.request.toCurlString(),
+        ),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
     child: Material(
       elevation: 3,
@@ -44,7 +48,11 @@ class LogButton extends StatelessWidget {
                 children: [
                   /// For secure request
                   if (log.request.baseUrl.contains('https')) ...[
-                    const Icon(Icons.lock_outline_rounded, size: 10, color: AppColors.red),
+                    const Icon(
+                      Icons.lock_outline_rounded,
+                      size: 10,
+                      color: AppColors.red,
+                    ),
                     const SizedBox(width: 4),
                   ],
 
@@ -52,7 +60,11 @@ class LogButton extends StatelessWidget {
                   Expanded(
                     child: Text(
                       log.request.baseUrl,
-                      style: const TextStyle(color: AppColors.grayRussian, fontSize: 10, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        color: AppColors.grayRussian,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -69,7 +81,11 @@ class LogButton extends StatelessWidget {
                     log.request.path,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: AppColors.lavaStone, fontSize: 12, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                      color: AppColors.lavaStone,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
 
@@ -77,7 +93,11 @@ class LogButton extends StatelessWidget {
                 if (!log.isLoading)
                   Text(
                     '${Helpers.formatBytes(log.sendBytes)} / ${Helpers.formatBytes(log.receiveBytes)}',
-                    style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.black,
+                    ),
                   ),
               ],
             ),
@@ -90,10 +110,17 @@ class LogButton extends StatelessWidget {
                 Container(
                   width: 60,
                   padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(color: log.methodColor, borderRadius: BorderRadius.circular(6)),
+                  decoration: BoxDecoration(
+                    color: log.methodColor,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                   child: Text(
                     log.request.method,
-                    style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w500, fontSize: 11),
+                    style: const TextStyle(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -101,7 +128,11 @@ class LogButton extends StatelessWidget {
                 /// Request Time | Request duration
                 Text(
                   "${DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now())}${log.isLoading ? '' : '  │  ${log.duration.formatCompactDuration}'}",
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.black),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.black,
+                  ),
                 ),
 
                 switch (log.isLoading) {
@@ -115,10 +146,14 @@ class LogButton extends StatelessWidget {
                     ),
                   ),
                   false => Text(
-                    log.response?.statusCode.toString() ?? log.error?.response?.statusCode.toString() ?? 'null',
+                    log.response?.statusCode.toString() ??
+                        log.error?.response?.statusCode.toString() ??
+                        'null',
                     style: TextStyle(
                       color: switch (log.response?.statusCode) {
-                        _ when 200 <= (log.response?.statusCode ?? 0) && (log.response?.statusCode ?? 0) < 300 =>
+                        _
+                            when 200 <= (log.response?.statusCode ?? 0) &&
+                                (log.response?.statusCode ?? 0) < 300 =>
                           const Color(0xFF2ccc84),
                         _ => AppColors.red,
                       },

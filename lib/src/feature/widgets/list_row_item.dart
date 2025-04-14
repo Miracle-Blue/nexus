@@ -34,9 +34,13 @@ class ListRowItem extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     children: [
       Padding(
-        padding: EdgeInsets.symmetric(vertical: showCopyButton ? 0 : 8, horizontal: 6),
+        padding: EdgeInsets.symmetric(
+          vertical: showCopyButton ? 0 : 8,
+          horizontal: 6,
+        ),
         child: Row(
-          crossAxisAlignment: isJson ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+          crossAxisAlignment:
+              isJson ? CrossAxisAlignment.start : CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             /// If the value is JSON, display it in a column.
@@ -46,12 +50,19 @@ class ListRowItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (name != null && (name?.isNotEmpty ?? false)) ...[
-                      SelectableText('$name:', style: const TextStyle(fontWeight: FontWeight.bold)),
+                      SelectableText(
+                        '$name:',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(width: 4),
                     ],
                     SelectableText(
                       value ?? 'null',
-                      style: const TextStyle(fontSize: 12.5, color: AppColors.gunmetal, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        fontSize: 12.5,
+                        color: AppColors.gunmetal,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
@@ -61,13 +72,20 @@ class ListRowItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (name != null && (name?.isNotEmpty ?? false)) ...[
-                      SelectableText('$name:', style: const TextStyle(fontWeight: FontWeight.bold)),
+                      SelectableText(
+                        '$name:',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(width: 4),
                     ],
                     Flexible(
                       child: SelectableText(
                         value ?? 'null',
-                        style: const TextStyle(fontSize: 12.5, color: AppColors.gunmetal, fontWeight: FontWeight.w500),
+                        style: const TextStyle(
+                          fontSize: 12.5,
+                          color: AppColors.gunmetal,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -76,15 +94,21 @@ class ListRowItem extends StatelessWidget {
             },
             if (showCopyButton || isJson)
               IconButton(
-                onPressed: () => Helpers.copyAndShowSnackBar(context, contentToCopy: value ?? 'null'),
+                onPressed:
+                    () => Helpers.copyAndShowSnackBar(
+                      context,
+                      contentToCopy: value ?? 'null',
+                    ),
                 onLongPress: switch (isJson) {
                   true =>
                     () => Helpers.copyAndShowSnackBar(
                       context,
                       contentToCopy: () {
                         var isJson =
-                            (value?.startsWith('{') ?? false) && (value?.endsWith('}') ?? false) ||
-                            (value?.startsWith('[') ?? false) && (value?.endsWith(']') ?? false);
+                            (value?.startsWith('{') ?? false) &&
+                                (value?.endsWith('}') ?? false) ||
+                            (value?.startsWith('[') ?? false) &&
+                                (value?.endsWith(']') ?? false);
 
                         return isJson ? '```json\n$value\n```' : value ?? '';
                       }(),

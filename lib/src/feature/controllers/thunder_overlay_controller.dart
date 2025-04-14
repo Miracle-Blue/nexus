@@ -6,7 +6,8 @@ import '../../common/utils/thunder_animation_controller.dart';
 import 'thunder_logs_controller.dart';
 
 /// Abstract class that extends [State] and [SingleTickerProviderStateMixin] and helps to control the [Thunder]
-abstract class ThunderOverlayController extends State<Thunder> with SingleTickerProviderStateMixin {
+abstract class ThunderOverlayController extends State<Thunder>
+    with SingleTickerProviderStateMixin {
   /// Animation controller for the [Thunder]
   late final ThunderToolsController controller;
 
@@ -22,7 +23,11 @@ abstract class ThunderOverlayController extends State<Thunder> with SingleTicker
 
     AppColors.mainColor = widget.color ?? AppColors.mainColor;
 
-    controller = ThunderToolsController(value: 0, duration: widget.duration, vsync: this);
+    controller = ThunderToolsController(
+      value: 0,
+      duration: widget.duration,
+      vsync: this,
+    );
     controller.addStatusListener(_onStatusChanged);
     _onStatusChanged(controller.status);
   }
@@ -56,7 +61,8 @@ abstract class ThunderOverlayController extends State<Thunder> with SingleTicker
       if (dismissed) return;
       setState(() => dismissed = true);
 
-      if (ThunderLogsController.searchEnabled) ThunderLogsController.toggleSearch();
+      if (ThunderLogsController.searchEnabled)
+        ThunderLogsController.toggleSearch();
 
       // Unfocus keyboard when the overlay is dismissed
       FocusManager.instance.primaryFocus?.unfocus();
@@ -75,12 +81,14 @@ abstract class ThunderOverlayController extends State<Thunder> with SingleTicker
     final isRtl = Directionality.of(context) == TextDirection.rtl;
     final isLtr = Directionality.of(context) == TextDirection.ltr;
 
-    if (dismissed && (isRtl ? delta < 0 : delta > 0) || !dismissed && (isRtl ? delta > 0 : delta < 0)) {
+    if (dismissed && (isRtl ? delta < 0 : delta > 0) ||
+        !dismissed && (isRtl ? delta > 0 : delta < 0)) {
       final newValue = controller.value + delta / width * (isRtl ? -1 : 1);
       controller.value = newValue.clamp(0.0, 1.0);
     }
 
-    if (dismissed && (isLtr ? delta < 0 : delta > 0) || !dismissed && (isLtr ? delta > 0 : delta < 0)) {
+    if (dismissed && (isLtr ? delta < 0 : delta > 0) ||
+        !dismissed && (isLtr ? delta > 0 : delta < 0)) {
       final newValue = controller.value - delta / width * (isLtr ? -1 : 1);
       controller.value = newValue.clamp(0.0, 1.0);
     }

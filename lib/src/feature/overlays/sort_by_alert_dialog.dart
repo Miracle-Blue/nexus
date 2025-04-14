@@ -39,8 +39,13 @@ enum SortType {
 /// ------------------------------------------------------------------------------------------------
 /// --- Sort by alert dialog ---
 /// ------------------------------------------------------------------------------------------------
-Future<SortType?> showSortByAlertDialog(BuildContext context, {SortType? sortType}) async =>
-    showDialog<SortType?>(context: context, builder: (context) => _SortByAlertDialog(sortType: sortType));
+Future<SortType?> showSortByAlertDialog(
+  BuildContext context, {
+  SortType? sortType,
+}) async => showDialog<SortType?>(
+  context: context,
+  builder: (context) => _SortByAlertDialog(sortType: sortType),
+);
 
 class _SortByAlertDialog extends StatefulWidget {
   const _SortByAlertDialog({required this.sortType});
@@ -62,7 +67,10 @@ class _SortByAlertDialogState extends State<_SortByAlertDialog> {
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-    title: const Text('Sort by', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+    title: const Text(
+      'Sort by',
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+    ),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +97,14 @@ class _SortByAlertDialogState extends State<_SortByAlertDialog> {
       ),
     ),
     actions: [
-      TextButton(onPressed: () => Navigator.pop<void>(context), child: const Text('Cancel')),
-      TextButton(onPressed: () => Navigator.pop<SortType>(context, _sortType), child: const Text('Apply')),
+      TextButton(
+        onPressed: () => Navigator.pop<void>(context),
+        child: const Text('Cancel'),
+      ),
+      TextButton(
+        onPressed: () => Navigator.pop<SortType>(context, _sortType),
+        child: const Text('Apply'),
+      ),
     ],
   );
 }

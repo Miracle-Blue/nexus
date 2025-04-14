@@ -32,7 +32,10 @@ class _ThunderLogsScreenState extends ThunderLogsController {
             child: TextField(
               onChanged: onSearchChanged,
               // decoration: const InputDecoration(hintText: 'Type here...'),
-              decoration: const InputDecoration(hintText: 'Type here...', border: InputBorder.none),
+              decoration: const InputDecoration(
+                hintText: 'Type here...',
+                border: InputBorder.none,
+              ),
             ),
           ),
           false => null,
@@ -41,7 +44,11 @@ class _ThunderLogsScreenState extends ThunderLogsController {
           true => null,
           false => const Text(
             'Thunder Network Monitor',
-            style: TextStyle(color: AppColors.lavaStone, fontWeight: FontWeight.w600, fontSize: 18),
+            style: TextStyle(
+              color: AppColors.lavaStone,
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
+            ),
           ),
         },
       ),
@@ -53,7 +60,13 @@ class _ThunderLogsScreenState extends ThunderLogsController {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.cloud_off, size: 48, color: AppColors.grayRussian),
-                  Text('No logs here yet', style: TextStyle(color: AppColors.grayRussian, fontWeight: FontWeight.w600)),
+                  Text(
+                    'No logs here yet',
+                    style: TextStyle(
+                      color: AppColors.grayRussian,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -61,7 +74,12 @@ class _ThunderLogsScreenState extends ThunderLogsController {
               itemCount: ThunderLogsController.networkLogs.length,
               itemBuilder:
                   (context, index) => LogButton(
-                    log: ThunderLogsController.networkLogs[ThunderLogsController.networkLogs.length - 1 - index],
+                    log:
+                        ThunderLogsController.networkLogs[ThunderLogsController
+                                .networkLogs
+                                .length -
+                            1 -
+                            index],
                     onLogTap: onLogTap,
                   ),
             ),

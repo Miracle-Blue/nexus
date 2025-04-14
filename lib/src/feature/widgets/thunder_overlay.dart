@@ -110,7 +110,11 @@ class _ThunderState extends ThunderOverlayController {
               child: ScaffoldMessenger(
                 child: HeroControllerScope.none(
                   child: Navigator(
-                    pages: <Page<void>>[MaterialPage<void>(child: ThunderLogsScreen(dios: widget.dio))],
+                    pages: <Page<void>>[
+                      MaterialPage<void>(
+                        child: ThunderLogsScreen(dios: widget.dio),
+                      ),
+                    ],
                     onDidRemovePage: (page) => log('ON DID REMOVE PAGE'),
                   ),
                 ),
@@ -134,7 +138,10 @@ class _ThunderState extends ThunderOverlayController {
                   children: [
                     // Search button - toggles search functionality in logs
                     DecoratedBox(
-                      decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle,
+                      ),
                       child: IconButton(
                         onPressed: ThunderLogsController.toggleSearch,
                         icon: Icon(Icons.search_rounded),
@@ -143,7 +150,10 @@ class _ThunderState extends ThunderOverlayController {
                     SizedBox(height: 4),
                     // Filter button - changes sort order of logs
                     DecoratedBox(
-                      decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle,
+                      ),
                       child: IconButton(
                         onPressed: ThunderLogsController.onSortLogsTap,
                         icon: Icon(Icons.filter_list_rounded),
@@ -152,8 +162,14 @@ class _ThunderState extends ThunderOverlayController {
                     SizedBox(height: 4),
                     // Delete button - clears all logs
                     DecoratedBox(
-                      decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
-                      child: IconButton(onPressed: ThunderLogsController.onDeleteAllLogsTap, icon: Icon(Icons.delete)),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        onPressed: ThunderLogsController.onDeleteAllLogsTap,
+                        icon: Icon(Icons.delete),
+                      ),
                     ),
                   ],
                 ),
@@ -168,16 +184,26 @@ class _ThunderState extends ThunderOverlayController {
               height: 64,
               child: Material(
                 color: AppColors.mainColor,
-                borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
+                borderRadius: const BorderRadius.horizontal(
+                  right: Radius.circular(16),
+                ),
                 elevation: 0,
                 child: InkWell(
                   onTap: () => controller.toggle(),
-                  borderRadius: const BorderRadius.horizontal(right: Radius.circular(16)),
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(16),
+                  ),
                   child: Center(
                     // Rotating chevron that indicates the current state (open/closed)
                     child: RotationTransition(
-                      turns: controller.drive(Tween<double>(begin: 0, end: 0.5)),
-                      child: const Icon(Icons.chevron_right, color: Colors.white, size: 18),
+                      turns: controller.drive(
+                        Tween<double>(begin: 0, end: 0.5),
+                      ),
+                      child: const Icon(
+                        Icons.chevron_right,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
                   ),
                 ),
@@ -202,7 +228,10 @@ class _ThunderState extends ThunderOverlayController {
 
               return GestureDetector(
                 // Handle drag gestures to manually slide the overlay
-                onHorizontalDragUpdate: dismissed ? null : (details) => onHorizontalDragUpdate(details, width),
+                onHorizontalDragUpdate:
+                    dismissed
+                        ? null
+                        : (details) => onHorizontalDragUpdate(details, width),
                 onHorizontalDragEnd: dismissed ? null : onHorizontalDragEnd,
                 child: Stack(
                   children: <Widget>[
@@ -212,7 +241,10 @@ class _ThunderState extends ThunderOverlayController {
                     if (!dismissed)
                       AnimatedModalBarrier(
                         color: controller.drive(
-                          ColorTween(begin: Colors.transparent, end: Colors.black.withAlpha(127)),
+                          ColorTween(
+                            begin: Colors.transparent,
+                            end: Colors.black.withAlpha(127),
+                          ),
                         ),
                         dismissible: true,
                         semanticsLabel: 'Dismiss',
@@ -222,8 +254,18 @@ class _ThunderState extends ThunderOverlayController {
                     PositionedTransition(
                       rect: controller.drive(
                         RelativeRectTween(
-                          begin: RelativeRect.fromLTRB(handleWidth - width, 0, biggest.width - handleWidth, 0),
-                          end: RelativeRect.fromLTRB(0, 0, biggest.width - width, 0),
+                          begin: RelativeRect.fromLTRB(
+                            handleWidth - width,
+                            0,
+                            biggest.width - handleWidth,
+                            0,
+                          ),
+                          end: RelativeRect.fromLTRB(
+                            0,
+                            0,
+                            biggest.width - width,
+                            0,
+                          ),
                         ),
                       ),
                       child: SizedBox(width: width, child: _materialContext()),

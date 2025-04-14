@@ -73,13 +73,19 @@ class CopyLogData {
     false => '\r',
   };
 
-  String get _queryParams => switch (log.request.uri.queryParameters.isNotEmpty) {
-    true => 'Request query params: ```json\n${log.request.uri.queryParameters.prettyJson}```',
+  String get _queryParams => switch (log
+      .request
+      .uri
+      .queryParameters
+      .isNotEmpty) {
+    true =>
+      'Request query params: ```json\n${log.request.uri.queryParameters.prettyJson}```',
     false => '\r',
   };
 
   String get _requestBody => switch (log.request.data != null) {
-    true => 'Request body: ```json\n${(log.request.data as Object?).prettyJson}```',
+    true =>
+      'Request body: ```json\n${(log.request.data as Object?).prettyJson}```',
     false => '\r',
   };
 
@@ -95,7 +101,9 @@ class CopyLogData {
           ..writeln('Server: ${log.request.uri.host}')
           ..writeln('Method: ${log.request.method}')
           ..writeln('Endpoint: ${log.request.uri.path}')
-          ..writeln('Status: ${log.response?.statusCode ?? log.error?.response?.statusCode}');
+          ..writeln(
+            'Status: ${log.response?.statusCode ?? log.error?.response?.statusCode}',
+          );
 
     if (log.response?.statusCode != null) {
       buffer.writeln('Status: ${log.response?.statusCode}');
@@ -130,7 +138,9 @@ class CopyLogData {
       buffer.write('\n$responseBody');
     } else {
       if (log.error != null) {
-        buffer.write('```json\n${(log.error?.response?.data as Object?).prettyJson}```');
+        buffer.write(
+          '```json\n${(log.error?.response?.data as Object?).prettyJson}```',
+        );
       } else {
         buffer.write('Response body is empty');
       }

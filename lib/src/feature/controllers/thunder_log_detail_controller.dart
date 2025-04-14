@@ -5,7 +5,8 @@ import '../../common/utils/helpers.dart';
 import '../screens/thunder_log_detail_screen.dart';
 
 /// Abstract class that extends [State] and [TickerProviderStateMixin] and helps to control the [ThunderLogDetailScreen]
-abstract class ThunderLogDetailController extends State<ThunderLogDetailScreen> with TickerProviderStateMixin {
+abstract class ThunderLogDetailController extends State<ThunderLogDetailScreen>
+    with TickerProviderStateMixin {
   /// The tab controller for the [ThunderLogDetailScreen]
   late final TabController tabController;
 
@@ -22,6 +23,8 @@ abstract class ThunderLogDetailController extends State<ThunderLogDetailScreen> 
   }
 
   /// Method that handles the copy log tap
-  void onCopyLogTap() =>
-      Helpers.copyAndShowSnackBar(context, contentToCopy: CopyLogData(log: widget.log).toCopyableLogData);
+  void onCopyLogTap() => Helpers.copyAndShowSnackBar(
+    context,
+    contentToCopy: CopyLogData(log: widget.log).toCopyableLogData,
+  );
 }

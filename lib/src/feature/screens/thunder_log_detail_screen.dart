@@ -32,9 +32,16 @@ class _ThunderLogDetailScreenState extends ThunderLogDetailController {
         backgroundColor: Colors.white.withValues(alpha: 0.1),
         leading: GestureDetector(
           onTap: () => Navigator.of(context).pop<void>(),
-          child: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: AppColors.gunmetal),
+          child: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 24,
+            color: AppColors.gunmetal,
+          ),
         ),
-        middle: const Text('THUNDER - HTTP Request detail', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+        middle: const Text(
+          'THUNDER - HTTP Request detail',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ),
         bottom: TabBar(
           controller: tabController,
           labelColor: AppColors.mainColor,
@@ -70,7 +77,10 @@ class _ThunderLogDetailScreenState extends ThunderLogDetailController {
                 onPressed: onCopyLogTap,
                 tooltip: 'Copy full log',
                 backgroundColor: AppColors.mainColor,
-                child: const Icon(Icons.copy_all_rounded, color: AppColors.white),
+                child: const Icon(
+                  Icons.copy_all_rounded,
+                  color: AppColors.white,
+                ),
               ),
             ),
           ),

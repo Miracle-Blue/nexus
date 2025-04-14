@@ -14,7 +14,10 @@ extension ObjectExtension on Object? {
     if (this == null) return 'null';
 
     final receivePort = ReceivePort();
-    await Isolate.spawn<List<Object?>>(_prettyJsonIsolate, [receivePort.sendPort, this]);
+    await Isolate.spawn<List<Object?>>(_prettyJsonIsolate, [
+      receivePort.sendPort,
+      this,
+    ]);
 
     return (await receivePort.first).toString();
   }

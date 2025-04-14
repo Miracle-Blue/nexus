@@ -41,7 +41,10 @@ final class ThunderInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response<Object?> response, ResponseInterceptorHandler handler) {
+  void onResponse(
+    Response<Object?> response,
+    ResponseInterceptorHandler handler,
+  ) {
     final requestHashCode = response.requestOptions.hashCode.toString();
     final startTime = _requestStartTimes[requestHashCode];
     final logId = _requestIdMap[requestHashCode];

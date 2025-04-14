@@ -57,12 +57,22 @@ class _HtmlRendererState extends State<HtmlRenderer> {
   @override
   Widget build(BuildContext context) => switch (_isLoading) {
     true => const Center(child: CircularProgressIndicator()),
-    _ when _errorMessage != null => Center(child: Text(_errorMessage ?? '', style: TextStyle(color: Colors.red[800]))),
-    _ when _document.body == null => const Center(child: Text('No content available.')),
+    _ when _errorMessage != null => Center(
+      child: Text(
+        _errorMessage ?? '',
+        style: TextStyle(color: Colors.red[800]),
+      ),
+    ),
+    _ when _document.body == null => const Center(
+      child: Text('No content available.'),
+    ),
     _ => () {
       final children = _parseNodes(_document.body?.nodes ?? <dom.Node>[]);
 
-      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: children);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      );
     }(),
   };
 
@@ -79,7 +89,10 @@ class _HtmlRendererState extends State<HtmlRenderer> {
         final text = node.text.trim();
 
         if (text.isNotEmpty) {
-          childWidget = Text(text, style: Theme.of(context).textTheme.bodyMedium);
+          childWidget = Text(
+            text,
+            style: Theme.of(context).textTheme.bodyMedium,
+          );
         }
       }
 
@@ -97,19 +110,34 @@ class _HtmlRendererState extends State<HtmlRenderer> {
       case 'h1':
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Text(element.text, style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
+          child: Text(
+            element.text,
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         );
 
       case 'h2':
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Text(element.text, style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+          child: Text(
+            element.text,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         );
 
       case 'h3':
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text(element.text, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+          child: Text(
+            element.text,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         );
 
       case 'h4':
@@ -117,32 +145,54 @@ class _HtmlRendererState extends State<HtmlRenderer> {
       case 'h6':
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Text(element.text, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          child: Text(
+            element.text,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         );
 
       case 'p':
-        return Padding(padding: const EdgeInsets.symmetric(vertical: 8), child: _handleInlineElements(element));
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: _handleInlineElements(element),
+        );
 
       case 'a':
         final href = element.attributes['href'] ?? '#';
         return InkWell(
-          onTap: () => Helpers.copyAndShowSnackBar(context, contentToCopy: href),
+          onTap:
+              () => Helpers.copyAndShowSnackBar(context, contentToCopy: href),
           child: Text(
             element.text,
-            style:  TextStyle(fontSize: 16, color: AppColors.mainColor, decoration: TextDecoration.underline),
+            style: TextStyle(
+              fontSize: 16,
+              color: AppColors.mainColor,
+              decoration: TextDecoration.underline,
+            ),
           ),
         );
 
       case 'strong':
       case 'b':
-        return Text(element.text, style: const TextStyle(fontWeight: FontWeight.bold));
+        return Text(
+          element.text,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        );
 
       case 'em':
       case 'i':
-        return Text(element.text, style: const TextStyle(fontStyle: FontStyle.italic));
+        return Text(
+          element.text,
+          style: const TextStyle(fontStyle: FontStyle.italic),
+        );
 
       case 'u':
-        return Text(element.text, style: const TextStyle(decoration: TextDecoration.underline));
+        return Text(
+          element.text,
+          style: const TextStyle(decoration: TextDecoration.underline),
+        );
 
       case 'img':
         return _buildImageWidget(element);
@@ -188,7 +238,10 @@ class _HtmlRendererState extends State<HtmlRenderer> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${index + 1}. ', style: const TextStyle(fontSize: 16)),
+                          Text(
+                            '${index + 1}. ',
+                            style: const TextStyle(fontSize: 16),
+                          ),
                           Expanded(child: _handleInlineElements(child)),
                         ],
                       ),
@@ -205,17 +258,25 @@ class _HtmlRendererState extends State<HtmlRenderer> {
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            border: Border(left: BorderSide(color: theme.dividerColor, width: 4)),
+            border: Border(
+              left: BorderSide(color: theme.dividerColor, width: 4),
+            ),
             color: theme.cardColor,
           ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _parseNodes(element.nodes)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _parseNodes(element.nodes),
+          ),
         );
 
       case 'code':
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
           decoration: BoxDecoration(
-            color: theme.brightness == Brightness.dark ? Colors.grey[800] : Colors.grey[200],
+            color:
+                theme.brightness == Brightness.dark
+                    ? Colors.grey[800]
+                    : Colors.grey[200],
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
@@ -223,7 +284,10 @@ class _HtmlRendererState extends State<HtmlRenderer> {
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 14,
-              color: theme.brightness == Brightness.dark ? Colors.grey[300] : Colors.grey[900],
+              color:
+                  theme.brightness == Brightness.dark
+                      ? Colors.grey[300]
+                      : Colors.grey[900],
             ),
           ),
         );
@@ -234,7 +298,10 @@ class _HtmlRendererState extends State<HtmlRenderer> {
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: theme.brightness == Brightness.dark ? Colors.grey[800] : Colors.grey[200],
+            color:
+                theme.brightness == Brightness.dark
+                    ? Colors.grey[800]
+                    : Colors.grey[200],
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -242,7 +309,10 @@ class _HtmlRendererState extends State<HtmlRenderer> {
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 14,
-              color: theme.brightness == Brightness.dark ? Colors.grey[300] : Colors.grey[900],
+              color:
+                  theme.brightness == Brightness.dark
+                      ? Colors.grey[300]
+                      : Colors.grey[900],
             ),
           ),
         );
@@ -264,12 +334,18 @@ class _HtmlRendererState extends State<HtmlRenderer> {
       case 'span':
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _parseNodes(element.nodes)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _parseNodes(element.nodes),
+          ),
         );
 
       default:
         // Default is to process children if the tag isn't specifically handled.
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: _parseNodes(element.nodes));
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _parseNodes(element.nodes),
+        );
     }
   }
 
@@ -287,29 +363,54 @@ class _HtmlRendererState extends State<HtmlRenderer> {
       if (node is dom.Text) {
         final text = node.text.trim();
         if (text.isNotEmpty) {
-          spans.add(TextSpan(text: text, style: Theme.of(context).textTheme.bodyMedium));
+          spans.add(
+            TextSpan(text: text, style: Theme.of(context).textTheme.bodyMedium),
+          );
         }
       } else if (node is dom.Element) {
         switch (node.localName?.toLowerCase()) {
           case 'strong':
           case 'b':
-            spans.add(TextSpan(text: node.text, style: const TextStyle(fontWeight: FontWeight.bold)));
+            spans.add(
+              TextSpan(
+                text: node.text,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            );
             break;
           case 'em':
           case 'i':
-            spans.add(TextSpan(text: node.text, style: const TextStyle(fontStyle: FontStyle.italic)));
+            spans.add(
+              TextSpan(
+                text: node.text,
+                style: const TextStyle(fontStyle: FontStyle.italic),
+              ),
+            );
             break;
           case 'u':
-            spans.add(TextSpan(text: node.text, style: const TextStyle(decoration: TextDecoration.underline)));
+            spans.add(
+              TextSpan(
+                text: node.text,
+                style: const TextStyle(decoration: TextDecoration.underline),
+              ),
+            );
             break;
           case 'a':
             final href = node.attributes['href'] ?? '#';
             spans.add(
               TextSpan(
                 text: node.text,
-                style:  TextStyle(color: AppColors.mainColor, decoration: TextDecoration.underline),
+                style: TextStyle(
+                  color: AppColors.mainColor,
+                  decoration: TextDecoration.underline,
+                ),
                 recognizer:
-                    TapGestureRecognizer()..onTap = () => Helpers.copyAndShowSnackBar(context, contentToCopy: href),
+                    TapGestureRecognizer()
+                      ..onTap =
+                          () => Helpers.copyAndShowSnackBar(
+                            context,
+                            contentToCopy: href,
+                          ),
               ),
             );
             break;
@@ -320,7 +421,9 @@ class _HtmlRendererState extends State<HtmlRenderer> {
                 style: TextStyle(
                   fontFamily: 'monospace',
                   backgroundColor:
-                      Theme.of(context).brightness == Brightness.dark ? Colors.grey[800] : Colors.grey[200],
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey[800]
+                          : Colors.grey[200],
                 ),
               ),
             );
@@ -342,7 +445,10 @@ class _HtmlRendererState extends State<HtmlRenderer> {
     final height = double.tryParse(element.attributes['height'] ?? '');
 
     return Container(
-      constraints: BoxConstraints(maxWidth: width ?? double.infinity, maxHeight: height ?? double.infinity),
+      constraints: BoxConstraints(
+        maxWidth: width ?? double.infinity,
+        maxHeight: height ?? double.infinity,
+      ),
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: switch (src.isNotEmpty) {
         true => Image.network(
@@ -357,7 +463,8 @@ class _HtmlRendererState extends State<HtmlRenderer> {
               child: CircularProgressIndicator(
                 value:
                     loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            (loadingProgress.expectedTotalBytes ?? 1)
                         : null,
               ),
             );
@@ -368,7 +475,11 @@ class _HtmlRendererState extends State<HtmlRenderer> {
                 height: height ?? 100,
                 color: Colors.grey[300],
                 alignment: Alignment.center,
-                child: Text(alt, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black54)),
+                child: Text(
+                  alt,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.black54),
+                ),
               ),
         ),
         false => const SizedBox.shrink(),

@@ -5,7 +5,10 @@ import '../../common/utils/app_colors.dart';
 /// A widget that displays a circular progress indicator and a message.
 class AwaitingResponseWidget extends StatelessWidget {
   /// Constructor for the [AwaitingResponseWidget] class.
-  const AwaitingResponseWidget({super.key, this.message = 'Awaiting response...'});
+  const AwaitingResponseWidget({
+    super.key,
+    this.message = 'Awaiting response...',
+  });
 
   /// The message to display
   final String message;
@@ -22,7 +25,13 @@ class AwaitingResponseWidget extends StatelessWidget {
             strokeCap: StrokeCap.round,
           ),
           const SizedBox(height: 8),
-          Text(message, style: const TextStyle(color: AppColors.gunmetal, fontWeight: FontWeight.w500)),
+          Text(
+            message,
+            style: const TextStyle(
+              color: AppColors.gunmetal,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     ),
