@@ -14,8 +14,9 @@ abstract class Helpers {
 
     if (bytes <= _kilobyteAsByte) return '${bytes}B';
 
-    if (bytes <= _megabyteAsByte)
+    if (bytes <= _megabyteAsByte) {
       return '${_formatDouble(bytes / _kilobyteAsByte)}kB';
+    }
 
     return '${_formatDouble(bytes / _megabyteAsByte)}MB';
   }
@@ -23,10 +24,7 @@ abstract class Helpers {
   static String _formatDouble(double value) => value.toStringAsFixed(2);
 
   /// Method that shows a snack bar in iOS style
-  static void showSnackBar(
-    BuildContext context, {
-    String content = 'Copied to your clipboard!',
-  }) {
+  static void showSnackBar(BuildContext context, {String content = 'Copied to your clipboard!'}) {
     final overlayEntry = OverlayEntry(
       builder:
           (context) => Positioned(
@@ -35,18 +33,12 @@ abstract class Helpers {
             right: 0,
             child: Center(
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 decoration: BoxDecoration(
                   color: CupertinoColors.systemGrey.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(48),
                 ),
-                child: Text(
-                  content,
-                  style: const TextStyle(color: CupertinoColors.white),
-                ),
+                child: Text(content, style: const TextStyle(color: CupertinoColors.white)),
               ),
             ),
           ),
@@ -57,10 +49,7 @@ abstract class Helpers {
   }
 
   /// Method that copies the content to the clipboard and shows a snack bar
-  static Future<void> copyAndShowSnackBar(
-    BuildContext context, {
-    required String contentToCopy,
-  }) async {
+  static Future<void> copyAndShowSnackBar(BuildContext context, {required String contentToCopy}) async {
     await Clipboard.setData(ClipboardData(text: contentToCopy));
 
     showSnackBar(context);
