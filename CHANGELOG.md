@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Enable curly braces in flow control structures
+
 ## 0.0.5
 
 * Fix the issue of the pub score

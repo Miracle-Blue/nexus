@@ -136,10 +136,14 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
   /// Show the sort by alert dialog and update the sort type.
   static Future<void> onSortLogsTap() async {
-    if (ThunderLogsController.inLogDetailScreen) return;
+    if (ThunderLogsController.inLogDetailScreen) {
+      return;
+    }
 
     final context = _instance?.context;
-    if (context == null) return;
+    if (context == null) {
+      return;
+    }
 
     // Check if dialog is already open, if so, return early
     if (_isDialogOpen) {
@@ -151,7 +155,9 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
     try {
       final result = await showSortByAlertDialog(context, sortType: sortType);
 
-      if (result != null) sortType = result;
+      if (result != null) {
+        sortType = result;
+      }
 
       _instance?.setState(
         () => switch (result) {
@@ -177,20 +183,26 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
   /// Method to delete all network logs.
   static void onDeleteAllLogsTap() {
-    if (ThunderLogsController.inLogDetailScreen) return;
+    if (ThunderLogsController.inLogDetailScreen) {
+      return;
+    }
 
-    if (_isDialogOpen && _instance != null)
+    if (_isDialogOpen && _instance != null) {
       Navigator.of(_instance!.context).pop<void>();
+    }
 
     _instance?.setState(networkLogs.clear);
   }
 
   /// Static method to toggle the search.
   static void toggleSearch() {
-    if (ThunderLogsController.inLogDetailScreen) return;
+    if (ThunderLogsController.inLogDetailScreen) {
+      return;
+    }
 
-    if (_isDialogOpen && _instance != null)
+    if (_isDialogOpen && _instance != null) {
       Navigator.of(_instance!.context).pop<void>();
+    }
 
     _instance?.setState(() => searchEnabled = !searchEnabled);
   }

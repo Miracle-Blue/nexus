@@ -61,8 +61,9 @@ abstract class ThunderOverlayController extends State<Thunder>
       if (dismissed) return;
       setState(() => dismissed = true);
 
-      if (ThunderLogsController.searchEnabled)
+      if (ThunderLogsController.searchEnabled) {
         ThunderLogsController.toggleSearch();
+      }
 
       // Unfocus keyboard when the overlay is dismissed
       FocusManager.instance.primaryFocus?.unfocus();

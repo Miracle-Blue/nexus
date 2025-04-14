@@ -83,7 +83,7 @@ linter:
     always_use_package_imports: false
     prefer_final_locals: false
     avoid_escaping_inner_quotes: false
-    curly_braces_in_flow_control_structures: false
+    curly_braces_in_flow_control_structures: true
     one_member_abstracts: false
 
     # Enabled
