@@ -14,36 +14,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final Dio _mainDio = Dio();
   final Dio _httpDio = Dio(BaseOptions(baseUrl: 'https://httpbin.org'));
-  final Dio _jsonPlaceholderDio = Dio(
-    BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
-  );
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    builder:
-        (_, child) => Thunder(
-          dio: [_httpDio, _jsonPlaceholderDio, _mainDio],
-          child: child ?? SizedBox.shrink(),
-        ),
-    home: MyHomePage(
-      httpDio: _httpDio,
-      jsonPlaceholderDio: _jsonPlaceholderDio,
-      mainDio: _mainDio,
-    ),
+    builder: (_, child) => Thunder(dio: [_httpDio, _mainDio], child: child ?? SizedBox.shrink()),
+    home: MyHomePage(httpDio: _httpDio, mainDio: _mainDio),
   );
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-    required this.httpDio,
-    required this.jsonPlaceholderDio,
-    required this.mainDio,
-  });
+  const MyHomePage({super.key, required this.httpDio, required this.mainDio});
 
   final Dio httpDio;
   final Dio mainDio;
-  final Dio jsonPlaceholderDio;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -53,6 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
   static const Color _greenDark = Color(0xFF49cc90);
 
   void _runDioRequests() async {
+    final Dio jsonPlaceholderDio = Dio(BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'))
+      ..interceptors.add(Thunder.getInterceptor);
+
     Map<String, Object?> body = <String, Object?>{
       "title": "foo",
       "body": "bar",
@@ -72,34 +58,21 @@ class _MyHomePageState extends State<MyHomePage> {
     widget.httpDio.delete<void>("/status/300");
     widget.httpDio.delete<void>("/status/200");
     widget.httpDio.delete<void>("/status/100");
-    widget.jsonPlaceholderDio.post<void>("/posts", data: body);
-    widget.jsonPlaceholderDio.get<void>(
-      "/posts",
-      queryParameters: <String, Object?>{"test": 1},
-    );
-    widget.jsonPlaceholderDio.put<void>("/posts/1", data: body);
-    widget.jsonPlaceholderDio.put<void>("/posts/1", data: body);
-    widget.jsonPlaceholderDio.delete<void>("/posts/1");
-    widget.jsonPlaceholderDio.get<void>("/test/test");
-    widget.jsonPlaceholderDio.get<void>("/photos");
-    widget.mainDio.get<void>(
-      "https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png",
-    );
+    jsonPlaceholderDio.post<void>("/posts", data: body);
+    jsonPlaceholderDio.get<void>("/posts", queryParameters: <String, Object?>{"test": 1});
+    jsonPlaceholderDio.put<void>("/posts/1", data: body);
+    jsonPlaceholderDio.put<void>("/posts/1", data: body);
+    jsonPlaceholderDio.delete<void>("/posts/1");
+    jsonPlaceholderDio.get<void>("/test/test");
+    jsonPlaceholderDio.get<void>("/photos");
+    widget.mainDio.get<void>("https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png");
     widget.mainDio.get<void>(
       "https://images.unsplash.com/photo-1542736705-53f0131d1e98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
     );
-    widget.mainDio.get<void>(
-      "https://findicons.com/files/icons/1322/world_of_aqua_5/128/bluetooth.png",
-    );
-    widget.mainDio.get<void>(
-      "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg",
-    );
-    widget.mainDio.get<void>(
-      "http://techslides.com/demos/sample-videos/small.mp4",
-    );
-    widget.mainDio.get<void>(
-      "https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf",
-    );
+    widget.mainDio.get<void>("https://findicons.com/files/icons/1322/world_of_aqua_5/128/bluetooth.png");
+    widget.mainDio.get<void>("https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg");
+    widget.mainDio.get<void>("http://techslides.com/demos/sample-videos/small.mp4");
+    widget.mainDio.get<void>("https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf");
     widget.mainDio.get<void>(
       "http://dummy.restapiexample.com/api/v1/employees",
       queryParameters: <String, Object?>{"test": 1},
@@ -110,10 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: _greenDark,
-      title: Text(
-        'Thunder interceptor example',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-      ),
+      title: Text('Thunder interceptor example', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
     ),
     body: Padding(
       padding: const EdgeInsets.all(16),
@@ -123,11 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Text(
             'Press the button in the bottom to run the requests',
-            style: TextStyle(
-              color: Color(0xFF3b4151),
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(color: Color(0xFF3b4151), fontSize: 20, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 12),
