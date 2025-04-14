@@ -19,7 +19,8 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   final appBarHeight = 100.0;
 
   /// The map of interceptors for the Dio instances.
-  final Map<Dio, ThunderInterceptor> _interceptors = <Dio, ThunderInterceptor>{};
+  final Map<Dio, ThunderInterceptor> _interceptors =
+      <Dio, ThunderInterceptor>{};
 
   /// Whether the search is enabled.
   static bool searchEnabled = false;
@@ -68,14 +69,18 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
     // Add new interceptors
     for (final dio in widget.dios) {
-      final interceptor = ThunderInterceptor(onNetworkActivity: _onNetworkActivity);
+      final interceptor = ThunderInterceptor(
+        onNetworkActivity: _onNetworkActivity,
+      );
       dio.interceptors.add(interceptor);
       _interceptors[dio] = interceptor;
     }
   }
 
   void _onNetworkActivity(ThunderNetworkLog log) => setState(() {
-    final index = networkLogs.indexWhere((existingLog) => existingLog.id == log.id);
+    final index = networkLogs.indexWhere(
+      (existingLog) => existingLog.id == log.id,
+    );
 
     if (index >= 0) {
       networkLogs[index] = log;
@@ -111,8 +116,12 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
           _tempNetworkLogs
               ?.where(
                 (log) =>
-                    log.request.path.toLowerCase().contains(query.toLowerCase()) ||
-                    log.request.baseUrl.toLowerCase().contains(query.toLowerCase()),
+                    log.request.path.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ) ||
+                    log.request.baseUrl.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ),
               )
               .toList() ??
           [];
@@ -146,10 +155,18 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
       _instance?.setState(
         () => switch (result) {
-          SortType.createTime => networkLogs.sort((a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0),
-          SortType.responseTime => networkLogs.sort((a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0),
-          SortType.endpoint => networkLogs.sort((a, b) => a.request.path.compareTo(b.request.path)),
-          SortType.responseSize => networkLogs.sort((a, b) => a.receiveBytes?.compareTo(b.receiveBytes ?? 0) ?? 0),
+          SortType.createTime => networkLogs.sort(
+            (a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0,
+          ),
+          SortType.responseTime => networkLogs.sort(
+            (a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0,
+          ),
+          SortType.endpoint => networkLogs.sort(
+            (a, b) => a.request.path.compareTo(b.request.path),
+          ),
+          SortType.responseSize => networkLogs.sort(
+            (a, b) => a.receiveBytes?.compareTo(b.receiveBytes ?? 0) ?? 0,
+          ),
           _ => null,
         },
       );
@@ -162,7 +179,8 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   static void onDeleteAllLogsTap() {
     if (ThunderLogsController.inLogDetailScreen) return;
 
-    if (_isDialogOpen && _instance != null) Navigator.of(_instance!.context).pop<void>();
+    if (_isDialogOpen && _instance != null)
+      Navigator.of(_instance!.context).pop<void>();
 
     _instance?.setState(networkLogs.clear);
   }
@@ -171,7 +189,8 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   static void toggleSearch() {
     if (ThunderLogsController.inLogDetailScreen) return;
 
-    if (_isDialogOpen && _instance != null) Navigator.of(_instance!.context).pop<void>();
+    if (_isDialogOpen && _instance != null)
+      Navigator.of(_instance!.context).pop<void>();
 
     _instance?.setState(() => searchEnabled = !searchEnabled);
   }
@@ -182,7 +201,9 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
     await Navigator.push<void>(
       context,
-      CupertinoPageRoute<void>(builder: (context) => ThunderLogDetailScreen(log: log)),
+      CupertinoPageRoute<void>(
+        builder: (context) => ThunderLogDetailScreen(log: log),
+      ),
     );
 
     ThunderLogsController.inLogDetailScreen = false;
