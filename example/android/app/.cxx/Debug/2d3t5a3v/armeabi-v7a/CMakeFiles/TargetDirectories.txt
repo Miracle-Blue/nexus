@@ -1,2 +1,0 @@
-/Users/fazliddin/Desktop/user/nexus/example/android/app/.cxx/Debug/2d3t5a3v/armeabi-v7a/CMakeFiles/edit_cache.dir
-/Users/fazliddin/Desktop/user/nexus/example/android/app/.cxx/Debug/2d3t5a3v/armeabi-v7a/CMakeFiles/rebuild_cache.dir

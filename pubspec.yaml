@@ -1,13 +1,10 @@
-name: nexus
+name: thunder
 description: "A Flutter network inspector tool for Dio HTTP client that provides real-time monitoring, detailed request/response logs, and curl command generation for easy debugging and API testing."
-
 version: 0.0.1
 
-homepage: https://github.com/Miracle-Blue/nexus
-
-repository: https://github.com/Miracle-Blue/nexus
-
-issue_tracker: https://github.com/Miracle-Blue/nexus/issues
+homepage: https://github.com/Miracle-Blue/thunder
+repository: https://github.com/Miracle-Blue/thunder
+issue_tracker: https://github.com/Miracle-Blue/thunder/issues
 
 topics:
   - network
@@ -33,7 +30,6 @@ dependencies:
 
   intl: any
   dio: ^5.8.0+1
-  uuid: ^4.5.1
   html: ^0.15.5+1
 
 dev_dependencies:

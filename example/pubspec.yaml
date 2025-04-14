@@ -1,4 +1,4 @@
-name: nexus_example
+name: thunder_example
 description: "A new Flutter project."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   dio: any
 
-  nexus:
+  thunder:
     path: ../
 
 dev_dependencies:

@@ -1,8 +1,8 @@
 import '../extension/duration_extension.dart';
 import '../extension/object_extension.dart';
-import '../models/nexus_network_log.dart';
+import '../models/thunder_network_log.dart';
 
-/// Class that helps convert the [NexusNetworkLog] to a copyable log data string
+/// Class that helps convert the [ThunderNetworkLog] to a copyable log data string
 ///
 /// Example:
 /// Server: jsonplaceholder.typicode.com
@@ -65,7 +65,7 @@ class CopyLogData {
   const CopyLogData({required this.log});
 
   /// The log to convert to a copyable log data string
-  final NexusNetworkLog log;
+  final ThunderNetworkLog log;
   static final _lines = '─' * 15;
 
   String get _requestHeaders => switch (log.request.headers.isNotEmpty) {
@@ -88,7 +88,7 @@ class CopyLogData {
     false => '\r',
   };
 
-  /// Method that converts the [NexusNetworkLog] to a copyable log data string
+  /// Method that converts the [ThunderNetworkLog] to a copyable log data string
   String get toCopyableLogData {
     final buffer =
         StringBuffer()

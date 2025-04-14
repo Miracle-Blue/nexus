@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../common/extension/duration_extension.dart';
-import '../../common/models/nexus_network_log.dart';
+import '../../common/models/thunder_network_log.dart';
 import '../../common/utils/helpers.dart';
 import 'list_row_item.dart';
 
@@ -11,7 +11,7 @@ class LogOverviewWidget extends StatelessWidget {
   const LogOverviewWidget({required this.log, super.key});
 
   /// The network log to display
-  final NexusNetworkLog log;
+  final ThunderNetworkLog log;
 
   @override
   Widget build(BuildContext context) => ListView(

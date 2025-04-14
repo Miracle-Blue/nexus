@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../common/extension/curl_extension.dart';
 import '../../common/extension/duration_extension.dart';
-import '../../common/models/nexus_network_log.dart';
+import '../../common/models/thunder_network_log.dart';
 import '../../common/utils/app_colors.dart';
 import '../../common/utils/helpers.dart';
 
@@ -14,10 +14,10 @@ class LogButton extends StatelessWidget {
   const LogButton({required this.log, required this.onLogTap, super.key});
 
   /// The network log to display
-  final NexusNetworkLog log;
+  final ThunderNetworkLog log;
 
   /// The function to call when the log button is pressed.
-  final void Function(NexusNetworkLog log) onLogTap;
+  final void Function(ThunderNetworkLog log) onLogTap;
 
   @override
   Widget build(BuildContext context) => CupertinoButton(

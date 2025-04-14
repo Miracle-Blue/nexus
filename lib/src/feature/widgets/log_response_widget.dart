@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/extension/object_extension.dart';
-import '../../common/models/nexus_network_log.dart';
+import '../../common/models/thunder_network_log.dart';
 import '../../common/utils/app_colors.dart';
 import '../../common/utils/helpers.dart';
 import 'awaiting_response_widget.dart';
@@ -15,7 +15,7 @@ class LogResponseWidget extends StatefulWidget {
   const LogResponseWidget({required this.log, super.key});
 
   /// The network log to display
-  final NexusNetworkLog log;
+  final ThunderNetworkLog log;
 
   @override
   State<LogResponseWidget> createState() => _LogResponseWidgetState();

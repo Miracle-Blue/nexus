@@ -1,6 +1,6 @@
 {
-    "name": "nexus_example",
-    "short_name": "nexus_example",
+    "name": "thunder_example",
+    "short_name": "thunder_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

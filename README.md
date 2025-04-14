@@ -1,14 +1,14 @@
-# Nexus
+# Thunder
 
-A powerful Flutter debug overlay for monitoring network requests in real-time. Nexus provides a convenient slide-out panel that shows all network interactions from your Dio HTTP clients.
+A powerful Flutter debug overlay for monitoring network requests in real-time. Thunder provides a convenient slide-out panel that shows all network interactions from your Dio HTTP clients.
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;">
-  <img src="https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_1.png" alt="Nexus Overview" width="16%" />
-  <img src="https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_2.png" alt="Nexus Request Details" width="16%" />
-  <img src="https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_3.png" alt="Nexus Response View" width="16%" />
-  <img src="https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_4.png" alt="Nexus Search Feature" width="16%" />
-  <img src="https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_5.png" alt="Nexus Search Feature" width="16%" />
-  <img src="https://github.com/Miracle-Blue/nexus/blob/dev/screenshots/screenshot_6.png" alt="Nexus Search Feature" width="16%" />
+  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_1.png" alt="Thunder Overview" width="16%" />
+  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_2.png" alt="Thunder Request Details" width="16%" />
+  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_3.png" alt="Thunder Response View" width="16%" />
+  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_4.png" alt="Thunder Search Feature" width="16%" />
+  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_5.png" alt="Thunder Search Feature" width="16%" />
+  <img src="https://github.com/Miracle-Blue/thunder/blob/dev/screenshots/screenshot_6.png" alt="Thunder Search Feature" width="16%" />
 </div>
 
 
@@ -30,11 +30,11 @@ A powerful Flutter debug overlay for monitoring network requests in real-time. N
 
 ## Installation
 
-Add Nexus to your `pubspec.yaml`:
+Add Thunder to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  nexus: ^1.0.0  # Replace with actual version
+  thunder: ^1.0.0  # Replace with actual version
 ```
 
 Then run:
@@ -47,10 +47,10 @@ flutter pub get
 
 ### Basic Setup
 
-Wrap your app with the `Nexus` widget to start monitoring network requests:
+Wrap your app with the `Thunder` widget to start monitoring network requests:
 
 ```dart
-import 'package:nexus/nexus.dart';
+import 'package:thunder/thunder.dart';
 import 'package:dio/dio.dart';
 
 void main() {
@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
     title: 'My App',
     home: const HomePage(),
-    builder: (context, child) => Nexus(
+    builder: (context, child) => Thunder(
       dio: [dio1, dio2],
       child: child ?? const SizedBox.shrink(),
     ),
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
 ### How to Use
 
 1. Run your app in debug mode
-2. Tap the green handle on the left side of the screen to reveal the Nexus panel
+2. Tap the green handle on the left side of the screen to reveal the Thunder panel
 3. Make network requests in your app to see them appear in the panel
 4. Use the search button to find specific requests
 5. Use the filter button to sort requests
@@ -90,10 +90,10 @@ class MyApp extends StatelessWidget {
 
 ## Configuration
 
-Nexus can be customized with these parameters:
+Thunder can be customized with these parameters:
 
 ```dart
-Nexus(
+Thunder(
   // Required: Your app's main widget
   child: yourAppWidget,
 
@@ -110,7 +110,7 @@ Nexus(
 
 ## How It Works
 
-Nexus attaches to your Dio instances and intercepts all network requests and responses. The data is displayed in a user-friendly interface that can be accessed by tapping the handle on the side of your app.
+Thunder attaches to your Dio instances and intercepts all network requests and responses. The data is displayed in a user-friendly interface that can be accessed by tapping the handle on the side of your app.
 
 The overlay shows:
 - Request method (GET, POST, PUT, DELETE, etc.)
@@ -123,7 +123,7 @@ The overlay shows:
 
 ## Example Project
 
-For a complete working example, check the [example](https://github.com/Miracle-Blue/nexus/blob/dev/example/lib/main.dart) directory.
+For a complete working example, check the [example](https://github.com/Miracle-Blue/thunder/blob/dev/example/lib/main.dart) directory.
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:nexus/nexus.dart';
+import 'package:thunder/thunder.dart';
 
 void main() => runApp(const MyApp());
 
@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    builder: (_, child) => Nexus(dio: [_httpDio, _jsonPlaceholderDio, _mainDio], child: child ?? SizedBox.shrink()),
+    builder: (_, child) => Thunder(dio: [_httpDio, _jsonPlaceholderDio, _mainDio], child: child ?? SizedBox.shrink()),
     home: MyHomePage(httpDio: _httpDio, jsonPlaceholderDio: _jsonPlaceholderDio, mainDio: _mainDio),
   );
 }
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: _greenDark,
-      title: Text('Nexus interceptor example', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+      title: Text('Thunder interceptor example', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
     ),
     body: Padding(
       padding: const EdgeInsets.all(16),

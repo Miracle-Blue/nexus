@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/extension/object_extension.dart';
-import '../../common/models/nexus_network_log.dart';
+import '../../common/models/thunder_network_log.dart';
 import '../../common/utils/helpers.dart';
 import 'list_row_item.dart';
 
@@ -12,7 +12,7 @@ class LogRequestWidget extends StatelessWidget {
   const LogRequestWidget({required this.log, super.key});
 
   /// The network log to display
-  final NexusNetworkLog log;
+  final ThunderNetworkLog log;
 
   @override
   Widget build(BuildContext context) => ListView(

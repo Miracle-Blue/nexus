@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "dev.miracle" "\0"
-            VALUE "FileDescription", "nexus_example" "\0"
+            VALUE "CompanyName", "com.example" "\0"
+            VALUE "FileDescription", "thunder_example" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "nexus_example" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 dev.miracle. All rights reserved." "\0"
-            VALUE "OriginalFilename", "nexus_example.exe" "\0"
-            VALUE "ProductName", "nexus_example" "\0"
+            VALUE "InternalName", "thunder_example" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
+            VALUE "OriginalFilename", "thunder_example.exe" "\0"
+            VALUE "ProductName", "thunder_example" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

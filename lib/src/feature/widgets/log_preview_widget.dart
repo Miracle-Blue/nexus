@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import '../../common/models/nexus_network_log.dart';
+import '../../common/models/thunder_network_log.dart';
 import '../../common/utils/app_colors.dart';
 import 'awaiting_response_widget.dart';
 import 'json_viewer.dart';
@@ -14,7 +14,7 @@ class LogPreviewWidget extends StatefulWidget {
   const LogPreviewWidget({required this.log, super.key});
 
   /// The network log to display
-  final NexusNetworkLog log;
+  final ThunderNetworkLog log;
 
   @override
   State<LogPreviewWidget> createState() => _LogPreviewWidgetState();
