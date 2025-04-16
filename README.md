@@ -94,10 +94,7 @@ Thunder can be customized with these parameters:
 
 ```dart
 Thunder(
-  // Required: Your app's main widget
-  child: yourAppWidget,
-
-  // Optional: List of Dio instances to monitor
+  // List of Dio instances to monitor
   dio: [dio1, dio2],
 
   // Optional: Enable/disable the overlay (defaults to kDebugMode)
@@ -105,6 +102,12 @@ Thunder(
 
   // Optional: Animation duration for the slide-out panel
   duration: const Duration(milliseconds: 250),
+
+  // Optional: Color of the overlay
+  color: Colors.green,
+
+  // Required: Your app's main widget
+  child: yourAppWidget,
 );
 ```
 
@@ -139,4 +142,4 @@ Contributions are welcome! If you find a bug or want a feature, please:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Miracle-Blue/thunder/blob/main/LICENSE) file for details.
