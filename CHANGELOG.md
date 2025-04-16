@@ -1,5 +1,9 @@
 ## 0.0.6
 
+* Streamlined interceptor access; Screenshots changed
+
+## 0.0.6
+
 * Enable curly braces in flow control structures
 
 ## 0.0.5
