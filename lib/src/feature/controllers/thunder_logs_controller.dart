@@ -19,7 +19,8 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   final appBarHeight = 100.0;
 
   /// The map of interceptors for the Dio instances.
-  final Map<Dio, ThunderInterceptor> _interceptors = <Dio, ThunderInterceptor>{};
+  final Map<Dio, ThunderInterceptor> _interceptors =
+      <Dio, ThunderInterceptor>{};
 
   /// Whether the search is enabled.
   static bool searchEnabled = false;
@@ -68,7 +69,8 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   /// Getter for creating a new instance of [ThunderInterceptor].
   /// This interceptor is configured with the [_onNetworkActivity] callback,
   /// which handles updates to the network log list when a network event occurs.
-  ThunderInterceptor get _getThunderInterceptor => ThunderInterceptor(onNetworkActivity: _onNetworkActivity);
+  ThunderInterceptor get _getThunderInterceptor =>
+      ThunderInterceptor(onNetworkActivity: _onNetworkActivity);
 
   void _setupInterceptors() {
     for (final interceptor in _interceptors.values) {
@@ -87,7 +89,9 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   }
 
   void _onNetworkActivity(ThunderNetworkLog log) => setState(() {
-    final index = networkLogs.indexWhere((existingLog) => existingLog.id == log.id);
+    final index = networkLogs.indexWhere(
+      (existingLog) => existingLog.id == log.id,
+    );
 
     if (index >= 0) {
       networkLogs[index] = log;
@@ -123,8 +127,12 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
           _tempNetworkLogs
               ?.where(
                 (log) =>
-                    log.request.path.toLowerCase().contains(query.toLowerCase()) ||
-                    log.request.baseUrl.toLowerCase().contains(query.toLowerCase()),
+                    log.request.path.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ) ||
+                    log.request.baseUrl.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ),
               )
               .toList() ??
           [];
@@ -164,10 +172,18 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
       _instance?.setState(
         () => switch (result) {
-          SortType.createTime => networkLogs.sort((a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0),
-          SortType.responseTime => networkLogs.sort((a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0),
-          SortType.endpoint => networkLogs.sort((a, b) => a.request.path.compareTo(b.request.path)),
-          SortType.responseSize => networkLogs.sort((a, b) => a.receiveBytes?.compareTo(b.receiveBytes ?? 0) ?? 0),
+          SortType.createTime => networkLogs.sort(
+            (a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0,
+          ),
+          SortType.responseTime => networkLogs.sort(
+            (a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0,
+          ),
+          SortType.endpoint => networkLogs.sort(
+            (a, b) => a.request.path.compareTo(b.request.path),
+          ),
+          SortType.responseSize => networkLogs.sort(
+            (a, b) => a.receiveBytes?.compareTo(b.receiveBytes ?? 0) ?? 0,
+          ),
           _ => null,
         },
       );
@@ -208,7 +224,9 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
     await Navigator.push<void>(
       context,
-      CupertinoPageRoute<void>(builder: (context) => ThunderLogDetailScreen(log: log)),
+      CupertinoPageRoute<void>(
+        builder: (context) => ThunderLogDetailScreen(log: log),
+      ),
     );
 
     ThunderLogsController.inLogDetailScreen = false;
