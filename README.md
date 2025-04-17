@@ -78,6 +78,14 @@ class MyApp extends StatelessWidget {
   );
 }
 ```
+### Alternative Setup
+
+You can also add the Thunder interceptor directly to your Dio instance:
+```dart
+final Dio jsonPlaceholderDio = Dio(
+  BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
+)..interceptors.add(Thunder.getInterceptor);
+```
 
 ### How to Use
 
