@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Copy log data to clipboard bug fix
+
 ## 0.0.7
 
 * Streamlined interceptor access; Screenshots changed

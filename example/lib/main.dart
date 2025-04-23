@@ -58,7 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
     };
 
     widget.httpDio.get<void>("/redirect-to?url=https%3A%2F%2Fhttpbin.org");
-    widget.httpDio.delete<void>("/status/500");
+    widget.httpDio.delete<void>(
+      "/status/500",
+      queryParameters: {"dumb": "data", "Authorization": "Bearer "},
+      data: {"data": 0, "ok": true},
+      options: Options(headers: {"HEADER": "TEST"}),
+    );
     widget.httpDio.delete<void>("/status/400");
     widget.httpDio.delete<void>("/status/300");
     widget.httpDio.delete<void>("/status/200");

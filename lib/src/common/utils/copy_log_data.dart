@@ -69,7 +69,7 @@ class CopyLogData {
   static final _lines = '─' * 15;
 
   String get _requestHeaders => switch (log.request.headers.isNotEmpty) {
-    true => 'Request headers: ```json\n${log.request.headers.prettyJson}```',
+    true => 'Request headers: ```json\n${log.request.headers.prettyJson}```\n',
     false => '\r',
   };
 
@@ -79,18 +79,18 @@ class CopyLogData {
       .queryParameters
       .isNotEmpty) {
     true =>
-      'Request query params: ```json\n${log.request.uri.queryParameters.prettyJson}```',
+      'Request query params: ```json\n${log.request.uri.queryParameters.prettyJson}```\n',
     false => '\r',
   };
 
   String get _requestBody => switch (log.request.data != null) {
     true =>
-      'Request body: ```json\n${(log.request.data as Object?).prettyJson}```',
+      'Request body: ```json\n${(log.request.data as Object?).prettyJson}```\n',
     false => '\r',
   };
 
   String get _responseBody => switch (log.response?.data != null) {
-    true => 'Response body: ```json\n${(log.response?.data).prettyJson}```',
+    true => 'Response body: ```json\n${(log.response?.data).prettyJson}```\n',
     false => '\r',
   };
 
