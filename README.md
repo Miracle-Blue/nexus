@@ -1,4 +1,4 @@
-# Thunder
+# Thunder ⚡️
 
 A powerful Flutter debug overlay for monitoring network requests in real-time. Thunder provides a convenient slide-out panel that shows all network interactions from your Dio HTTP clients.
 
