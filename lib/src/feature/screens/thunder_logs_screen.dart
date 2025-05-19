@@ -31,7 +31,6 @@ class _ThunderLogsScreenState extends ThunderLogsController {
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: TextField(
               onChanged: onSearchChanged,
-              // decoration: const InputDecoration(hintText: 'Type here...'),
               decoration: const InputDecoration(
                 hintText: 'Type here...',
                 border: InputBorder.none,

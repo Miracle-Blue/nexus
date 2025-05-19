@@ -1,3 +1,9 @@
+## 0.0.9
+
+* Fix the issue of the accessing Thunder.getInterceptor before the widget is created
+* Icon color changed to black
+* Packages version replaced with any
+
 ## 0.0.8
 
 * Copy log data to clipboard bug fix

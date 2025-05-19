@@ -45,6 +45,13 @@ import '../screens/thunder_logs_screen.dart';
 ///   );
 /// }
 /// ```
+///
+/// You can also use Thunder without initializing the widget by directly adding the interceptor to a Dio instance:
+///
+/// ```dart
+/// // This will work even before a Thunder widget is created
+/// final dio = Dio()..interceptors.add(Thunder.getInterceptor);
+/// ```
 class Thunder extends StatefulWidget {
   /// Constructor for the [Thunder] class.
   const Thunder({
@@ -84,7 +91,12 @@ class Thunder extends StatefulWidget {
   final Widget child;
 
   /// Shortcut getter to retrieve the global [ThunderInterceptor] from the controller.
-  /// Useful for assigning this interceptor to Dio instances outside the Thunder widget.
+  /// Can be used even before a Thunder widget is initialized in the widget tree.
+  ///
+  /// Example:
+  /// ```dart
+  /// final dio = Dio()..interceptors.add(Thunder.getInterceptor);
+  /// ```
   static Interceptor get getInterceptor => ThunderLogsController.getInterceptor;
 
   @override
@@ -150,6 +162,7 @@ class _ThunderState extends ThunderOverlayController {
                       child: IconButton(
                         onPressed: ThunderLogsController.toggleSearch,
                         icon: Icon(Icons.search_rounded),
+                        color: Colors.black,
                       ),
                     ),
                     SizedBox(height: 4),
@@ -162,6 +175,7 @@ class _ThunderState extends ThunderOverlayController {
                       child: IconButton(
                         onPressed: ThunderLogsController.onSortLogsTap,
                         icon: Icon(Icons.filter_list_rounded),
+                        color: Colors.black,
                       ),
                     ),
                     SizedBox(height: 4),
@@ -174,6 +188,7 @@ class _ThunderState extends ThunderOverlayController {
                       child: IconButton(
                         onPressed: ThunderLogsController.onDeleteAllLogsTap,
                         icon: Icon(Icons.delete),
+                        color: Colors.black,
                       ),
                     ),
                   ],

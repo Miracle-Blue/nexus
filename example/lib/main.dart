@@ -2,7 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:thunder/thunder.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  final dio = Dio()..interceptors.add(Thunder.getInterceptor);
+
+  dio.get<void>("https://jsonplaceholder.typicode.com/posts");
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

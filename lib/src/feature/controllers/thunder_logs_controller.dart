@@ -12,6 +12,9 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   /// The singleton instance of the controller.
   static ThunderLogsController? _instance;
 
+  /// Singleton instance of the ThunderInterceptor for use before a Thunder widget is created
+  static ThunderInterceptor? _interceptorInstance;
+
   /// The list of network logs.
   static List<ThunderNetworkLog> networkLogs = <ThunderNetworkLog>[];
 
@@ -28,122 +31,45 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   /// Whether the log detail screen is currently open.
   static bool inLogDetailScreen = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _instance = this;
-    _setupInterceptors();
-  }
-
-  @override
-  void didUpdateWidget(covariant ThunderLogsScreen oldWidget) {
-    // Check for changes in the Dio instances
-    if (!_listEquals(widget.dios, oldWidget.dios)) {
-      _setupInterceptors();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    // Remove all interceptors
-    for (final dio in widget.dios) {
-      // ignore: prefer_foreach
-      for (final interceptor in _interceptors.values) {
-        dio.interceptors.remove(interceptor);
-      }
-    }
-
-    _interceptors.clear();
-
-    super.dispose();
-  }
-
-  /// Provides access to the current instance's [ThunderInterceptor].
-  /// Throws an assertion error if the controller instance has not been initialized.
-  static ThunderInterceptor get getInterceptor {
-    assert(_instance != null, 'Instance not implemented');
-    return _instance!._getThunderInterceptor;
-  }
-
   /// Getter for creating a new instance of [ThunderInterceptor].
   /// This interceptor is configured with the [_onNetworkActivity] callback,
   /// which handles updates to the network log list when a network event occurs.
   ThunderInterceptor get _getThunderInterceptor =>
       ThunderInterceptor(onNetworkActivity: _onNetworkActivity);
 
-  void _setupInterceptors() {
-    for (final interceptor in _interceptors.values) {
-      for (final dio in widget.dios) {
-        dio.interceptors.remove(interceptor);
-      }
-    }
-    _interceptors.clear();
-
-    // Add new interceptors
-    for (final dio in widget.dios) {
-      final interceptor = _getThunderInterceptor;
-      dio.interceptors.add(interceptor);
-      _interceptors[dio] = interceptor;
-    }
-  }
-
-  void _onNetworkActivity(ThunderNetworkLog log) => setState(() {
-    final index = networkLogs.indexWhere(
-      (existingLog) => existingLog.id == log.id,
-    );
-
-    if (index >= 0) {
-      networkLogs[index] = log;
-    } else {
-      networkLogs.add(log);
-    }
-  });
-
-  bool _listEquals<T>(List<T> a, List<T> b) {
-    if (a.length != b.length) return false;
-
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-
-    return true;
-  }
-
-  // static final List<ThunderNetworkLog> networkLogs = <ThunderNetworkLog>[];
   List<ThunderNetworkLog>? _tempNetworkLogs;
-
-  /// Method to search logs by their endpoint or base url
-  void onSearchChanged(String query) => setState(() {
-    if (query.isEmpty) {
-      if (_tempNetworkLogs != null) {
-        networkLogs = List<ThunderNetworkLog>.from(_tempNetworkLogs!);
-        _tempNetworkLogs = null;
-      }
-    } else {
-      _tempNetworkLogs ??= List<ThunderNetworkLog>.from(networkLogs);
-
-      networkLogs =
-          _tempNetworkLogs
-              ?.where(
-                (log) =>
-                    log.request.path.toLowerCase().contains(
-                      query.toLowerCase(),
-                    ) ||
-                    log.request.baseUrl.toLowerCase().contains(
-                      query.toLowerCase(),
-                    ),
-              )
-              .toList() ??
-          [];
-    }
-  });
 
   /// The current sort type for the network logs.
   static SortType sortType = SortType.createTime;
 
   /// Whether the sort by alert dialog is currently open.
   static bool _isDialogOpen = false;
+
+  /// Provides access to the current instance's [ThunderInterceptor].
+  /// Creates a new instance if one doesn't exist yet.
+  static ThunderInterceptor get getInterceptor {
+    if (_instance != null) {
+      return _instance!._getThunderInterceptor;
+    }
+
+    // Create a standalone interceptor if not initialized yet
+    _interceptorInstance ??= ThunderInterceptor(
+      onNetworkActivity: (log) {
+        // Store logs even before the UI is initialized
+        final index = networkLogs.indexWhere(
+          (existingLog) => existingLog.id == log.id,
+        );
+
+        if (index >= 0) {
+          networkLogs[index] = log;
+        } else {
+          networkLogs.add(log);
+        }
+      },
+    );
+
+    return _interceptorInstance!;
+  }
 
   /// Show the sort by alert dialog and update the sort type.
   static Future<void> onSortLogsTap() async {
@@ -218,6 +144,70 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
     _instance?.setState(() => searchEnabled = !searchEnabled);
   }
 
+  void _setupInterceptors() {
+    for (final interceptor in _interceptors.values) {
+      for (final dio in widget.dios) {
+        dio.interceptors.remove(interceptor);
+      }
+    }
+    _interceptors.clear();
+
+    // Add new interceptors
+    for (final dio in widget.dios) {
+      final interceptor = _getThunderInterceptor;
+      dio.interceptors.add(interceptor);
+      _interceptors[dio] = interceptor;
+    }
+  }
+
+  void _onNetworkActivity(ThunderNetworkLog log) => setState(() {
+    final index = networkLogs.indexWhere(
+      (existingLog) => existingLog.id == log.id,
+    );
+
+    if (index >= 0) {
+      networkLogs[index] = log;
+    } else {
+      networkLogs.add(log);
+    }
+  });
+
+  bool _listEquals<T>(List<T> a, List<T> b) {
+    if (a.length != b.length) return false;
+
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+
+    return true;
+  }
+
+  /// Method to search logs by their endpoint or base url
+  void onSearchChanged(String query) => setState(() {
+    if (query.isEmpty) {
+      if (_tempNetworkLogs != null) {
+        networkLogs = List<ThunderNetworkLog>.from(_tempNetworkLogs!);
+        _tempNetworkLogs = null;
+      }
+    } else {
+      _tempNetworkLogs ??= List<ThunderNetworkLog>.from(networkLogs);
+
+      networkLogs =
+          _tempNetworkLogs
+              ?.where(
+                (log) =>
+                    log.request.path.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ) ||
+                    log.request.baseUrl.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ),
+              )
+              .toList() ??
+          [];
+    }
+  });
+
   /// Method to navigate to the log detail screen.
   Future<void> onLogTap(ThunderNetworkLog log) async {
     ThunderLogsController.inLogDetailScreen = true;
@@ -231,4 +221,52 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
     ThunderLogsController.inLogDetailScreen = false;
   }
+
+  /* region lifecycle */
+  @override
+  void initState() {
+    super.initState();
+    _instance = this;
+
+    // If there's already a standalone interceptor, add it to the logs
+    if (_interceptorInstance != null) {
+      // Update the callback to use the new instance
+      _interceptorInstance = ThunderInterceptor(
+        onNetworkActivity: _onNetworkActivity,
+      );
+    }
+
+    _setupInterceptors();
+  }
+
+  @override
+  void didUpdateWidget(covariant ThunderLogsScreen oldWidget) {
+    // Check for changes in the Dio instances
+    if (!_listEquals(widget.dios, oldWidget.dios)) {
+      _setupInterceptors();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    // Remove all interceptors
+    for (final dio in widget.dios) {
+      // ignore: prefer_foreach
+      for (final interceptor in _interceptors.values) {
+        dio.interceptors.remove(interceptor);
+      }
+    }
+
+    _interceptors.clear();
+
+    // Only remove instance reference if this is the current instance
+    if (_instance == this) {
+      _instance = null;
+    }
+
+    super.dispose();
+  }
+
+  /* endregion lifecycle */
 }
