@@ -162,8 +162,8 @@ class _HtmlRendererState extends State<HtmlRenderer> {
       case 'a':
         final href = element.attributes['href'] ?? '#';
         return InkWell(
-          onTap:
-              () => Helpers.copyAndShowSnackBar(context, contentToCopy: href),
+          onTap: () =>
+              Helpers.copyAndShowSnackBar(context, contentToCopy: href),
           child: Text(
             element.text,
             style: TextStyle(
@@ -202,23 +202,24 @@ class _HtmlRendererState extends State<HtmlRenderer> {
           padding: const EdgeInsets.only(left: 20, top: 8, bottom: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                element.children.map<SingleChildRenderObjectWidget>((child) {
-                  if (child.localName?.toLowerCase() == 'li') {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('• ', style: TextStyle(fontSize: 16)),
-                          Expanded(child: _handleInlineElements(child)),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                }).toList(),
+            children: element.children.map<SingleChildRenderObjectWidget>((
+              child,
+            ) {
+              if (child.localName?.toLowerCase() == 'li') {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('• ', style: TextStyle(fontSize: 16)),
+                      Expanded(child: _handleInlineElements(child)),
+                    ],
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            }).toList(),
           ),
         );
 
@@ -227,29 +228,28 @@ class _HtmlRendererState extends State<HtmlRenderer> {
           padding: const EdgeInsets.only(left: 20, top: 8, bottom: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                element.children.asMap().entries.map((entry) {
-                  var index = entry.key;
-                  var child = entry.value;
+            children: element.children.asMap().entries.map((entry) {
+              var index = entry.key;
+              var child = entry.value;
 
-                  if (child.localName?.toLowerCase() == 'li') {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${index + 1}. ',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          Expanded(child: _handleInlineElements(child)),
-                        ],
+              if (child.localName?.toLowerCase() == 'li') {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${index + 1}. ',
+                        style: const TextStyle(fontSize: 16),
                       ),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                }).toList(),
+                      Expanded(child: _handleInlineElements(child)),
+                    ],
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            }).toList(),
           ),
         );
 
@@ -273,10 +273,9 @@ class _HtmlRendererState extends State<HtmlRenderer> {
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
           decoration: BoxDecoration(
-            color:
-                theme.brightness == Brightness.dark
-                    ? Colors.grey[800]
-                    : Colors.grey[200],
+            color: theme.brightness == Brightness.dark
+                ? Colors.grey[800]
+                : Colors.grey[200],
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
@@ -284,10 +283,9 @@ class _HtmlRendererState extends State<HtmlRenderer> {
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 14,
-              color:
-                  theme.brightness == Brightness.dark
-                      ? Colors.grey[300]
-                      : Colors.grey[900],
+              color: theme.brightness == Brightness.dark
+                  ? Colors.grey[300]
+                  : Colors.grey[900],
             ),
           ),
         );
@@ -298,10 +296,9 @@ class _HtmlRendererState extends State<HtmlRenderer> {
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color:
-                theme.brightness == Brightness.dark
-                    ? Colors.grey[800]
-                    : Colors.grey[200],
+            color: theme.brightness == Brightness.dark
+                ? Colors.grey[800]
+                : Colors.grey[200],
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -309,10 +306,9 @@ class _HtmlRendererState extends State<HtmlRenderer> {
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 14,
-              color:
-                  theme.brightness == Brightness.dark
-                      ? Colors.grey[300]
-                      : Colors.grey[900],
+              color: theme.brightness == Brightness.dark
+                  ? Colors.grey[300]
+                  : Colors.grey[900],
             ),
           ),
         );
@@ -404,13 +400,9 @@ class _HtmlRendererState extends State<HtmlRenderer> {
                   color: AppColors.mainColor,
                   decoration: TextDecoration.underline,
                 ),
-                recognizer:
-                    TapGestureRecognizer()
-                      ..onTap =
-                          () => Helpers.copyAndShowSnackBar(
-                            context,
-                            contentToCopy: href,
-                          ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () =>
+                      Helpers.copyAndShowSnackBar(context, contentToCopy: href),
               ),
             );
             break;
@@ -422,8 +414,8 @@ class _HtmlRendererState extends State<HtmlRenderer> {
                   fontFamily: 'monospace',
                   backgroundColor:
                       Theme.of(context).brightness == Brightness.dark
-                          ? Colors.grey[800]
-                          : Colors.grey[200],
+                      ? Colors.grey[800]
+                      : Colors.grey[200],
                 ),
               ),
             );
@@ -461,26 +453,24 @@ class _HtmlRendererState extends State<HtmlRenderer> {
 
             return Center(
               child: CircularProgressIndicator(
-                value:
-                    loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            (loadingProgress.expectedTotalBytes ?? 1)
-                        : null,
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                          (loadingProgress.expectedTotalBytes ?? 1)
+                    : null,
               ),
             );
           },
-          errorBuilder:
-              (context, error, stackTrace) => Container(
-                width: width ?? 100,
-                height: height ?? 100,
-                color: Colors.grey[300],
-                alignment: Alignment.center,
-                child: Text(
-                  alt,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.black54),
-                ),
-              ),
+          errorBuilder: (context, error, stackTrace) => Container(
+            width: width ?? 100,
+            height: height ?? 100,
+            color: Colors.grey[300],
+            alignment: Alignment.center,
+            child: Text(
+              alt,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.black54),
+            ),
+          ),
         ),
         false => const SizedBox.shrink(),
       },

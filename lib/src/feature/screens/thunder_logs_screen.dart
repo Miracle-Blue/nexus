@@ -71,16 +71,15 @@ class _ThunderLogsScreenState extends ThunderLogsController {
             ),
             false => ListView.builder(
               itemCount: ThunderLogsController.networkLogs.length,
-              itemBuilder:
-                  (context, index) => LogButton(
-                    log:
-                        ThunderLogsController.networkLogs[ThunderLogsController
-                                .networkLogs
-                                .length -
-                            1 -
-                            index],
-                    onLogTap: onLogTap,
-                  ),
+              itemBuilder: (context, index) => LogButton(
+                log:
+                    ThunderLogsController.networkLogs[ThunderLogsController
+                            .networkLogs
+                            .length -
+                        1 -
+                        index],
+                onLogTap: onLogTap,
+              ),
             ),
           },
         ],

@@ -39,8 +39,9 @@ class ListRowItem extends StatelessWidget {
           horizontal: 6,
         ),
         child: Row(
-          crossAxisAlignment:
-              isJson ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+          crossAxisAlignment: isJson
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             /// If the value is JSON, display it in a column.
@@ -94,25 +95,23 @@ class ListRowItem extends StatelessWidget {
             },
             if (showCopyButton || isJson)
               IconButton(
-                onPressed:
-                    () => Helpers.copyAndShowSnackBar(
-                      context,
-                      contentToCopy: value ?? 'null',
-                    ),
+                onPressed: () => Helpers.copyAndShowSnackBar(
+                  context,
+                  contentToCopy: value ?? 'null',
+                ),
                 onLongPress: switch (isJson) {
-                  true =>
-                    () => Helpers.copyAndShowSnackBar(
-                      context,
-                      contentToCopy: () {
-                        var isJson =
-                            (value?.startsWith('{') ?? false) &&
-                                (value?.endsWith('}') ?? false) ||
-                            (value?.startsWith('[') ?? false) &&
-                                (value?.endsWith(']') ?? false);
+                  true => () => Helpers.copyAndShowSnackBar(
+                    context,
+                    contentToCopy: () {
+                      var isJson =
+                          (value?.startsWith('{') ?? false) &&
+                              (value?.endsWith('}') ?? false) ||
+                          (value?.startsWith('[') ?? false) &&
+                              (value?.endsWith(']') ?? false);
 
-                        return isJson ? '```json\n$value\n```' : value ?? '';
-                      }(),
-                    ),
+                      return isJson ? '```json\n$value\n```' : value ?? '';
+                    }(),
+                  ),
                   false => null,
                 },
                 icon: const Icon(Icons.copy, size: 18),

@@ -81,8 +81,8 @@ class _LogResponseWidgetState extends State<LogResponseWidget> {
               widget.log.error == null)
             FutureBuilder<String>(
               future: _jsonResponse,
-              builder:
-                  (context, snapshot) => switch (snapshot.connectionState) {
+              builder: (context, snapshot) =>
+                  switch (snapshot.connectionState) {
                     ConnectionState.done => ListRowItem(
                       name: 'Body',
                       value: snapshot.data,

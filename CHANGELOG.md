@@ -1,3 +1,6 @@
+## 0.1.0
+* Dart version 3.8.0
+
 ## 0.0.9
 
 * Fix the issue of the accessing Thunder.getInterceptor before the widget is created

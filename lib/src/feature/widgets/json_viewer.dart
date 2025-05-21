@@ -100,10 +100,9 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
                 // If expandable, show a toggle icon.
                 if (expandable)
                   InkWell(
-                    onTap:
-                        () => setState(
-                          () => _openFlags[key] = !(_openFlags[key] ?? false),
-                        ),
+                    onTap: () => setState(
+                      () => _openFlags[key] = !(_openFlags[key] ?? false),
+                    ),
                     borderRadius: BorderRadius.circular(16),
 
                     child: Icon(
@@ -170,17 +169,16 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
         return _buildCopyableText(
           context: context,
           text: 'Array[0]',
-          onTap:
-              () =>
-                  setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
+          onTap: () =>
+              setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
         );
       }
       return _buildCopyableText(
         context: context,
         text:
             'Array<${JsonViewerUtils.getTypeName(value.first)}>[${value.length}]',
-        onTap:
-            () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
+        onTap: () =>
+            setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
       );
     }
 
@@ -188,8 +186,8 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
     return _buildCopyableText(
       context: context,
       text: 'Object',
-      onTap:
-          () => setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
+      onTap: () =>
+          setState(() => _openFlags[key] = !(_openFlags[key] ?? false)),
     );
   }
 
@@ -200,8 +198,8 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
     required VoidCallback onTap,
   }) => GestureDetector(
     onTap: onTap,
-    onDoubleTap:
-        () => Helpers.copyAndShowSnackBar(context, contentToCopy: text),
+    onDoubleTap: () =>
+        Helpers.copyAndShowSnackBar(context, contentToCopy: text),
     child: Text(text, style: const TextStyle(color: Colors.grey, fontSize: 12)),
   );
 
@@ -355,8 +353,8 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
     required VoidCallback onTap,
   }) => InkWell(
     onTap: onTap,
-    onDoubleTap:
-        () => Helpers.copyAndShowSnackBar(context, contentToCopy: text),
+    onDoubleTap: () =>
+        Helpers.copyAndShowSnackBar(context, contentToCopy: text),
     child: Text(text, style: const TextStyle(color: Colors.grey)),
   );
 

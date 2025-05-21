@@ -22,11 +22,10 @@ class LogButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CupertinoButton(
     onPressed: () => onLogTap(log),
-    onLongPress:
-        () => Helpers.copyAndShowSnackBar(
-          context,
-          contentToCopy: log.request.toCurlString(),
-        ),
+    onLongPress: () => Helpers.copyAndShowSnackBar(
+      context,
+      contentToCopy: log.request.toCurlString(),
+    ),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
     child: Material(
       elevation: 3,

@@ -121,10 +121,9 @@ class _LogPreviewWidgetState extends State<LogPreviewWidget> {
             // Show a progress indicator until image is loaded.
             if (loadingProgress == null) return child;
             final expected = loadingProgress.expectedTotalBytes ?? 0;
-            final progress =
-                expected > 0
-                    ? loadingProgress.cumulativeBytesLoaded / expected
-                    : null;
+            final progress = expected > 0
+                ? loadingProgress.cumulativeBytesLoaded / expected
+                : null;
             return Center(child: CircularProgressIndicator(value: progress));
           },
         ),

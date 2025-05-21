@@ -29,28 +29,24 @@ abstract class Helpers {
     String content = 'Copied to your clipboard!',
   }) {
     final overlayEntry = OverlayEntry(
-      builder:
-          (context) => Positioned(
-            bottom: 50,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: CupertinoColors.systemGrey.withOpacity(0.9),
-                  borderRadius: BorderRadius.circular(48),
-                ),
-                child: Text(
-                  content,
-                  style: const TextStyle(color: CupertinoColors.white),
-                ),
-              ),
+      builder: (context) => Positioned(
+        bottom: 50,
+        left: 0,
+        right: 0,
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            decoration: BoxDecoration(
+              color: CupertinoColors.systemGrey.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(48),
+            ),
+            child: Text(
+              content,
+              style: const TextStyle(color: CupertinoColors.white),
             ),
           ),
+        ),
+      ),
     );
 
     Overlay.of(context).insert(overlayEntry);

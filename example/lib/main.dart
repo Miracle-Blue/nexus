@@ -23,11 +23,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    builder:
-        (_, child) => Thunder(
-          dio: [_httpDio, _mainDio],
-          child: child ?? SizedBox.shrink(),
-        ),
+    builder: (_, child) =>
+        Thunder(dio: [_httpDio, _mainDio], child: child ?? SizedBox.shrink()),
     home: MyHomePage(httpDio: _httpDio, mainDio: _mainDio),
   );
 }

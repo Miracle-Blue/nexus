@@ -239,60 +239,59 @@ class _ThunderState extends ThunderOverlayController {
   Widget build(BuildContext context) =>
       // If overlay is disabled, just return the child widget
       !widget.enabled
-          ? widget.child
-          : LayoutBuilder(
-            builder: (context, constraints) {
-              final biggest = constraints.biggest;
-              // Calculate width of overlay panel, capped at 400 or 99% of screen width
-              final width = math.min<double>(500, biggest.width * 0.99);
+      ? widget.child
+      : LayoutBuilder(
+          builder: (context, constraints) {
+            final biggest = constraints.biggest;
+            // Calculate width of overlay panel, capped at 400 or 99% of screen width
+            final width = math.min<double>(500, biggest.width * 0.99);
 
-              return GestureDetector(
-                // Handle drag gestures to manually slide the overlay
-                onHorizontalDragUpdate:
-                    dismissed
-                        ? null
-                        : (details) => onHorizontalDragUpdate(details, width),
-                onHorizontalDragEnd: dismissed ? null : onHorizontalDragEnd,
-                child: Stack(
-                  children: <Widget>[
-                    // The main app content
-                    widget.child,
-                    // Semi-transparent barrier behind the overlay when open
-                    if (!dismissed)
-                      AnimatedModalBarrier(
-                        color: controller.drive(
-                          ColorTween(
-                            begin: Colors.transparent,
-                            end: Colors.black.withAlpha(127),
-                          ),
-                        ),
-                        dismissible: true,
-                        semanticsLabel: 'Dismiss',
-                        onDismiss: () => controller.hide(),
-                      ),
-                    // The sliding overlay panel
-                    PositionedTransition(
-                      rect: controller.drive(
-                        RelativeRectTween(
-                          begin: RelativeRect.fromLTRB(
-                            handleWidth - width,
-                            0,
-                            biggest.width - handleWidth,
-                            0,
-                          ),
-                          end: RelativeRect.fromLTRB(
-                            0,
-                            0,
-                            biggest.width - width,
-                            0,
-                          ),
+            return GestureDetector(
+              // Handle drag gestures to manually slide the overlay
+              onHorizontalDragUpdate: dismissed
+                  ? null
+                  : (details) => onHorizontalDragUpdate(details, width),
+              onHorizontalDragEnd: dismissed ? null : onHorizontalDragEnd,
+              child: Stack(
+                children: <Widget>[
+                  // The main app content
+                  widget.child,
+                  // Semi-transparent barrier behind the overlay when open
+                  if (!dismissed)
+                    AnimatedModalBarrier(
+                      color: controller.drive(
+                        ColorTween(
+                          begin: Colors.transparent,
+                          end: Colors.black.withAlpha(127),
                         ),
                       ),
-                      child: SizedBox(width: width, child: _materialContext()),
+                      dismissible: true,
+                      semanticsLabel: 'Dismiss',
+                      onDismiss: () => controller.hide(),
                     ),
-                  ],
-                ),
-              );
-            },
-          );
+                  // The sliding overlay panel
+                  PositionedTransition(
+                    rect: controller.drive(
+                      RelativeRectTween(
+                        begin: RelativeRect.fromLTRB(
+                          handleWidth - width,
+                          0,
+                          biggest.width - handleWidth,
+                          0,
+                        ),
+                        end: RelativeRect.fromLTRB(
+                          0,
+                          0,
+                          biggest.width - width,
+                          0,
+                        ),
+                      ),
+                    ),
+                    child: SizedBox(width: width, child: _materialContext()),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
 }
