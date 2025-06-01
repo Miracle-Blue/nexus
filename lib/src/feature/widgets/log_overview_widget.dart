@@ -15,39 +15,39 @@ class LogOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView(
-    children: [
-      ListRowItem(name: 'Method', value: log.request.method),
-      ListRowItem(
-        name: 'URL',
-        value: log.request.baseUrl.isEmpty
-            ? 'Base URL is empty'
-            : log.request.baseUrl,
-        showCopyButton: true,
-      ),
-      ListRowItem(
-        name: 'Endpoint',
-        value: log.request.path.isEmpty
-            ? 'Endpoint is empty'
-            : log.request.path,
-        showCopyButton: true,
-      ),
-      ListRowItem(
-        name: 'Status',
-        value: log.response?.statusCode.toString() ?? 'null',
-      ),
-      ListRowItem(
-        name: 'Time',
-        value: log.duration?.formatCompactDuration ?? 'null',
-      ),
-      ListRowItem(
-        name: 'Bytes Sent',
-        value: Helpers.formatBytes(log.sendBytes),
-      ),
-      ListRowItem(
-        name: 'Bytes Received',
-        value: Helpers.formatBytes(log.receiveBytes),
-        showDivider: false,
-      ),
-    ],
-  );
+        children: [
+          ListRowItem(name: 'Method', value: log.request.method),
+          ListRowItem(
+            name: 'URL',
+            value: log.request.baseUrl.isEmpty
+                ? 'Base URL is empty'
+                : log.request.baseUrl,
+            showCopyButton: true,
+          ),
+          ListRowItem(
+            name: 'Endpoint',
+            value: log.request.path.isEmpty
+                ? 'Endpoint is empty'
+                : log.request.path,
+            showCopyButton: true,
+          ),
+          ListRowItem(
+            name: 'Status',
+            value: log.response?.statusCode.toString() ?? 'null',
+          ),
+          ListRowItem(
+            name: 'Time',
+            value: log.duration?.formatCompactDuration ?? 'null',
+          ),
+          ListRowItem(
+            name: 'Bytes Sent',
+            value: Helpers.formatBytes(log.sendBytes),
+          ),
+          ListRowItem(
+            name: 'Bytes Received',
+            value: Helpers.formatBytes(log.receiveBytes),
+            showDivider: false,
+          ),
+        ],
+      );
 }

@@ -21,151 +21,151 @@ class LogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoButton(
-    onPressed: () => onLogTap(log),
-    onLongPress: () => Helpers.copyAndShowSnackBar(
-      context,
-      contentToCopy: log.request.toCurlString(),
-    ),
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-    child: Material(
-      elevation: 3,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        width: double.infinity,
-        clipBehavior: Clip.hardEdge,
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: log.methodBackgroundColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: log.methodColor),
+        onPressed: () => onLogTap(log),
+        onLongPress: () => Helpers.copyAndShowSnackBar(
+          context,
+          contentToCopy: log.request.toCurlString(),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (log.request.baseUrl.isNotEmpty)
-              Row(
-                children: [
-                  /// For secure request
-                  if (log.request.baseUrl.contains('https')) ...[
-                    const Icon(
-                      Icons.lock_outline_rounded,
-                      size: 10,
-                      color: AppColors.red,
-                    ),
-                    const SizedBox(width: 4),
-                  ],
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        child: Material(
+          elevation: 3,
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            width: double.infinity,
+            clipBehavior: Clip.hardEdge,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: log.methodBackgroundColor,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: log.methodColor),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (log.request.baseUrl.isNotEmpty)
+                  Row(
+                    children: [
+                      /// For secure request
+                      if (log.request.baseUrl.contains('https')) ...[
+                        const Icon(
+                          Icons.lock_outline_rounded,
+                          size: 10,
+                          color: AppColors.red,
+                        ),
+                        const SizedBox(width: 4),
+                      ],
 
-                  /// Request Base URL
-                  Expanded(
-                    child: Text(
-                      log.request.baseUrl,
+                      /// Request Base URL
+                      Expanded(
+                        child: Text(
+                          log.request.baseUrl,
+                          style: const TextStyle(
+                            color: AppColors.grayRussian,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                const SizedBox(height: 4),
+
+                /// Request Path
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        log.request.path,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: AppColors.lavaStone,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    /// Request Size
+                    if (!log.isLoading)
+                      Text(
+                        '${Helpers.formatBytes(log.sendBytes)} / ${Helpers.formatBytes(log.receiveBytes)}',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.black,
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    /// Request Method (GET, POST, PUT, DELETE)
+                    Container(
+                      width: 60,
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: log.methodColor,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        log.request.method,
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 11,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+
+                    /// Request Time | Request duration
+                    Text(
+                      "${DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now())}${log.isLoading ? '' : '  │  ${log.duration.formatCompactDuration}'}",
                       style: const TextStyle(
-                        color: AppColors.grayRussian,
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
+                        color: AppColors.black,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
-              ),
-            const SizedBox(height: 4),
 
-            /// Request Path
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    log.request.path,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: AppColors.lavaStone,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                    switch (log.isLoading) {
+                      true => SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(
+                            color: log.methodColor,
+                            strokeCap: StrokeCap.round,
+                            strokeWidth: 3,
+                          ),
+                        ),
+                      false => Text(
+                          log.response?.statusCode.toString() ??
+                              log.error?.response?.statusCode.toString() ??
+                              'null',
+                          style: TextStyle(
+                            color: switch (log.response?.statusCode) {
+                              _
+                                  when 200 <= (log.response?.statusCode ?? 0) &&
+                                      (log.response?.statusCode ?? 0) < 300 =>
+                                const Color(0xFF2ccc84),
+                              _ => AppColors.red,
+                            },
+                            fontWeight: FontWeight.w700,
+                            // fontSize: 15,
+                          ),
+                        ),
+                    },
+                  ],
                 ),
-
-                /// Request Size
-                if (!log.isLoading)
-                  Text(
-                    '${Helpers.formatBytes(log.sendBytes)} / ${Helpers.formatBytes(log.receiveBytes)}',
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                    ),
-                  ),
               ],
             ),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                /// Request Method (GET, POST, PUT, DELETE)
-                Container(
-                  width: 60,
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: log.methodColor,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    log.request.method,
-                    style: const TextStyle(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-
-                /// Request Time | Request duration
-                Text(
-                  "${DateFormat('HH:mm:ss:SSS').format(log.sendTime ?? DateTime.now())}${log.isLoading ? '' : '  │  ${log.duration.formatCompactDuration}'}",
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.black,
-                  ),
-                ),
-
-                switch (log.isLoading) {
-                  true => SizedBox(
-                    height: 16,
-                    width: 16,
-                    child: CircularProgressIndicator(
-                      color: log.methodColor,
-                      strokeCap: StrokeCap.round,
-                      strokeWidth: 3,
-                    ),
-                  ),
-                  false => Text(
-                    log.response?.statusCode.toString() ??
-                        log.error?.response?.statusCode.toString() ??
-                        'null',
-                    style: TextStyle(
-                      color: switch (log.response?.statusCode) {
-                        _
-                            when 200 <= (log.response?.statusCode ?? 0) &&
-                                (log.response?.statusCode ?? 0) < 300 =>
-                          const Color(0xFF2ccc84),
-                        _ => AppColors.red,
-                      },
-                      fontWeight: FontWeight.w700,
-                      // fontSize: 15,
-                    ),
-                  ),
-                },
-              ],
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-  );
+      );
 }

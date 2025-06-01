@@ -23,10 +23,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    builder: (_, child) =>
-        Thunder(dio: [_httpDio, _mainDio], child: child ?? SizedBox.shrink()),
-    home: MyHomePage(httpDio: _httpDio, mainDio: _mainDio),
-  );
+        builder: (_, child) => Thunder(
+            dio: [_httpDio, _mainDio], child: child ?? SizedBox.shrink()),
+        home: MyHomePage(httpDio: _httpDio, mainDio: _mainDio),
+      );
 }
 
 class MyHomePage extends StatefulWidget {
@@ -107,36 +107,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      backgroundColor: _greenDark,
-      title: Text(
-        'Thunder interceptor example',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-      ),
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Press the button in the bottom to run the requests',
-            style: TextStyle(
-              color: Color(0xFF3b4151),
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-            textAlign: TextAlign.center,
+        appBar: AppBar(
+          backgroundColor: _greenDark,
+          title: Text(
+            'Thunder interceptor example',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 12),
-          FilledButton(
-            onPressed: _runDioRequests,
-            style: FilledButton.styleFrom(backgroundColor: _greenDark),
-            child: const Text('Run requests'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Press the button in the bottom to run the requests',
+                style: TextStyle(
+                  color: Color(0xFF3b4151),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 12),
+              FilledButton(
+                onPressed: _runDioRequests,
+                style: FilledButton.styleFrom(backgroundColor: _greenDark),
+                child: const Text('Run requests'),
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 }

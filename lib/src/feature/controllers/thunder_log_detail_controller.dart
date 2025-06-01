@@ -24,7 +24,7 @@ abstract class ThunderLogDetailController extends State<ThunderLogDetailScreen>
 
   /// Method that handles the copy log tap
   void onCopyLogTap() => Helpers.copyAndShowSnackBar(
-    context,
-    contentToCopy: CopyLogData(log: widget.log).toCopyableLogData,
-  );
+        context,
+        contentToCopy: CopyLogData(log: widget.log).toCopyableLogData,
+      );
 }

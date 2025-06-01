@@ -16,36 +16,36 @@ class LogRequestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView(
-    children: [
-      ListRowItem(
-        name: 'Started',
-        value: DateFormat(
-          'dd-MM-yyyy │ HH:mm:ss:SSS',
-        ).format(log.sendTime ?? DateTime.now()),
-      ),
-      ListRowItem(
-        name: 'Bytes sent',
-        value: Helpers.formatBytes(log.sendBytes),
-      ),
-      ListRowItem(
-        name: 'Headers',
-        value: log.request.headers.prettyJson,
-        showCopyButton: true,
-        isJson: true,
-      ),
-      ListRowItem(
-        name: 'Body',
-        value: (log.request.data as Object?).prettyJson,
-        showCopyButton: true,
-        isJson: true,
-      ),
-      ListRowItem(
-        name: 'Query Parameters',
-        value: (log.request.queryParameters as Object?).prettyJson,
-        showCopyButton: true,
-        showDivider: false,
-        isJson: true,
-      ),
-    ],
-  );
+        children: [
+          ListRowItem(
+            name: 'Started',
+            value: DateFormat(
+              'dd-MM-yyyy │ HH:mm:ss:SSS',
+            ).format(log.sendTime ?? DateTime.now()),
+          ),
+          ListRowItem(
+            name: 'Bytes sent',
+            value: Helpers.formatBytes(log.sendBytes),
+          ),
+          ListRowItem(
+            name: 'Headers',
+            value: log.request.headers.prettyJson,
+            showCopyButton: true,
+            isJson: true,
+          ),
+          ListRowItem(
+            name: 'Body',
+            value: (log.request.data as Object?).prettyJson,
+            showCopyButton: true,
+            isJson: true,
+          ),
+          ListRowItem(
+            name: 'Query Parameters',
+            value: (log.request.queryParameters as Object?).prettyJson,
+            showCopyButton: true,
+            showDivider: false,
+            isJson: true,
+          ),
+        ],
+      );
 }

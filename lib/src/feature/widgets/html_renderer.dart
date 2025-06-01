@@ -56,25 +56,25 @@ class _HtmlRendererState extends State<HtmlRenderer> {
 
   @override
   Widget build(BuildContext context) => switch (_isLoading) {
-    true => const Center(child: CircularProgressIndicator()),
-    _ when _errorMessage != null => Center(
-      child: Text(
-        _errorMessage ?? '',
-        style: TextStyle(color: Colors.red[800]),
-      ),
-    ),
-    _ when _document.body == null => const Center(
-      child: Text('No content available.'),
-    ),
-    _ => () {
-      final children = _parseNodes(_document.body?.nodes ?? <dom.Node>[]);
+        true => const Center(child: CircularProgressIndicator()),
+        _ when _errorMessage != null => Center(
+            child: Text(
+              _errorMessage ?? '',
+              style: TextStyle(color: Colors.red[800]),
+            ),
+          ),
+        _ when _document.body == null => const Center(
+            child: Text('No content available.'),
+          ),
+        _ => () {
+            final children = _parseNodes(_document.body?.nodes ?? <dom.Node>[]);
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
-      );
-    }(),
-  };
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            );
+          }(),
+      };
 
   /// Recursively parses a list of DOM nodes into Flutter widgets.
   List<Widget> _parseNodes(List<dom.Node> nodes) {
@@ -414,8 +414,8 @@ class _HtmlRendererState extends State<HtmlRenderer> {
                   fontFamily: 'monospace',
                   backgroundColor:
                       Theme.of(context).brightness == Brightness.dark
-                      ? Colors.grey[800]
-                      : Colors.grey[200],
+                          ? Colors.grey[800]
+                          : Colors.grey[200],
                 ),
               ),
             );
@@ -444,34 +444,34 @@ class _HtmlRendererState extends State<HtmlRenderer> {
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: switch (src.isNotEmpty) {
         true => Image.network(
-          src,
-          fit: BoxFit.contain,
-          width: width,
-          height: height,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
+            src,
+            fit: BoxFit.contain,
+            width: width,
+            height: height,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
 
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
                           (loadingProgress.expectedTotalBytes ?? 1)
-                    : null,
+                      : null,
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) => Container(
+              width: width ?? 100,
+              height: height ?? 100,
+              color: Colors.grey[300],
+              alignment: Alignment.center,
+              child: Text(
+                alt,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.black54),
               ),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) => Container(
-            width: width ?? 100,
-            height: height ?? 100,
-            color: Colors.grey[300],
-            alignment: Alignment.center,
-            child: Text(
-              alt,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black54),
             ),
           ),
-        ),
         false => const SizedBox.shrink(),
       },
     );

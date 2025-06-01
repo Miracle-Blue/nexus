@@ -1,3 +1,7 @@
+## 0.1.1
+
+* Fix the issue of the pub score
+
 ## 0.1.0
 * Dart version 3.8.0
 

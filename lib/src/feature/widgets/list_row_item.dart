@@ -32,94 +32,97 @@ class ListRowItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-    children: [
-      Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: showCopyButton ? 0 : 8,
-          horizontal: 6,
-        ),
-        child: Row(
-          crossAxisAlignment: isJson
-              ? CrossAxisAlignment.start
-              : CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            /// If the value is JSON, display it in a column.
-            switch (isJson) {
-              true => Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (name != null && (name?.isNotEmpty ?? false)) ...[
-                      SelectableText(
-                        '$name:',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 4),
-                    ],
-                    SelectableText(
-                      value ?? 'null',
-                      style: const TextStyle(
-                        fontSize: 12.5,
-                        color: AppColors.gunmetal,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              false => Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (name != null && (name?.isNotEmpty ?? false)) ...[
-                      SelectableText(
-                        '$name:',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 4),
-                    ],
-                    Flexible(
-                      child: SelectableText(
-                        value ?? 'null',
-                        style: const TextStyle(
-                          fontSize: 12.5,
-                          color: AppColors.gunmetal,
-                          fontWeight: FontWeight.w500,
-                        ),
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: showCopyButton ? 0 : 8,
+              horizontal: 6,
+            ),
+            child: Row(
+              crossAxisAlignment:
+                  isJson ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// If the value is JSON, display it in a column.
+                switch (isJson) {
+                  true => Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (name != null && (name?.isNotEmpty ?? false)) ...[
+                            SelectableText(
+                              '$name:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(width: 4),
+                          ],
+                          SelectableText(
+                            value ?? 'null',
+                            style: const TextStyle(
+                              fontSize: 12.5,
+                              color: AppColors.gunmetal,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            },
-            if (showCopyButton || isJson)
-              IconButton(
-                onPressed: () => Helpers.copyAndShowSnackBar(
-                  context,
-                  contentToCopy: value ?? 'null',
-                ),
-                onLongPress: switch (isJson) {
-                  true => () => Helpers.copyAndShowSnackBar(
-                    context,
-                    contentToCopy: () {
-                      var isJson =
-                          (value?.startsWith('{') ?? false) &&
-                              (value?.endsWith('}') ?? false) ||
-                          (value?.startsWith('[') ?? false) &&
-                              (value?.endsWith(']') ?? false);
-
-                      return isJson ? '```json\n$value\n```' : value ?? '';
-                    }(),
-                  ),
-                  false => null,
+                  false => Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (name != null && (name?.isNotEmpty ?? false)) ...[
+                            SelectableText(
+                              '$name:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(width: 4),
+                          ],
+                          Flexible(
+                            child: SelectableText(
+                              value ?? 'null',
+                              cursorColor: AppColors.gunmetal,
+                              style: const TextStyle(
+                                fontSize: 12.5,
+                                color: AppColors.gunmetal,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                 },
-                icon: const Icon(Icons.copy, size: 18),
-              ),
-          ],
-        ),
-      ),
-      if (showDivider) const Divider(height: 5),
-    ],
-  );
+                if (showCopyButton || isJson)
+                  IconButton(
+                    onPressed: () => Helpers.copyAndShowSnackBar(
+                      context,
+                      contentToCopy: value ?? 'null',
+                    ),
+                    onLongPress: switch (isJson) {
+                      true => () => Helpers.copyAndShowSnackBar(
+                            context,
+                            contentToCopy: () {
+                              var isJson = (value?.startsWith('{') ?? false) &&
+                                      (value?.endsWith('}') ?? false) ||
+                                  (value?.startsWith('[') ?? false) &&
+                                      (value?.endsWith(']') ?? false);
+
+                              return isJson
+                                  ? '```json\n$value\n```'
+                                  : value ?? '';
+                            }(),
+                          ),
+                      false => null,
+                    },
+                    icon: const Icon(Icons.copy, size: 18),
+                  ),
+              ],
+            ),
+          ),
+          if (showDivider) const Divider(height: 5),
+        ],
+      );
 }

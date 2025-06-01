@@ -69,30 +69,29 @@ class CopyLogData {
   static final _lines = '─' * 15;
 
   String get _requestHeaders => switch (log.request.headers.isNotEmpty) {
-    true => 'Request headers: ```json\n${log.request.headers.prettyJson}```\n',
-    false => '\r',
-  };
+        true =>
+          'Request headers: ```json\n${log.request.headers.prettyJson}```\n',
+        false => '\r',
+      };
 
-  String get _queryParams => switch (log
-      .request
-      .uri
-      .queryParameters
-      .isNotEmpty) {
-    true =>
-      'Request query params: ```json\n${log.request.uri.queryParameters.prettyJson}```\n',
-    false => '\r',
-  };
+  String get _queryParams =>
+      switch (log.request.uri.queryParameters.isNotEmpty) {
+        true =>
+          'Request query params: ```json\n${log.request.uri.queryParameters.prettyJson}```\n',
+        false => '\r',
+      };
 
   String get _requestBody => switch (log.request.data != null) {
-    true =>
-      'Request body: ```json\n${(log.request.data as Object?).prettyJson}```\n',
-    false => '\r',
-  };
+        true =>
+          'Request body: ```json\n${(log.request.data as Object?).prettyJson}```\n',
+        false => '\r',
+      };
 
   String get _responseBody => switch (log.response?.data != null) {
-    true => 'Response body: ```json\n${(log.response?.data).prettyJson}```\n',
-    false => '\r',
-  };
+        true =>
+          'Response body: ```json\n${(log.response?.data).prettyJson}```\n',
+        false => '\r',
+      };
 
   /// Method that converts the [ThunderNetworkLog] to a copyable log data string
   String get toCopyableLogData {

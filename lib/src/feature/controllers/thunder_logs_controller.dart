@@ -99,17 +99,18 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
       _instance?.setState(
         () => switch (result) {
           SortType.createTime => networkLogs.sort(
-            (a, b) => a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0,
-          ),
+              (a, b) =>
+                  a.sendTime?.compareTo(b.sendTime ?? DateTime.now()) ?? 0,
+            ),
           SortType.responseTime => networkLogs.sort(
-            (a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0,
-          ),
+              (a, b) => a.duration?.compareTo(b.duration ?? Duration.zero) ?? 0,
+            ),
           SortType.endpoint => networkLogs.sort(
-            (a, b) => a.request.path.compareTo(b.request.path),
-          ),
+              (a, b) => a.request.path.compareTo(b.request.path),
+            ),
           SortType.responseSize => networkLogs.sort(
-            (a, b) => a.receiveBytes?.compareTo(b.receiveBytes ?? 0) ?? 0,
-          ),
+              (a, b) => a.receiveBytes?.compareTo(b.receiveBytes ?? 0) ?? 0,
+            ),
           _ => null,
         },
       );
@@ -161,16 +162,16 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   }
 
   void _onNetworkActivity(ThunderNetworkLog log) => setState(() {
-    final index = networkLogs.indexWhere(
-      (existingLog) => existingLog.id == log.id,
-    );
+        final index = networkLogs.indexWhere(
+          (existingLog) => existingLog.id == log.id,
+        );
 
-    if (index >= 0) {
-      networkLogs[index] = log;
-    } else {
-      networkLogs.add(log);
-    }
-  });
+        if (index >= 0) {
+          networkLogs[index] = log;
+        } else {
+          networkLogs.add(log);
+        }
+      });
 
   bool _listEquals<T>(List<T> a, List<T> b) {
     if (a.length != b.length) return false;
@@ -184,29 +185,28 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
   /// Method to search logs by their endpoint or base url
   void onSearchChanged(String query) => setState(() {
-    if (query.isEmpty) {
-      if (_tempNetworkLogs != null) {
-        networkLogs = List<ThunderNetworkLog>.from(_tempNetworkLogs!);
-        _tempNetworkLogs = null;
-      }
-    } else {
-      _tempNetworkLogs ??= List<ThunderNetworkLog>.from(networkLogs);
+        if (query.isEmpty) {
+          if (_tempNetworkLogs != null) {
+            networkLogs = List<ThunderNetworkLog>.from(_tempNetworkLogs!);
+            _tempNetworkLogs = null;
+          }
+        } else {
+          _tempNetworkLogs ??= List<ThunderNetworkLog>.from(networkLogs);
 
-      networkLogs =
-          _tempNetworkLogs
-              ?.where(
-                (log) =>
-                    log.request.path.toLowerCase().contains(
-                      query.toLowerCase(),
-                    ) ||
-                    log.request.baseUrl.toLowerCase().contains(
-                      query.toLowerCase(),
-                    ),
-              )
-              .toList() ??
-          [];
-    }
-  });
+          networkLogs = _tempNetworkLogs
+                  ?.where(
+                    (log) =>
+                        log.request.path.toLowerCase().contains(
+                              query.toLowerCase(),
+                            ) ||
+                        log.request.baseUrl.toLowerCase().contains(
+                              query.toLowerCase(),
+                            ),
+                  )
+                  .toList() ??
+              [];
+        }
+      });
 
   /// Method to navigate to the log detail screen.
   Future<void> onLogTap(ThunderNetworkLog log) async {
