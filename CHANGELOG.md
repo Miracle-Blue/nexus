@@ -1,3 +1,8 @@
+## 0.2.0
+* Thunder.addDio(dio) method added
+* Thunder.getDiosHash method added
+* Thunder.getInterceptor method deprecated use Thunder.addDio(dio) instead
+
 ## 0.1.1
 
 * Fix the issue of the pub score

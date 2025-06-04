@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:thunder/thunder.dart';
 
 void main() {
-  final dio = Dio()..interceptors.add(Thunder.getInterceptor);
+  final dio = Thunder.addDio(Dio());
 
   dio.get<void>("https://jsonplaceholder.typicode.com/posts");
 
@@ -24,7 +26,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) => MaterialApp(
         builder: (_, child) => Thunder(
-            dio: [_httpDio, _mainDio], child: child ?? SizedBox.shrink()),
+            dio: [_httpDio, _mainDio, _httpDio],
+            child: child ?? SizedBox.shrink()),
         home: MyHomePage(httpDio: _httpDio, mainDio: _mainDio),
       );
 }
@@ -45,7 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void _runDioRequests() async {
     final Dio jsonPlaceholderDio = Dio(
       BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
-    )..interceptors.add(Thunder.getInterceptor);
+    );
+
+    Thunder.addDio(jsonPlaceholderDio);
 
     Map<String, Object?> body = <String, Object?>{
       "title": "foo",
@@ -103,6 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
       "http://dummy.restapiexample.com/api/v1/employees",
       queryParameters: <String, Object?>{"test": 1},
     );
+
+    log(Thunder.getDiosHash);
   }
 
   @override

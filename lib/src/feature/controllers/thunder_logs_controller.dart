@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -22,7 +24,7 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   final appBarHeight = 100.0;
 
   /// The map of interceptors for the Dio instances.
-  final Map<Dio, ThunderInterceptor> _interceptors =
+  static final Map<Dio, ThunderInterceptor> _interceptors =
       <Dio, ThunderInterceptor>{};
 
   /// Whether the search is enabled.
@@ -69,6 +71,46 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
     );
 
     return _interceptorInstance!;
+  }
+
+  /// Getter for the Dio instances.
+  static String get getDiosHash {
+    var buffer = StringBuffer()
+      ..write(
+          'You have ${_interceptors.length} dio instances, here are the hashes:\n\n')
+      ..write('Dio(\n');
+
+    for (final dio in _interceptors.keys) {
+      buffer.write('  #${dio.hashCode} (baseURL: ${dio.options.baseUrl}),\n');
+    }
+
+    return '${buffer.toString().substring(0, buffer.length - 2)}\n)';
+  }
+
+  /// Adds a Dio instance to be tracked by Thunder
+  static Dio addDio(Dio dio) {
+    if (!_interceptors.containsKey(dio)) {
+      final interceptor = ThunderInterceptor(
+        onNetworkActivity: (log) {
+          final index = networkLogs.indexWhere(
+            (existingLog) => existingLog.id == log.id,
+          );
+
+          if (index >= 0) {
+            networkLogs[index] = log;
+          } else {
+            networkLogs.add(log);
+          }
+        },
+      );
+
+      _interceptors[dio] = interceptor;
+    } else {
+      _log(
+          'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl})');
+    }
+
+    return dio;
   }
 
   /// Show the sort by alert dialog and update the sort type.
@@ -155,6 +197,12 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
     // Add new interceptors
     for (final dio in widget.dios) {
+      if (_interceptors.containsKey(dio)) {
+        _log(
+            'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl})');
+        continue;
+      }
+
       final interceptor = _getThunderInterceptor;
       dio.interceptors.add(interceptor);
       _interceptors[dio] = interceptor;
@@ -270,3 +318,5 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
 
   /* endregion lifecycle */
 }
+
+void _log(String message) => log(name: 'Thunder', message);

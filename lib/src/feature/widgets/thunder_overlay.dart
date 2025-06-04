@@ -97,7 +97,30 @@ class Thunder extends StatefulWidget {
   /// ```dart
   /// final dio = Dio()..interceptors.add(Thunder.getInterceptor);
   /// ```
+  @Deprecated('Use Thunder.addDio(dio) instead')
   static Interceptor get getInterceptor => ThunderLogsController.getInterceptor;
+
+  /// Adds a Dio instance to be tracked by Thunder
+  ///
+  /// Example:
+  /// ```dart
+  /// Thunder.addDio(dio);
+  /// ```
+  ///
+  /// Optionally, you can use the returned [Dio] instance
+  /// Example:
+  /// ```dart
+  /// final dio = Thunder.addDio(Dio());
+  /// ```
+  static Dio addDio(Dio dio) => ThunderLogsController.addDio(dio);
+
+  /// Utility to see the dio instances that are being monitored.
+  ///
+  /// Example:
+  /// ```dart
+  /// log(Thunder.getDiosHash);
+  /// ```
+  static String get getDiosHash => ThunderLogsController.getDiosHash;
 
   @override
   State<Thunder> createState() => _ThunderState();
