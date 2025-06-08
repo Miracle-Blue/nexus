@@ -1,3 +1,6 @@
+## 0.2.1
+* Added CopyableText widget to fix system context menu error in console logs
+
 ## 0.2.0
 * Thunder.addDio(dio) method added
 * Thunder.getDiosHash method added

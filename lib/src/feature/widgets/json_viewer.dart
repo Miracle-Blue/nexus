@@ -3,6 +3,7 @@ library flutter_json_widget;
 import 'package:flutter/material.dart';
 
 import '../../common/utils/helpers.dart';
+import 'copyable_text.dart';
 
 /// Utility class with helper functions for JSON viewing.
 class JsonViewerUtils {
@@ -42,14 +43,14 @@ class JsonViewer extends StatelessWidget {
 
   /// Determines the type of JSON content and delegates to the appropriate viewer.
   Widget _buildContent(Object? content) {
-    if (content == null) return const SelectableText('{}');
+    if (content == null) return const CopyableText(value: '{}');
 
     if (content is List) {
       return JsonArrayViewer(jsonArray: content, notRoot: false);
     } else if (content is Map<String, Object?>) {
       return JsonObjectViewer(jsonObj: content, notRoot: false);
     }
-    return SelectableText(content.toString());
+    return CopyableText(value: content.toString());
   }
 }
 
@@ -115,8 +116,8 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
                   const SizedBox(width: 8),
 
                 // Display key.
-                SelectableText(
-                  key,
+                CopyableText(
+                  value: key,
                   style: TextStyle(
                     color: value == null ? Colors.grey : Colors.black,
                     fontWeight: FontWeight.w600,
@@ -144,23 +145,23 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
   /// Returns a widget showing a preview for the given [value].
   Widget _buildValuePreview(String key, Object? value) {
     if (value == null) {
-      return const SelectableText(
-        'undefined',
+      return const CopyableText(
+        value: 'undefined',
         style: TextStyle(color: Colors.grey, fontSize: 12),
       );
     } else if (value is int || value is double) {
-      return SelectableText(
-        value.toString(),
+      return CopyableText(
+        value: value.toString(),
         style: const TextStyle(color: Color(0xff6491b3), fontSize: 12),
       );
     } else if (value is String) {
-      return SelectableText(
-        '"$value"',
+      return CopyableText(
+        value: '"$value"',
         style: const TextStyle(color: Color(0xff6a8759), fontSize: 12),
       );
     } else if (value is bool) {
-      return SelectableText(
-        value.toString(),
+      return CopyableText(
+        value: value.toString(),
         style: const TextStyle(color: Color(0xffca7832), fontSize: 12),
       );
     } else if (value is List) {
@@ -211,7 +212,7 @@ class JsonObjectViewerState extends State<JsonObjectViewer> {
     } else if (content is Map<String, Object?>) {
       return JsonObjectViewer(jsonObj: content, notRoot: true);
     }
-    return SelectableText(content.toString());
+    return CopyableText(value: content.toString());
   }
 }
 
@@ -280,8 +281,8 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
                   )
                 else
                   const SizedBox(width: 24),
-                SelectableText(
-                  '[$i]',
+                CopyableText(
+                  value: '[$i]',
                   style: TextStyle(
                     color: value == null ? Colors.grey : Colors.black,
                     fontWeight: FontWeight.bold,
@@ -305,23 +306,23 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
   /// Returns a preview widget for the array element at [index].
   Widget _buildValuePreview(int index, Object? value) {
     if (value == null) {
-      return const SelectableText(
-        'undefined',
+      return const CopyableText(
+        value: 'undefined',
         style: TextStyle(color: Colors.grey),
       );
     } else if (value is int || value is double) {
-      return SelectableText(
-        value.toString(),
+      return CopyableText(
+        value: value.toString(),
         style: const TextStyle(color: Color(0xff6491b3)),
       );
     } else if (value is String) {
-      return SelectableText(
-        '"$value"',
+      return CopyableText(
+        value: '"$value"',
         style: const TextStyle(color: Color(0xff6a8759)),
       );
     } else if (value is bool) {
-      return SelectableText(
-        value.toString(),
+      return CopyableText(
+        value: value.toString(),
         style: const TextStyle(color: Color(0xffca7832)),
       );
     } else if (value is List) {
@@ -367,6 +368,6 @@ class _JsonArrayViewerState extends State<JsonArrayViewer> {
     } else if (content is Map<String, Object?>) {
       return JsonObjectViewer(jsonObj: content, notRoot: true);
     }
-    return SelectableText(content.toString());
+    return CopyableText(value: content.toString());
   }
 }

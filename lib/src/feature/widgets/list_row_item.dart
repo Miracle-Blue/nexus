@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../common/utils/app_colors.dart';
 import '../../common/utils/helpers.dart';
+import 'copyable_text.dart';
 
 /// A widget that displays a row of text with an optional copy button.
-class ListRowItem extends StatelessWidget {
+class ListRowItem extends StatefulWidget {
   /// Constructor for the [ListRowItem] class.
   const ListRowItem({
     required this.value,
@@ -31,34 +32,41 @@ class ListRowItem extends StatelessWidget {
   final bool isJson;
 
   @override
+  State<ListRowItem> createState() => _ListRowItemState();
+}
+
+class _ListRowItemState extends State<ListRowItem> {
+  @override
   Widget build(BuildContext context) => Column(
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: showCopyButton ? 0 : 8,
+              vertical: widget.showCopyButton ? 0 : 8,
               horizontal: 6,
             ),
             child: Row(
-              crossAxisAlignment:
-                  isJson ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              crossAxisAlignment: widget.isJson
+                  ? CrossAxisAlignment.start
+                  : CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 /// If the value is JSON, display it in a column.
-                switch (isJson) {
+                switch (widget.isJson) {
                   true => Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (name != null && (name?.isNotEmpty ?? false)) ...[
-                            SelectableText(
-                              '$name:',
+                          if (widget.name != null &&
+                              (widget.name?.isNotEmpty ?? false)) ...[
+                            CopyableText(
+                              value: '${widget.name}:',
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 4),
                           ],
-                          SelectableText(
-                            value ?? 'null',
+                          CopyableText(
+                            value: widget.value ?? 'null',
                             style: const TextStyle(
                               fontSize: 12.5,
                               color: AppColors.gunmetal,
@@ -72,18 +80,18 @@ class ListRowItem extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (name != null && (name?.isNotEmpty ?? false)) ...[
-                            SelectableText(
-                              '$name:',
+                          if (widget.name != null &&
+                              (widget.name?.isNotEmpty ?? false)) ...[
+                            CopyableText(
+                              value: '${widget.name}:',
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 4),
                           ],
                           Flexible(
-                            child: SelectableText(
-                              value ?? 'null',
-                              cursorColor: AppColors.gunmetal,
+                            child: CopyableText(
+                              value: widget.value ?? 'null',
                               style: const TextStyle(
                                 fontSize: 12.5,
                                 color: AppColors.gunmetal,
@@ -95,24 +103,25 @@ class ListRowItem extends StatelessWidget {
                       ),
                     ),
                 },
-                if (showCopyButton || isJson)
+                if (widget.showCopyButton || widget.isJson)
                   IconButton(
                     onPressed: () => Helpers.copyAndShowSnackBar(
                       context,
-                      contentToCopy: value ?? 'null',
+                      contentToCopy: widget.value ?? 'null',
                     ),
-                    onLongPress: switch (isJson) {
+                    onLongPress: switch (widget.isJson) {
                       true => () => Helpers.copyAndShowSnackBar(
                             context,
                             contentToCopy: () {
-                              var isJson = (value?.startsWith('{') ?? false) &&
-                                      (value?.endsWith('}') ?? false) ||
-                                  (value?.startsWith('[') ?? false) &&
-                                      (value?.endsWith(']') ?? false);
+                              var isJson = (widget.value?.startsWith('{') ??
+                                          false) &&
+                                      (widget.value?.endsWith('}') ?? false) ||
+                                  (widget.value?.startsWith('[') ?? false) &&
+                                      (widget.value?.endsWith(']') ?? false);
 
                               return isJson
-                                  ? '```json\n$value\n```'
-                                  : value ?? '';
+                                  ? '```json\n${widget.value}\n```'
+                                  : widget.value ?? '';
                             }(),
                           ),
                       false => null,
@@ -122,7 +131,7 @@ class ListRowItem extends StatelessWidget {
               ],
             ),
           ),
-          if (showDivider) const Divider(height: 5),
+          if (widget.showDivider) const Divider(height: 5),
         ],
       );
 }
