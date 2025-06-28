@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:thunder/thunder.dart';
 
 void main() {
-  final dio = Thunder.addDio(Dio());
+  final dio = Thunder.addDio(
+      Dio(BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com')));
 
-  dio.get<void>("https://jsonplaceholder.typicode.com/posts");
+  dio.get<void>("/posts");
 
   runApp(const MyApp());
 }

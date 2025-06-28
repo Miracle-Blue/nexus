@@ -104,10 +104,12 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
         },
       );
 
+      dio.interceptors.add(interceptor);
       _interceptors[dio] = interceptor;
     } else {
       _log(
-          'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl})');
+        'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl})',
+      );
     }
 
     return dio;

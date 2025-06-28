@@ -1,3 +1,6 @@
+## 0.2.2
+* Adding interceptor using Thunder.addDio(dio) method not showing logs bug fixed
+
 ## 0.2.1
 * Added CopyableText widget to fix system context menu error in console logs
 
