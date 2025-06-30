@@ -20,9 +20,6 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   /// The list of network logs.
   static List<ThunderNetworkLog> networkLogs = <ThunderNetworkLog>[];
 
-  /// The height of the app bar.
-  final appBarHeight = 100.0;
-
   /// The map of interceptors for the Dio instances.
   static final Map<Dio, ThunderInterceptor> _interceptors =
       <Dio, ThunderInterceptor>{};
@@ -51,7 +48,8 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   static String get getDiosHash {
     var buffer = StringBuffer()
       ..write(
-          'You have ${_interceptors.length} dio instances, here are the hashes:\n\n')
+        'You have ${_interceptors.length} dio instances, here are the hashes:\n\n',
+      )
       ..write('Dio(\n');
 
     for (final dio in _interceptors.keys) {
@@ -75,8 +73,6 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
           } else {
             networkLogs.add(log);
           }
-          
-          _instance?.setState(() {});
         },
       );
 
