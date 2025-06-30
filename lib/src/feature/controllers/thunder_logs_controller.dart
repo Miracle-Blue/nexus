@@ -73,6 +73,9 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
           } else {
             networkLogs.add(log);
           }
+
+          // Trigger UI update if there's an active instance
+          _instance?.setState(() {});
         },
       );
 

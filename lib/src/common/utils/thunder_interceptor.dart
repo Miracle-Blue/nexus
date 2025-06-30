@@ -12,11 +12,11 @@ final class ThunderInterceptor extends Interceptor {
   /// The callback to call when a network activity is detected
   final void Function(ThunderNetworkLog log) onNetworkActivity;
 
-  /// The map of request hash codes to their start times
-  final Map<String, DateTime> _requestStartTimes = <String, DateTime>{};
+  /// The map of request hash codes to their start times (shared across all instances)
+  static final Map<String, DateTime> _requestStartTimes = <String, DateTime>{};
 
-  /// The map of request hash codes to their log IDs
-  final Map<String, String> _requestIdMap = <String, String>{};
+  /// The map of request hash codes to their log IDs (shared across all instances)
+  static final Map<String, String> _requestIdMap = <String, String>{};
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -49,27 +49,32 @@ final class ThunderInterceptor extends Interceptor {
     final startTime = _requestStartTimes[requestHashCode];
     final logId = _requestIdMap[requestHashCode];
 
+    // Clean up the maps immediately after retrieving values
+    _requestStartTimes.remove(requestHashCode);
+    _requestIdMap.remove(requestHashCode);
+
     Duration? duration;
     if (startTime != null) {
       duration = DateTime.now().difference(startTime);
-      _requestStartTimes.remove(requestHashCode);
     }
 
     final log = ThunderNetworkLog(
       id: logId ?? DateTime.now().microsecondsSinceEpoch.toString(),
-      sendTime: startTime,
+      sendTime: startTime ?? DateTime.now(),
       receiveTime: DateTime.now(),
       isLoading: false,
       request: response.requestOptions,
       response: response,
       duration: duration,
-      receiveBytes: utf8.encode(response.data.toString()).length,
-      sendBytes: utf8.encode(response.requestOptions.data.toString()).length,
+      receiveBytes: response.data != null
+          ? utf8.encode(response.data.toString()).length
+          : 0,
+      sendBytes: response.requestOptions.data != null
+          ? utf8.encode(response.requestOptions.data.toString()).length
+          : 0,
     );
 
     onNetworkActivity(log);
-    _requestIdMap.remove(requestHashCode);
-
     handler.next(response);
   }
 
@@ -79,26 +84,32 @@ final class ThunderInterceptor extends Interceptor {
     final startTime = _requestStartTimes[requestHashCode];
     final logId = _requestIdMap[requestHashCode];
 
+    // Clean up the maps immediately after retrieving values
+    _requestStartTimes.remove(requestHashCode);
+    _requestIdMap.remove(requestHashCode);
+
     Duration? duration;
     if (startTime != null) {
       duration = DateTime.now().difference(startTime);
-      _requestStartTimes.remove(requestHashCode);
     }
 
     final log = ThunderNetworkLog(
       id: logId ?? DateTime.now().microsecondsSinceEpoch.toString(),
-      sendTime: startTime,
+      sendTime: startTime ?? DateTime.now(),
       request: err.requestOptions,
       receiveTime: DateTime.now(),
       error: err,
       duration: duration,
       isLoading: false,
-      receiveBytes: utf8.encode(err.response?.data.toString() ?? '').length,
-      sendBytes: utf8.encode(err.requestOptions.data.toString()).length,
+      receiveBytes: err.response?.data != null
+          ? utf8.encode(err.response!.data.toString()).length
+          : 0,
+      sendBytes: err.requestOptions.data != null
+          ? utf8.encode(err.requestOptions.data.toString()).length
+          : 0,
     );
 
     onNetworkActivity(log);
-    _requestIdMap.remove(requestHashCode);
     handler.next(err);
   }
 }
