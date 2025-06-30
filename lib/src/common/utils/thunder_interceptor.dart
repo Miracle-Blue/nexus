@@ -6,17 +6,27 @@ import '../models/thunder_network_log.dart';
 
 /// Custom Dio interceptor for Thunder
 final class ThunderInterceptor extends Interceptor {
-  /// Constructor for the [ThunderInterceptor] class.
-  ThunderInterceptor({required this.onNetworkActivity});
+  /// Factory constructor that returns the singleton instance
+  factory ThunderInterceptor(
+      {required void Function(ThunderNetworkLog log) onNetworkActivity}) {
+    _instance._onNetworkActivity = onNetworkActivity;
+    return _instance;
+  }
+
+  /// Private constructor
+  ThunderInterceptor._internal();
+
+  /// The singleton instance
+  static final ThunderInterceptor _instance = ThunderInterceptor._internal();
 
   /// The callback to call when a network activity is detected
-  final void Function(ThunderNetworkLog log) onNetworkActivity;
+  late void Function(ThunderNetworkLog log) _onNetworkActivity;
 
-  /// The map of request hash codes to their start times (shared across all instances)
-  static final Map<String, DateTime> _requestStartTimes = <String, DateTime>{};
+  /// The map of request hash codes to their start times
+  final Map<String, DateTime> _requestStartTimes = <String, DateTime>{};
 
-  /// The map of request hash codes to their log IDs (shared across all instances)
-  static final Map<String, String> _requestIdMap = <String, String>{};
+  /// The map of request hash codes to their log IDs
+  final Map<String, String> _requestIdMap = <String, String>{};
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -25,6 +35,7 @@ final class ThunderInterceptor extends Interceptor {
 
     // Store the start time
     _requestStartTimes[requestHashCode] = DateTime.now();
+
     // Map the request hash to the log ID
     _requestIdMap[requestHashCode] = logId;
 
@@ -36,7 +47,7 @@ final class ThunderInterceptor extends Interceptor {
       receiveTime: null,
     );
 
-    onNetworkActivity(log);
+    _onNetworkActivity(log);
     handler.next(options);
   }
 
@@ -74,7 +85,7 @@ final class ThunderInterceptor extends Interceptor {
           : 0,
     );
 
-    onNetworkActivity(log);
+    _onNetworkActivity(log);
     handler.next(response);
   }
 
@@ -109,7 +120,13 @@ final class ThunderInterceptor extends Interceptor {
           : 0,
     );
 
-    onNetworkActivity(log);
+    _onNetworkActivity(log);
     handler.next(err);
+  }
+
+  /// Clear all tracked requests (useful for cleanup)
+  void clearTrackedRequests() {
+    _requestStartTimes.clear();
+    _requestIdMap.clear();
   }
 }
