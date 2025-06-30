@@ -1,3 +1,6 @@
+## 0.2.3
+* Duplicate logs bug fixed
+
 ## 0.2.2
 * Adding interceptor using Thunder.addDio(dio) method not showing logs bug fixed
 

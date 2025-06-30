@@ -26,7 +26,7 @@ final class ThunderInterceptor extends Interceptor {
       options.extra[thunderIdKey] =
           DateTime.now().microsecondsSinceEpoch.toString();
     }
-    return options.extra[thunderIdKey] as String;
+    return options.extra[thunderIdKey] as String? ?? '';
   }
 
   @override
@@ -36,6 +36,7 @@ final class ThunderInterceptor extends Interceptor {
 
     // Store the start time
     _requestStartTimes[requestKey] = DateTime.now();
+    
     // Map the request hash to the log ID
     _requestIdMap[requestKey] = logId;
 
