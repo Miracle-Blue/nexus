@@ -108,11 +108,30 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
       _interceptors[dio] = interceptor;
     } else {
       _log(
-        'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl})',
+        'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl}) [from addDio method]',
       );
     }
 
     return dio;
+  }
+
+  void _setupInterceptors() {
+    // log(_interceptors?.toString());
+
+    // Add new interceptors
+    for (final dio in widget.dios) {
+      if (_interceptors.containsKey(dio)) {
+        _log(
+          'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl}) [from setupInterceptors method]',
+        );
+
+        continue;
+      }
+
+      final interceptor = _getThunderInterceptor;
+      dio.interceptors.add(interceptor);
+      _interceptors[dio] = interceptor;
+    }
   }
 
   /// Show the sort by alert dialog and update the sort type.
@@ -189,28 +208,6 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
     _instance?.setState(() => searchEnabled = !searchEnabled);
   }
 
-  void _setupInterceptors() {
-    for (final interceptor in _interceptors.values) {
-      for (final dio in widget.dios) {
-        dio.interceptors.remove(interceptor);
-      }
-    }
-    _interceptors.clear();
-
-    // Add new interceptors
-    for (final dio in widget.dios) {
-      if (_interceptors.containsKey(dio)) {
-        _log(
-            'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl})');
-        continue;
-      }
-
-      final interceptor = _getThunderInterceptor;
-      dio.interceptors.add(interceptor);
-      _interceptors[dio] = interceptor;
-    }
-  }
-
   void _onNetworkActivity(ThunderNetworkLog log) => setState(() {
         final index = networkLogs.indexWhere(
           (existingLog) => existingLog.id == log.id,
@@ -223,15 +220,15 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
         }
       });
 
-  bool _listEquals<T>(List<T> a, List<T> b) {
-    if (a.length != b.length) return false;
+  // bool _listEquals<T>(List<T> a, List<T> b) {
+  //   if (a.length != b.length) return false;
 
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
+  //   for (var i = 0; i < a.length; i++) {
+  //     if (a[i] != b[i]) return false;
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 
   /// Method to search logs by their endpoint or base url
   void onSearchChanged(String query) => setState(() {
@@ -289,14 +286,14 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
     _setupInterceptors();
   }
 
-  @override
-  void didUpdateWidget(covariant ThunderLogsScreen oldWidget) {
-    // Check for changes in the Dio instances
-    if (!_listEquals(widget.dios, oldWidget.dios)) {
-      _setupInterceptors();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
+  // @override
+  // void didUpdateWidget(covariant ThunderLogsScreen oldWidget) {
+  //   // Check for changes in the Dio instances
+  //   if (!_listEquals<Dio>(widget.dios, oldWidget.dios)) {
+  //     _setupInterceptors();
+  //   }
+  //   super.didUpdateWidget(oldWidget);
+  // }
 
   @override
   void dispose() {
