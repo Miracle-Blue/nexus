@@ -64,10 +64,20 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   /// Adds a Dio instance to be tracked by Thunder
   static Dio addDio(Dio dio) {
     if (!_interceptors.containsKey(dio)) {
-      // Create interceptor with the appropriate callback
       final interceptor = ThunderInterceptor(
-        onNetworkActivity:
-            _instance?._onNetworkActivity ?? _staticOnNetworkActivity,
+        onNetworkActivity: (log) {
+          final index = networkLogs.indexWhere(
+            (existingLog) => existingLog.id == log.id,
+          );
+
+          if (index >= 0) {
+            networkLogs[index] = log;
+          } else {
+            networkLogs.add(log);
+          }
+          
+          _instance?.setState(() {});
+        },
       );
 
       dio.interceptors.add(interceptor);
@@ -81,44 +91,18 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
     return dio;
   }
 
-  /// Static callback for handling network activity before widget initialization
-  static void _staticOnNetworkActivity(ThunderNetworkLog log) {
-    final index = networkLogs.indexWhere(
-      (existingLog) => existingLog.id == log.id,
-    );
-
-    if (index >= 0) {
-      networkLogs[index] = log;
-    } else {
-      networkLogs.add(log);
-    }
-
-    // If instance is available, trigger UI update
-    _instance?.setState(() {});
-  }
-
   void _setupInterceptors() {
-    // Update existing interceptors with the correct callback
-    for (final entry in _interceptors.entries) {
-      final dio = entry.key;
-      final oldInterceptor = entry.value;
-
-      // Remove old interceptor
-      dio.interceptors.remove(oldInterceptor);
-
-      // Add new interceptor with the correct callback
-      final newInterceptor = _getThunderInterceptor;
-      dio.interceptors.add(newInterceptor);
-      _interceptors[dio] = newInterceptor;
-    }
-
-    // Add new interceptors for dio instances that don't have them yet
+    // Add new interceptors
     for (final dio in widget.dios) {
       if (_interceptors.containsKey(dio)) {
-        continue; // Already handled above
+        _log(
+          'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl}) [from setupInterceptors method]',
+        );
+        continue;
       }
 
       final interceptor = _getThunderInterceptor;
+
       dio.interceptors.add(interceptor);
       _interceptors[dio] = interceptor;
     }
@@ -209,6 +193,16 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
           networkLogs.add(log);
         }
       });
+
+  // bool _listEquals<T>(List<T> a, List<T> b) {
+  //   if (a.length != b.length) return false;
+
+  //   for (var i = 0; i < a.length; i++) {
+  //     if (a[i] != b[i]) return false;
+  //   }
+
+  //   return true;
+  // }
 
   /// Method to search logs by their endpoint or base url
   void onSearchChanged(String query) => setState(() {

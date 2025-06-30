@@ -31,8 +31,9 @@ class _MyAppState extends State<MyApp> {
           dio: [
             _httpDio,
             _mainDio,
+            _httpDio,
           ],
-          child: child ?? const SizedBox.shrink(),
+          child: child ?? SizedBox.shrink(),
         ),
         home: MyHomePage(
           httpDio: _httpDio,
