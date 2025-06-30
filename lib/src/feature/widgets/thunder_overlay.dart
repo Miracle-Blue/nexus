@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/utils/app_colors.dart';
-import '../../common/utils/thunder_interceptor.dart';
 import '../controllers/thunder_logs_controller.dart';
 import '../controllers/thunder_overlay_controller.dart';
 import '../screens/thunder_logs_screen.dart';
@@ -89,16 +88,6 @@ class Thunder extends StatefulWidget {
   ///
   /// This is typically the root of your application that Thunder will wrap.
   final Widget child;
-
-  /// Shortcut getter to retrieve the global [ThunderInterceptor] from the controller.
-  /// Can be used even before a Thunder widget is initialized in the widget tree.
-  ///
-  /// Example:
-  /// ```dart
-  /// final dio = Dio()..interceptors.add(Thunder.getInterceptor);
-  /// ```
-  @Deprecated('Use Thunder.addDio(dio) instead')
-  static Interceptor get getInterceptor => ThunderLogsController.getInterceptor;
 
   /// Adds a Dio instance to be tracked by Thunder
   ///

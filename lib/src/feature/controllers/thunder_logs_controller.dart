@@ -47,32 +47,6 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   /// Whether the sort by alert dialog is currently open.
   static bool _isDialogOpen = false;
 
-  /// Provides access to the current instance's [ThunderInterceptor].
-  /// Creates a new instance if one doesn't exist yet.
-  static ThunderInterceptor get getInterceptor {
-    if (_instance != null) {
-      return _instance!._getThunderInterceptor;
-    }
-
-    // Create a standalone interceptor if not initialized yet
-    _interceptorInstance ??= ThunderInterceptor(
-      onNetworkActivity: (log) {
-        // Store logs even before the UI is initialized
-        final index = networkLogs.indexWhere(
-          (existingLog) => existingLog.id == log.id,
-        );
-
-        if (index >= 0) {
-          networkLogs[index] = log;
-        } else {
-          networkLogs.add(log);
-        }
-      },
-    );
-
-    return _interceptorInstance!;
-  }
-
   /// Getter for the Dio instances.
   static String get getDiosHash {
     var buffer = StringBuffer()
@@ -90,18 +64,10 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
   /// Adds a Dio instance to be tracked by Thunder
   static Dio addDio(Dio dio) {
     if (!_interceptors.containsKey(dio)) {
+      // Create interceptor with the appropriate callback
       final interceptor = ThunderInterceptor(
-        onNetworkActivity: (log) {
-          final index = networkLogs.indexWhere(
-            (existingLog) => existingLog.id == log.id,
-          );
-
-          if (index >= 0) {
-            networkLogs[index] = log;
-          } else {
-            networkLogs.add(log);
-          }
-        },
+        onNetworkActivity:
+            _instance?._onNetworkActivity ?? _staticOnNetworkActivity,
       );
 
       dio.interceptors.add(interceptor);
@@ -115,17 +81,41 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
     return dio;
   }
 
-  void _setupInterceptors() {
-    // log(_interceptors?.toString());
+  /// Static callback for handling network activity before widget initialization
+  static void _staticOnNetworkActivity(ThunderNetworkLog log) {
+    final index = networkLogs.indexWhere(
+      (existingLog) => existingLog.id == log.id,
+    );
 
-    // Add new interceptors
+    if (index >= 0) {
+      networkLogs[index] = log;
+    } else {
+      networkLogs.add(log);
+    }
+
+    // If instance is available, trigger UI update
+    _instance?.setState(() {});
+  }
+
+  void _setupInterceptors() {
+    // Update existing interceptors with the correct callback
+    for (final entry in _interceptors.entries) {
+      final dio = entry.key;
+      final oldInterceptor = entry.value;
+
+      // Remove old interceptor
+      dio.interceptors.remove(oldInterceptor);
+
+      // Add new interceptor with the correct callback
+      final newInterceptor = _getThunderInterceptor;
+      dio.interceptors.add(newInterceptor);
+      _interceptors[dio] = newInterceptor;
+    }
+
+    // Add new interceptors for dio instances that don't have them yet
     for (final dio in widget.dios) {
       if (_interceptors.containsKey(dio)) {
-        _log(
-          'Dio #${dio.hashCode} already has an interceptor, skipping... (baseURL: ${dio.options.baseUrl}) [from setupInterceptors method]',
-        );
-
-        continue;
+        continue; // Already handled above
       }
 
       final interceptor = _getThunderInterceptor;
@@ -219,16 +209,6 @@ abstract class ThunderLogsController extends State<ThunderLogsScreen> {
           networkLogs.add(log);
         }
       });
-
-  // bool _listEquals<T>(List<T> a, List<T> b) {
-  //   if (a.length != b.length) return false;
-
-  //   for (var i = 0; i < a.length; i++) {
-  //     if (a[i] != b[i]) return false;
-  //   }
-
-  //   return true;
-  // }
 
   /// Method to search logs by their endpoint or base url
   void onSearchChanged(String query) => setState(() {
